@@ -18,9 +18,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import Logo from "../atoms/Logo";
 import { useScrollPosition } from "../../shared/hooks/useScrollPosition";
+import { Link, Link as RouterLink } from "react-router-dom";
+import { ROUTES } from "../../routes/routes";
+import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
+
     const scrolled = useScrollPosition(10);
 
     const onClose = () => setOpen(false);
@@ -28,7 +33,7 @@ export default function Navbar() {
     return (
         <>
             <AppBar
-                position="fixed" 
+                position="fixed"
                 elevation={scrolled ? 2 : 0}
                 sx={{
                     backgroundColor: scrolled ? "background.paper" : "transparent",
@@ -46,14 +51,18 @@ export default function Navbar() {
                             py: 1,
                         }}
                     >
-                        <Logo />
+                        <Link to={ROUTES.HOME}>
+                            <Logo />
+                        </Link>
 
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             <Button
+                                component={RouterLink}
+                                to={ROUTES.AUTH.LOGIN}
                                 variant={scrolled ? "outlined" : "contained"}
                                 color="primary"
                             >
-                                Iniciar sesión
+                                {t("auth.login.title")}
                             </Button>
                         </Box>
 

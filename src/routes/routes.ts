@@ -1,3 +1,7 @@
 export const ROUTES = {
-    HOME:'/'
+    HOME: '/',
+    AUTH: {
+        BASE: '/auth',
+        LOGIN: '/auth/login'
+    }
 }
