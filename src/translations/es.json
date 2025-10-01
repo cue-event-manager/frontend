@@ -26,5 +26,38 @@
         "title": "Impulsa tus eventos con nuestra plataforma",
         "subtitle": "Una solución moderna, rápida y confiable para la Corporacion Empresarial Universitaria Alexander von Humboldt.",
         "cta": "Comienza ahora"
+    },
+    "features": {
+        "title": "Características principales",
+        "events": {
+            "title": "Gestión de eventos",
+            "desc": "Crea, organiza y administra eventos de manera centralizada en un solo lugar."
+        },
+        "reports": {
+            "title": "Reportes inteligentes",
+            "desc": "Obtén estadísticas claras y exporta información para tomar mejores decisiones."
+        },
+        "notifications": {
+            "title": "Notificaciones en tiempo real",
+            "desc": "Mantén a todos informados con recordatorios y actualizaciones inmediatas."
+        }
+    },
+    "footer": {
+        "about": {
+            "title": "Sobre nosotros",
+            "desc": "Eventum es una plataforma moderna para la gestión de eventos universitarios."
+        },
+        "links": {
+            "title": "Enlaces",
+            "home": "Inicio",
+            "features": "Características",
+            "contact": "Contacto"
+        },
+        "contact": {
+            "title": "Contacto",
+            "email": "Correo",
+            "phone": "Teléfono"
+        },
+        "rights": "Todos los derechos reservados."
     }
 }

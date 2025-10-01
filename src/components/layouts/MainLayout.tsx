@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import Navbar from "../organisms/Navbar";
 import { Outlet } from "react-router-dom";
+import Footer from "../organisms/Footer";
 
 
 export default function MainLayout() {
@@ -11,6 +12,8 @@ export default function MainLayout() {
             <Box component="main" flexGrow={1}>
                 <Outlet />
             </Box>
+
+            <Footer/>
         </Box>
     );
 }

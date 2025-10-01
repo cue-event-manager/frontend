@@ -48,7 +48,6 @@ export default function Navbar() {
                     >
                         <Logo />
 
-                        {/* Desktop */}
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             <Button
                                 variant={scrolled ? "outlined" : "contained"}
@@ -58,7 +57,6 @@ export default function Navbar() {
                             </Button>
                         </Box>
 
-                        {/* Mobile */}
                         <Box sx={{ display: { xs: "flex", md: "none" } }}>
                             <IconButton onClick={() => setOpen(true)}>
                                 <MenuIcon />
@@ -68,7 +66,6 @@ export default function Navbar() {
                 </Toolbar>
             </AppBar>
 
-            {/* Drawer mobile */}
             <Drawer
                 anchor="bottom"
                 open={open}
@@ -79,7 +76,7 @@ export default function Navbar() {
                             borderTopLeftRadius: 16,
                             borderTopRightRadius: 16,
                             p: 2,
-                            minHeight: "50%",
+                            minHeight: "70%",
                         },
                     },
                 }}
