@@ -1,0 +1,30 @@
+{
+    "common": {
+        "actions": {
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "delete": "Eliminar"
+        },
+        "messages": {
+            "loading": "Cargando...",
+            "error": "Ocurrió un error"
+        }
+    },
+    "home": {
+        "title": "Bienvenido a la página principal",
+        "button": "Haz clic aquí"
+    },
+    "auth": {
+        "login": {
+            "title": "Iniciar sesión",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "button": "Entrar"
+        }
+    },
+    "hero": {
+        "title": "Impulsa tus eventos con nuestra plataforma",
+        "subtitle": "Una solución moderna, rápida y confiable para la Corporacion Empresarial Universitaria Alexander von Humboldt.",
+        "cta": "Comienza ahora"
+    }
+}
