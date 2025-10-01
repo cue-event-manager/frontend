@@ -9,21 +9,24 @@ export default function HeroSection() {
     <Box
       component="section"
       sx={{
-        py: { xs: 8, md: 14 },
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-        minHeight: "90vh",
+        position: "relative",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
+        pt: { xs: "120px", md: "80px" },
+        overflow: "hidden",
+        backgroundColor: theme.palette.background.default,
       }}
     >
-      <Container maxWidth="xl">
+
+      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={8}
           alignItems="center"
           justifyContent="space-between"
         >
+          {/* Texto */}
           <Box flex={1}>
             <Typography
               variant="h2"
@@ -33,10 +36,18 @@ export default function HeroSection() {
                 fontWeight: 700,
                 fontSize: { xs: "2rem", md: "3rem" },
                 lineHeight: 1.2,
-                color: theme.palette.primary.main,
               }}
             >
-              {t("hero.title")}
+              <Box
+                component="span"
+                sx={{
+                  background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                {t("hero.title")}
+              </Box>
             </Typography>
 
             <Typography
@@ -51,7 +62,7 @@ export default function HeroSection() {
             <Button
               variant="contained"
               size="large"
-              disableRipple 
+              disableRipple
               sx={{
                 borderRadius: 2,
                 px: 4,
@@ -68,25 +79,40 @@ export default function HeroSection() {
             </Button>
           </Box>
 
-          <Box
-            flex={1}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <Box flex={1} sx={{ display: "flex", justifyContent: "center" }}>
             <Box
               component="img"
               src="/hero/illustration.png"
               alt="Hero illustration"
               sx={{
                 width: { xs: "100%", md: "80%" },
-                maxWidth: "380px",
+                maxWidth:  { xs: "200px", md: "320px" },
+                filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.1))",
               }}
             />
           </Box>
         </Stack>
       </Container>
+
+      <Box
+        component="svg"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "auto",
+          zIndex: 0,
+        }}
+      >
+        <path
+          fill={theme.palette.primary.main}
+          fillOpacity="0.1"
+          d="M0,256L48,240C96,224,192,192,288,186.7C384,181,480,203,576,186.7C672,171,768,117,864,122.7C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </Box>
     </Box>
   );
 }

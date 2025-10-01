@@ -10,7 +10,6 @@ import {
     ListItemButton,
     ListItemText,
     Container,
-    Divider,
     ListItemIcon,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
@@ -18,35 +17,48 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import Logo from "../atoms/Logo";
+import { useScrollPosition } from "../../shared/hooks/useScrollPosition";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
+    const scrolled = useScrollPosition(10);
 
-    const onClose = () => {
-        setOpen(false);
-    }
+    const onClose = () => setOpen(false);
 
     return (
         <>
             <AppBar
-                position="sticky"
-                color="inherit"
-                elevation={0}
+                position="fixed" 
+                elevation={scrolled ? 2 : 0}
                 sx={{
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
+                    backgroundColor: scrolled ? "background.paper" : "transparent",
+                    color: scrolled ? "text.primary" : "common.white",
+                    transition: "all 0.3s ease",
                 }}
             >
                 <Toolbar disableGutters>
-                    <Container maxWidth="xl" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingY: "0.5rem" }}>
+                    <Container
+                        maxWidth="xl"
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            py: 1,
+                        }}
+                    >
                         <Logo />
 
+                        {/* Desktop */}
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                            <Button variant="outlined" color="primary">
+                            <Button
+                                variant={scrolled ? "outlined" : "contained"}
+                                color="primary"
+                            >
                                 Iniciar sesión
                             </Button>
                         </Box>
 
+                        {/* Mobile */}
                         <Box sx={{ display: { xs: "flex", md: "none" } }}>
                             <IconButton onClick={() => setOpen(true)}>
                                 <MenuIcon />
@@ -56,6 +68,7 @@ export default function Navbar() {
                 </Toolbar>
             </AppBar>
 
+            {/* Drawer mobile */}
             <Drawer
                 anchor="bottom"
                 open={open}
@@ -66,12 +79,11 @@ export default function Navbar() {
                             borderTopLeftRadius: 16,
                             borderTopRightRadius: 16,
                             p: 2,
-                            minHeight: "50%", // más compacto
+                            minHeight: "50%",
                         },
                     },
                 }}
             >
-                {/* Header */}
                 <Box
                     display="flex"
                     justifyContent="space-between"
@@ -84,7 +96,6 @@ export default function Navbar() {
                     </IconButton>
                 </Box>
 
-                {/* Items */}
                 <List>
                     <ListItem disablePadding>
                         <ListItemButton
@@ -93,9 +104,7 @@ export default function Navbar() {
                                 borderRadius: 2,
                                 px: 2,
                                 py: 1.5,
-                                "&:hover": {
-                                    backgroundColor: "action.hover",
-                                },
+                                "&:hover": { backgroundColor: "action.hover" },
                             }}
                         >
                             <ListItemIcon>
@@ -103,20 +112,9 @@ export default function Navbar() {
                             </ListItemIcon>
                             <ListItemText
                                 primary="Iniciar sesión"
-                                primaryTypographyProps={{
-                                    fontSize: "1rem",
-                                    fontWeight: 500,
-                                }}
                             />
                         </ListItemButton>
                     </ListItem>
-
-                    <Divider sx={{ my: 1 }} />
-
-                    {/* Puedes agregar más opciones aquí */}
-                    {/* <ListItem disablePadding>
-          <ListItemButton> ... </ListItemButton>
-        </ListItem> */}
                 </List>
             </Drawer>
         </>
