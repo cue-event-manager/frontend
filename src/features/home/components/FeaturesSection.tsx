@@ -34,7 +34,7 @@ export default function FeaturesSection() {
                 backgroundColor: theme.palette.grey[50],
             }}
         >
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Typography
                     variant="h4"
                     align="center"

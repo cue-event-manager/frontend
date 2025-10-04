@@ -1,5 +1,7 @@
-import FeaturesSection from "../features/home/FeaturesSection";
-import HeroSection from "../features/home/HeroSection";
+import AboutSection from "@/features/home/components/AboutSection";
+import FeaturesSection from "../features/home/components/FeaturesSection";
+import HeroSection from "../features/home/components/HeroSection";
+import StatsSection from "@/features/home/components/StatsSection";
 
 export default function HomePage() {
 
@@ -7,6 +9,8 @@ export default function HomePage() {
         <section>
             <HeroSection />
             <FeaturesSection />
+            <AboutSection />
+            <StatsSection />
         </section>
     );
 }

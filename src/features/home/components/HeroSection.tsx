@@ -26,7 +26,6 @@ export default function HeroSection() {
           alignItems="center"
           justifyContent="space-between"
         >
-          {/* Texto */}
           <Box flex={1}>
             <Typography
               variant="h2"
@@ -51,7 +50,6 @@ export default function HeroSection() {
             </Typography>
 
             <Typography
-              variant="h6"
               component="p"
               gutterBottom
               sx={{ mb: 4, maxWidth: "600px" }}
@@ -63,17 +61,7 @@ export default function HeroSection() {
               variant="contained"
               size="large"
               disableRipple
-              sx={{
-                borderRadius: 2,
-                px: 4,
-                py: 1.5,
-                fontSize: "1rem",
-                fontWeight: 600,
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
+
             >
               {t("hero.cta")}
             </Button>
@@ -96,7 +84,6 @@ export default function HeroSection() {
 
       <Box
         component="svg"
-        xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
         sx={{
           position: "absolute",

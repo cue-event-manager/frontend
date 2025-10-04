@@ -42,6 +42,19 @@
             "desc": "Mantén a todos informados con recordatorios y actualizaciones inmediatas."
         }
     },
+    "about": {
+        "title": "Acerca de nuestra plataforma",
+        "description": "Nuestra misión es ayudarte a organizar eventos de manera sencilla, eficiente y atractiva.",
+        "mission": "Creamos herramientas que conectan organizadores y asistentes para que cada evento sea un éxito."
+    },
+    "stats": {
+        "events": "+100",
+        "eventsLabel": "Eventos organizados",
+        "users": "+5000",
+        "usersLabel": "Usuarios activos",
+        "satisfaction": "98%",
+        "satisfactionLabel": "Satisfacción asistentes"
+    },
     "footer": {
         "about": {
             "title": "Sobre nosotros",
