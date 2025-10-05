@@ -11,11 +11,6 @@ import {
     ListItemText,
     Container,
     ListItemIcon,
-    Menu,
-    MenuItem,
-    Typography,
-    Avatar,
-    Divider,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -29,26 +24,15 @@ import { Link, Link as RouterLink } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/authContext";
+import AvatarUserMenu from "../molecules/AvatarUserMenu";
 
 export default function Navbar() {
     const { t } = useTranslation();
     const { user, isAuthenticated, logout } = useAuth();
     const [open, setOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const scrolled = useScrollPosition(10);
     const onClose = () => setOpen(false);
-
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => setAnchorEl(null);
-
-    const handleLogout = () => {
-        handleMenuClose();
-        logout();
-    };
 
     return (
         <>
@@ -71,44 +55,13 @@ export default function Navbar() {
                             py: 1,
                         }}
                     >
-                        {/* Logo */}
                         <Link to={ROUTES.HOME}>
                             <Logo />
                         </Link>
 
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 2 }}>
                             {isAuthenticated && user ? (
-                                <>
-                                    <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
-                                        <Avatar sx={{ bgcolor: "primary.main" }}>
-                                            {user.firstName?.[0]?.toUpperCase() ?? "U"}
-                                        </Avatar>
-                                    </IconButton>
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl)}
-                                        disableScrollLock
-                                        onClose={handleMenuClose}
-                                        transformOrigin={{ horizontal: "right", vertical: "top" }}
-                                        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                                    >
-                                        <Box px={2} py={1}>
-                                            <Typography variant="subtitle2">
-                                                {user.firstName} {user.lastName}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {user.email}
-                                            </Typography>
-                                        </Box>
-                                        <Divider sx={{ my: 1 }} />
-                                        <MenuItem onClick={handleMenuClose} component={RouterLink} to={ROUTES.HOME}>
-                                            <AccountCircleIcon fontSize="small" sx={{ mr: 1 }} /> {t("common.profile")}
-                                        </MenuItem>
-                                        <MenuItem onClick={handleLogout}>
-                                            <LogoutIcon fontSize="small" sx={{ mr: 1 }} /> {t("auth.logout")}
-                                        </MenuItem>
-                                    </Menu>
-                                </>
+                                <AvatarUserMenu />
                             ) : (
                                 <Button
                                     component={RouterLink}
