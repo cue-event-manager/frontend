@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 
 import "@fontsource/poppins/400.css";
@@ -13,7 +13,6 @@ import "@fontsource/poppins/700.css";
 import App from "./App";
 import theme from "./theme";
 import "./translations";
-import { queryErrorHandler } from "./config/errorHandler";
 
 const queryClient = new QueryClient({
   defaultOptions: {
