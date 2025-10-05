@@ -4,6 +4,7 @@ import { ROUTES } from "./routes";
 import MainLayout from "../components/layouts/MainLayout";
 import AuthLayout from "../components/layouts/AuthLayout";
 import LoginPage from "../pages/LoginPage";
+import GuestGuard from "@/guards/GuestGuard";
 
 export default function AppRouter() {
   return (
@@ -12,10 +13,11 @@ export default function AppRouter() {
         <Route path={ROUTES.HOME} element={<HomePage />} />
       </Route>
 
-      <Route  element={<AuthLayout />}>
-        <Route path={ROUTES.AUTH.LOGIN} element={<LoginPage />} />
+      <Route element={<GuestGuard />}>
+        <Route element={<AuthLayout />}>
+          <Route path={ROUTES.AUTH.LOGIN} element={<LoginPage />} />
+        </Route>
       </Route>
-
     </Routes>
   );
 }
