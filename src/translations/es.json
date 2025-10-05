@@ -22,7 +22,8 @@
             "password": "Contraseña",
             "submit": "Entrar"
         },
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "loggingOut":"Cerrando sesión"
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",

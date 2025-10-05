@@ -11,6 +11,7 @@ import {
     ListItemText,
     Container,
     ListItemIcon,
+    CircularProgress,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,10 +26,12 @@ import { ROUTES } from "../../routes/routes";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/authContext";
 import AvatarUserMenu from "../molecules/AvatarUserMenu";
+import { useLogout } from "@/features/auth/hooks/useLogout";
 
 export default function Navbar() {
     const { t } = useTranslation();
-    const { user, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated } = useAuth();
+    const { mutate: logout, isPending: isLoggingOut } = useLogout();
     const [open, setOpen] = useState(false);
 
     const scrolled = useScrollPosition(10);
@@ -59,9 +62,17 @@ export default function Navbar() {
                             <Logo />
                         </Link>
 
-                        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 2 }}>
+                        <Box
+                            sx={{
+                                display: { xs: "none", md: "flex" },
+                                alignItems: "center",
+                                gap: 2,
+                            }}
+                        >
                             {isAuthenticated && user ? (
-                                <AvatarUserMenu />
+                                <Box display="flex" alignItems="center" gap={2}>
+                                    <AvatarUserMenu />
+                                </Box>
                             ) : (
                                 <Button
                                     component={RouterLink}
@@ -122,7 +133,11 @@ export default function Navbar() {
 
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={logout}
+                                    onClick={() => {
+                                        logout();
+                                        onClose();
+                                    }}
+                                    disabled={isLoggingOut}
                                     sx={{
                                         borderRadius: 2,
                                         px: 2,
@@ -131,9 +146,19 @@ export default function Navbar() {
                                     }}
                                 >
                                     <ListItemIcon>
-                                        <LogoutIcon color="primary" />
+                                        {isLoggingOut ? (
+                                            <CircularProgress size={20} color="primary" />
+                                        ) : (
+                                            <LogoutIcon color="primary" />
+                                        )}
                                     </ListItemIcon>
-                                    <ListItemText primary={t("auth.logout")} />
+                                    <ListItemText
+                                        primary={
+                                            isLoggingOut
+                                                ? t("auth.loggingOut") || "Cerrando sesión..."
+                                                : t("auth.logout")
+                                        }
+                                    />
                                 </ListItemButton>
                             </ListItem>
                         </>
