@@ -4,13 +4,15 @@ import type { LoginResponseDto } from "@/domain/auth/LoginResponseDto";
 import type { RefreshTokenResponseDto } from "@/domain/auth/RefreshTokenResponseDto";
 import { BASE_AUTH_SERVICE } from "./constants";
 import type { User } from "@/domain/user/User";
+import { getRefreshToken } from "@/utils/token";
 
 
 const AUTH_ENDPOINT_PREFFIX = `${BASE_AUTH_SERVICE}/api/auth`
 
 export const refreshToken = async (): Promise<RefreshTokenResponseDto> => {
     const { data } = await axiosInstance.post<RefreshTokenResponseDto>(
-        `${AUTH_ENDPOINT_PREFFIX}/refresh-token`);
+        `${AUTH_ENDPOINT_PREFFIX}/refresh-token`,
+        { refreshToken: getRefreshToken() });
     return data;
 };
 
@@ -21,6 +23,13 @@ export const login = async (request: LoginRequestDto): Promise<LoginResponseDto>
     );
     return data;
 }
+
+export const logout = async (): Promise<void> => {
+    await axiosInstance.post(
+        `${AUTH_ENDPOINT_PREFFIX}/logout`,
+        { refreshToken: getRefreshToken() });    
+};
+
 
 export const currentUser = async (): Promise<User> => {
     const { data } = await axiosInstance.get<User>(
