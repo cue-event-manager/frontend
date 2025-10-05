@@ -12,7 +12,7 @@ import "@fontsource/poppins/700.css";
 
 import App from "./App";
 import theme from "./theme";
-import "./translations"; 
+import "./translations";
 import { queryErrorHandler } from "./config/errorHandler";
 
 const queryClient = new QueryClient({
@@ -24,17 +24,7 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 5,
       gcTime: 1000 * 60 * 30
     },
-    mutations: {
-      retry: 1,
-      onError: queryErrorHandler
-    },
-  },
-  queryCache: new QueryCache({
-    onError: queryErrorHandler,
-  }),
-  mutationCache: new MutationCache({
-    onError: queryErrorHandler,
-  }),
+  }
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
