@@ -40,7 +40,5 @@ export const queryErrorHandler = async (error: unknown) => {
         }
     }
 
-    // fallback para otros errores no previstos
-    console.error("React Query error:", error);
     toast.error("Ha ocurrido un error inesperado");
 };
