@@ -1,20 +1,30 @@
+import { useAuth } from "@/contexts/authContext";
 import type { LoginRequestDto } from "@/domain/auth/LoginRequestDto";
 import type { LoginResponseDto } from "@/domain/auth/LoginResponseDto";
+import { ROUTES } from "@/routes/routes";
 import { login } from "@/services/auth.service";
 import { setAccessToken, setRefreshToken } from "@/utils/token";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface UseLoginOptions {
     onConsentRequired?: (version: string) => void;
 }
 
 export const useLogin = ({ onConsentRequired }: UseLoginOptions = {}) => {
+    const navigate = useNavigate();
+    const { refetchUser } = useAuth();
+
     return useMutation<LoginResponseDto, unknown, LoginRequestDto>({
         mutationFn: login,
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             setAccessToken(data.accessToken);
             setRefreshToken(data.refreshToken);
+
+            await refetchUser();
+
+            navigate(ROUTES.HOME);
         },
         onError: (error) => {
             if (isAxiosError(error)) {

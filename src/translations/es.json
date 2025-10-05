@@ -8,7 +8,8 @@
         "messages": {
             "loading": "Cargando...",
             "error": "Ocurrió un error"
-        }
+        },
+        "profile": "Perfil"
     },
     "home": {
         "title": "Bienvenido a la página principal",
@@ -20,7 +21,8 @@
             "email": "Correo electrónico",
             "password": "Contraseña",
             "submit": "Entrar"
-        }
+        },
+        "logout": "Cerrar sesión"
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
@@ -77,5 +79,13 @@
         "required": "Este campo es obligatorio",
         "email": "Debe ser un correo válido",
         "minPassword": "La contraseña debe tener al menos {{count}} caracteres"
+    },
+    "errors": {
+        "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
+        "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
+        "forbidden": "No tienes permisos para acceder a este recurso.",
+        "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
+        "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
     }
 }

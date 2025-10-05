@@ -58,11 +58,11 @@ export default function LoginForm() {
                 <Button
                     type="submit"
                     variant="contained"
+                    loading={loginMutation.isPending}
                     fullWidth
-                    disabled={loginMutation.isPending}
                     sx={{ mt: 3, py: 1.5, borderRadius: 2 }}
                 >
-                    {loginMutation.isPending ? "..." : t("auth.login.submit")}
+                    {t("auth.login.submit")}
                 </Button>
             </Box>
 
