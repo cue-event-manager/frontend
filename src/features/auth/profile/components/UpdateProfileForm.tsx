@@ -37,7 +37,11 @@ export default function UpdateProfileForm() {
     });
 
     const onSubmit = (data: UpdateProfileFormValues) => {
-        updateMutation.mutate(data, {
+        const cleanedData = Object.fromEntries(
+            Object.entries(data).filter(([_, value]) => value !== "" && value != null)
+        ) as UpdateProfileFormValues;
+
+        updateMutation.mutate(cleanedData, {
             onSuccess: () => reset(data),
         });
     };
@@ -46,7 +50,6 @@ export default function UpdateProfileForm() {
         <Box
             component="form"
             onSubmit={handleSubmit(onSubmit)}
-            noValidate
         >
             <Typography variant="h4" fontWeight={700} gutterBottom>
                 {t("profile.title")}
@@ -151,14 +154,11 @@ export default function UpdateProfileForm() {
                 <Button
                     type="submit"
                     variant="contained"
-                    disabled={!isDirty || updateMutation.isPending}
+                    disabled={!isDirty}
+                    loading={updateMutation.isPending}
                     sx={{ minWidth: 150, py: 1.4, borderRadius: 2 }}
                 >
-                    {updateMutation.isPending ? (
-                        <CircularProgress size={22} color="inherit" />
-                    ) : (
-                        t("profile.saveChanges")
-                    )}
+                    {t("profile.saveChanges")}
                 </Button>
             </Box>
         </Box>
