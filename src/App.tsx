@@ -4,15 +4,16 @@ import { UserProvider } from "./contexts/authContext"
 import { ResponseInterceptor } from "./interceptors/ResponseInterceptor"
 
 function App() {
-
-  return <>
-    <UserProvider>
+  return (
+    <>
       <ResponseInterceptor />
-      <Toaster position="top-center" />
-      <AppRouter />
-    </UserProvider>
-
-  </>
+      <UserProvider>
+        <Toaster position="top-center" />
+        <AppRouter />
+      </UserProvider>
+    </>
+  );
 }
+
 
 export default App

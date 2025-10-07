@@ -5,6 +5,8 @@ import { loginSchema } from "@shared/validation/loginSchema";
 import { useAppForm } from "@shared/hooks/useAppForm";
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import type { LoginRequestDto } from "@/domain/auth/LoginRequestDto";
+import TermsAndConditionsModal from "./TermsAndConditionsModal";
 
 type LoginFormValues = {
     email: string;
@@ -14,6 +16,9 @@ type LoginFormValues = {
 export default function LoginForm() {
     const { t } = useTranslation();
     const [termsVersion, setTermsVersion] = useState<string | null>(null);
+    const [lastLoginData, setLastLoginData] = useState<LoginRequestDto | null>(
+        null
+    );
 
     const loginMutation = useLogin({
         onConsentRequired: (version) => {
@@ -30,7 +35,18 @@ export default function LoginForm() {
     });
 
     const onSubmit = (data: LoginFormValues) => {
+        setLastLoginData(data);
         loginMutation.mutate(data);
+    };
+
+    const handleAcceptTerms = () => {
+        if (lastLoginData) {
+            loginMutation.mutate({
+                ...lastLoginData,
+                acceptTerms: true,
+            });
+            setTermsVersion(null);
+        }
     };
 
     return (
@@ -65,9 +81,12 @@ export default function LoginForm() {
                 </Button>
             </Box>
 
-            {termsVersion && (
-                <p>Debes aceptar los terminos y condiciones</p>
-            )}
+            <TermsAndConditionsModal
+                open={!!termsVersion}
+                version={termsVersion ?? ""}
+                onAccept={handleAcceptTerms}
+                onClose={() => setTermsVersion(null)}
+            />
         </>
     );
 }

@@ -5,5 +5,5 @@ export const ROUTES = {
         LOGIN: '/auth/login',
     },
     PROFILE: '/profile',
-    TERMS_AND_CONDITIONS:"terms-and-conditions"
+    TERMS_AND_CONDITIONS:"/terms-and-conditions"
 }

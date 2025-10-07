@@ -3,7 +3,8 @@
         "actions": {
             "save": "Guardar",
             "cancel": "Cancelar",
-            "delete": "Eliminar"
+            "delete": "Eliminar",
+            "confirm": "Confirmar"
         },
         "messages": {
             "loading": "Cargando...",
@@ -21,6 +22,14 @@
             "email": "Correo electrónico",
             "password": "Contraseña",
             "submit": "Entrar"
+        },
+        "terms": {
+            "title": "Términos y Condiciones",
+            "message": "Debes aceptar los términos y condiciones antes de continuar.",
+            "version": "Versión actual:",
+            "view": "Ver términos y condiciones completos",
+            "accept": "Acepto los términos y condiciones",
+            "preview": "Al aceptar, confirmas que has leído y comprendido los términos del servicio y las políticas de privacidad."
         },
         "logout": "Cerrar sesión",
         "loggingOut": "Cerrando sesión"
