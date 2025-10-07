@@ -30,7 +30,6 @@ export default function LoginForm() {
     });
 
     const onSubmit = (data: LoginFormValues) => {
-        console.log(data);
         loginMutation.mutate(data);
     };
 

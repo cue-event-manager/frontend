@@ -1,5 +1,7 @@
+import { ROUTES } from "@/routes/routes";
 import { Box, Container, Grid, Link, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
     const { t } = useTranslation();
@@ -32,15 +34,46 @@ export default function Footer() {
                             {t("footer.links.title")}
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                            <Link href="#" color="inherit" underline="hover" sx={{ width: 'fit-content' }}>
+                            <Link
+                                component={RouterLink}
+                                to={ROUTES.HOME}
+                                color="inherit"
+                                underline="hover"
+                                sx={{ width: "fit-content" }}
+                            >
                                 {t("footer.links.home")}
                             </Link>
-                            <Link href="#features" color="inherit" underline="hover" sx={{ width: 'fit-content' }}>
+
+                            <Link
+                                component={RouterLink}
+                                to="/#features"
+                                color="inherit"
+                                underline="hover"
+                                sx={{ width: "fit-content" }}
+                            >
                                 {t("footer.links.features")}
                             </Link>
-                            <Link href="#contact" color="inherit" underline="hover" sx={{ width: 'fit-content' }}>
+
+                            <Link
+                                component={RouterLink}
+                                to="/#contact"
+                                color="inherit"
+                                underline="hover"
+                                sx={{ width: "fit-content" }}
+                            >
                                 {t("footer.links.contact")}
                             </Link>
+
+                            <Link
+                                component={RouterLink}
+                                to={ROUTES.TERMS_AND_CONDITIONS}
+                                color="inherit"
+                                underline="hover"
+                                sx={{ width: "fit-content" }}
+                            >
+                                {t("footer.links.termsAndConditions")}
+                            </Link>
+
                         </Box>
                     </Grid>
 
@@ -49,7 +82,7 @@ export default function Footer() {
                             {t("footer.contact.title")}
                         </Typography>
                         <Typography variant="body2" color="grey.400">
-                            {t("footer.contact.email")}: info@u360.com
+                            {t("footer.contact.email")}: info@eventum.com
                         </Typography>
                         <Typography variant="body2" color="grey.400">
                             {t("footer.contact.phone")}: +57 300 000 0000
