@@ -63,10 +63,10 @@ export default function AvatarUserMenu() {
                 <MenuItem
                     onClick={handleMenuClose}
                     component={RouterLink}
-                    to={ROUTES.HOME}
+                    to={ROUTES.PROFILE}
                     disabled={isLoggingOut}
                 >
-                    <AccountCircleIcon fontSize="small" sx={{ mr: 1 }} />
+                    <AccountCircleIcon fontSize="small" sx={{ mr: 1 }}  />
                     {t("common.profile")}
                 </MenuItem>
 
