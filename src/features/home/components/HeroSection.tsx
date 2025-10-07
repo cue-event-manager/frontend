@@ -1,19 +1,20 @@
+import useNavbarHeight from "@/shared/hooks/useNavbarHeight";
 import { Container, Typography, Button, Box, Stack, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function HeroSection() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navbarHeight = useNavbarHeight();
 
   return (
     <Box
       component="section"
       sx={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: `calc(100vh - ${navbarHeight}px)`,
         display: "flex",
         alignItems: "center",
-        pt: { xs: "120px", md: "80px" },
         overflow: "hidden",
         backgroundColor: theme.palette.background.default,
       }}
@@ -74,7 +75,7 @@ export default function HeroSection() {
               alt="Hero illustration"
               sx={{
                 width: { xs: "100%", md: "80%" },
-                maxWidth:  { xs: "200px", md: "320px" },
+                maxWidth: { xs: "200px", md: "320px" },
                 filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.1))",
               }}
             />

@@ -23,7 +23,7 @@
             "submit": "Entrar"
         },
         "logout": "Cerrar sesión",
-        "loggingOut":"Cerrando sesión"
+        "loggingOut": "Cerrando sesión"
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
@@ -67,7 +67,8 @@
             "title": "Enlaces",
             "home": "Inicio",
             "features": "Características",
-            "contact": "Contacto"
+            "contact": "Contacto",
+            "termsAndConditions": "Terminos y Condiciones"
         },
         "contact": {
             "title": "Contacto",
@@ -79,7 +80,9 @@
     "validation": {
         "required": "Este campo es obligatorio",
         "email": "Debe ser un correo válido",
-        "minPassword": "La contraseña debe tener al menos {{count}} caracteres"
+        "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
+        "phoneFormat": "Formato de número no válido.",
+        "phoneMax": "El número de teléfono es demasiado largo."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
@@ -88,5 +91,74 @@
         "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
         "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
         "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
+    },
+    "profile": {
+        "title": "Actualizar Perfil",
+        "subtitle": "Actualiza tu información personal y de seguridad.",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "email": "Correo electrónico",
+        "phoneNumber": "Teléfono",
+        "currentPassword": "Contraseña actual",
+        "newPassword": "Nueva contraseña",
+        "saveChanges": "Guardar cambios",
+        "sections": {
+            "general": "Información General",
+            "contact": "Información de Contacto",
+            "security": "Seguridad"
+        },
+        "messages": {
+            "success": "Tu perfil se ha actualizado correctamente.",
+            "error": "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente."
+        }
+    },
+    "termsAndConditions": {
+        "title": "Política de Tratamiento de Datos Personales",
+        "intro": "En cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, la Universidad Alexander von Humboldt informa a los usuarios que los datos personales recolectados a través de esta plataforma de gestión de eventos serán tratados de conformidad con los principios de legalidad, libertad, veracidad, finalidad, transparencia y seguridad establecidos en la normativa colombiana vigente.",
+        "sections": {
+            "purpose": {
+                "title": "1. Finalidad del tratamiento",
+                "description": "Los datos personales serán utilizados para los siguientes propósitos:",
+                "items": [
+                    "Registrar y autenticar usuarios dentro del sistema.",
+                    "Gestionar la inscripción y participación en eventos académicos, investigativos y culturales.",
+                    "Enviar notificaciones, recordatorios y comunicaciones institucionales relacionadas con los eventos.",
+                    "Generar reportes estadísticos e indicadores de asistencia y participación.",
+                    "Cumplir con obligaciones legales, contractuales y académicas derivadas de la relación con la Universidad."
+                ]
+            },
+            "rights": {
+                "title": "2. Derechos de los titulares",
+                "description": "De acuerdo con la Ley 1581 de 2012, los titulares de los datos personales tienen derecho a:",
+                "items": [
+                    "Conocer, actualizar y rectificar sus datos personales.",
+                    "Solicitar prueba de la autorización otorgada para el tratamiento de los datos.",
+                    "Ser informados respecto al uso que se ha dado a sus datos personales.",
+                    "Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la Ley 1581 de 2012.",
+                    "Revocar la autorización y/o solicitar la supresión del dato cuando no se respeten los principios, derechos y garantías legales."
+                ]
+            },
+            "procedures": {
+                "title": "3. Procedimiento para ejercer los derechos",
+                "description": "El titular podrá presentar solicitudes, reclamos o peticiones relacionadas con sus datos personales dirigiendo una comunicación escrita a la Universidad Alexander von Humboldt al correo electrónico protecciondatos@uavh.edu.co o en la dirección física Carrera 9 No. 12-34, Armenia, Quindío, Colombia. El procedimiento de atención seguirá los plazos y reglas establecidas en el Decreto 1377 de 2013."
+            },
+            "security": {
+                "title": "4. Medidas de seguridad",
+                "description": "La Universidad ha implementado medidas técnicas, humanas y administrativas necesarias para garantizar la seguridad de la información, evitando su adulteración, pérdida, consulta, uso o acceso no autorizado. Solo el personal debidamente autorizado podrá acceder a los datos personales para el cumplimiento de sus funciones."
+            },
+            "retention": {
+                "title": "5. Conservación de la información",
+                "description": "Los datos personales serán conservados durante el tiempo necesario para cumplir con las finalidades del tratamiento o mientras exista una relación activa con la Universidad. Posteriormente serán eliminados o anonimizados conforme a la ley."
+            },
+            "changes": {
+                "title": "6. Modificaciones a la política",
+                "description": "La Universidad se reserva el derecho de modificar esta política en cualquier momento para adaptarla a cambios normativos o institucionales. Las actualizaciones serán publicadas en el portal web institucional y en esta plataforma."
+            },
+            "acceptance": {
+                "title": "7. Aceptación de la política",
+                "description": "El usuario manifiesta que ha leído, comprendido y aceptado la presente Política de Tratamiento de Datos Personales al registrarse o usar la plataforma de gestión de eventos. Si no está de acuerdo con su contenido, debe abstenerse de proporcionar información personal o utilizar los servicios ofrecidos."
+            }
+        },
+        "footer": "Todos los derechos reservados."
     }
 }
