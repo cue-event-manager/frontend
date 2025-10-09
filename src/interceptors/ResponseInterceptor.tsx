@@ -39,6 +39,10 @@ export const ResponseInterceptor = () => {
                     case HttpStatusCode.BadRequest:
                         toast.error(backendMessage || t("errors.badRequest"));
                         break;
+                        
+                    case HttpStatusCode.NotFound:
+                        toast.error(backendMessage || t("errors.badRequest"));
+                        break;
 
                     case HttpStatusCode.InternalServerError:
                         toast.error(t("errors.internalServerError"));
