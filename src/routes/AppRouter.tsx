@@ -8,6 +8,8 @@ import GuestGuard from "@/guards/GuestGuard";
 import AuthGuard from "@/guards/AuthGuard";
 import ProfilePage from "@/pages/ProfilePage";
 import TermsAndConditionsPage from "@/pages/TermsAndConditionsPage";
+import RecoverPasswordPage from "@/pages/RecoverPasswordPage";
+import ResetPasswordPage from "@/pages/ResetPasswordPasge";
 
 export default function AppRouter() {
   return (
@@ -17,7 +19,7 @@ export default function AppRouter() {
         <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditionsPage />} />
 
         <Route element={<AuthGuard />} >
-          <Route path={ROUTES.PROFILE} element={<ProfilePage/>} />
+          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
         </Route>
 
       </Route>
@@ -25,6 +27,8 @@ export default function AppRouter() {
       <Route element={<GuestGuard />}>
         <Route element={<AuthLayout />}>
           <Route path={ROUTES.AUTH.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.AUTH.RECOVER_PASSWORD} element={<RecoverPasswordPage />} />
+          <Route path={ROUTES.AUTH.RESET_PASSWORD} element={<ResetPasswordPage />} />
         </Route>
       </Route>
     </Routes>
