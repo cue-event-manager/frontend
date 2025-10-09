@@ -6,6 +6,9 @@ import { BASE_AUTH_SERVICE } from "./constants";
 import type { User } from "@/domain/user/User";
 import { getRefreshToken } from "@/utils/token";
 import type { UpdateProfileRequestDto } from "@/domain/profile/UpdateProfileRequestDto";
+import type { RecoverPasswordRequestDto } from "@/domain/auth/RecoverPasswordRequestDto";
+import type { MessageResponseDto } from "@/domain/common/MessageResponseDto";
+import type { ResetPasswordRequestDto } from "@/domain/auth/ResetPasswordRequestDto";
 
 
 const AUTH_ENDPOINT_PREFFIX = `${BASE_AUTH_SERVICE}/api/auth`
@@ -47,3 +50,20 @@ export const updateProfile = async (updateProfileRequest: UpdateProfileRequestDt
     return data;
 };
 
+export const recoverPassword = async (recoverPasswordRequest: RecoverPasswordRequestDto): Promise<MessageResponseDto> => {
+    const { data } = await axiosInstance.post<MessageResponseDto>(
+        `${AUTH_ENDPOINT_PREFFIX}/recover-password`,
+        recoverPasswordRequest
+    );
+
+    return data;
+}
+
+export const resetPassword = async (resetPasswordRequest: ResetPasswordRequestDto): Promise<MessageResponseDto> => {
+    const { data } = await axiosInstance.post<MessageResponseDto>(
+        `${AUTH_ENDPOINT_PREFFIX}/reset-password`,
+        resetPasswordRequest
+    );
+
+    return data;
+}

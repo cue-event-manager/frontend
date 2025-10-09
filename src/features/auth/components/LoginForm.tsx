@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Link, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@shared/validation/loginSchema";
@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginRequestDto } from "@/domain/auth/LoginRequestDto";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
+import { Link as RouterLink } from "react-router-dom";
+import { ROUTES } from "@/routes/routes";
 
 type LoginFormValues = {
     email: string;
@@ -79,8 +81,13 @@ export default function LoginForm() {
                 >
                     {t("auth.login.submit")}
                 </Button>
-            </Box>
 
+
+            </Box>
+            <Box sx={{ paddingY: 2, display: "flex", justifyContent: "center" }}>
+                <Link component={RouterLink} to={ROUTES.AUTH.RECOVER_PASSWORD}>  {t("auth.login.forgotPassword")}</Link>
+
+            </Box>
             <TermsAndConditionsModal
                 open={!!termsVersion}
                 version={termsVersion ?? ""}

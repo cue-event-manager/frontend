@@ -21,7 +21,8 @@
             "title": "Iniciar sesión",
             "email": "Correo electrónico",
             "password": "Contraseña",
-            "submit": "Entrar"
+            "submit": "Entrar",
+            "forgotPassword": "¿Olvidaste tu contraseña?"
         },
         "terms": {
             "title": "Términos y Condiciones",
@@ -30,6 +31,24 @@
             "view": "Ver términos y condiciones completos",
             "accept": "Acepto los términos y condiciones",
             "preview": "Al aceptar, confirmas que has leído y comprendido los términos del servicio y las políticas de privacidad."
+        },
+        "recover": {
+            "title": "Recuperar contraseña",
+            "subtitle": "Ingresa tu correo electrónico para recibir un código de recuperación.",
+            "email": "Correo electrónico",
+            "submit": "Enviar código",
+            "sent": "Se ha enviado un código de recuperación a tu correo.",
+            "error": "No se pudo enviar el correo de recuperación."
+        },
+        "reset": {
+            "title": "Restablecer contraseña",
+            "subtitle": "Ingresa el código recibido y tu nueva contraseña.",
+            "email": "Correo electrónico",
+            "code": "Código de verificación",
+            "newPassword": "Nueva contraseña",
+            "submit": "Restablecer contraseña",
+            "success": "Tu contraseña ha sido restablecida correctamente.",
+            "error": "No se pudo restablecer la contraseña. Intenta nuevamente."
         },
         "logout": "Cerrar sesión",
         "loggingOut": "Cerrando sesión"
@@ -91,7 +110,9 @@
         "email": "Debe ser un correo válido",
         "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
         "phoneFormat": "Formato de número no válido.",
-        "phoneMax": "El número de teléfono es demasiado largo."
+        "phoneMax": "El número de teléfono es demasiado largo.",
+        "codeLength": "Código no válido.",
+        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
