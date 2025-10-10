@@ -7,5 +7,9 @@ export const ROUTES = {
         RESET_PASSWORD: "/auth/reset-password"
     },
     PROFILE: '/profile',
-    TERMS_AND_CONDITIONS: "/terms-and-conditions"
+    TERMS_AND_CONDITIONS: "/terms-and-conditions",
+    ADMIN: {
+        BASE: '/admin',
+        USERS: '/admin/users'
+    }
 }

@@ -1,5 +1,7 @@
+import type { RoleConstant } from "./RoleConstant";
+
 export interface Role {
     id: number;
-    name: string;
+    name: RoleConstant;
     description: string;
 }
