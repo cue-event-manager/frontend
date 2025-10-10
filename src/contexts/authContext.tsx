@@ -1,25 +1,23 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes/routes";
 import { removeAccessToken, removeRefreshToken } from "@/utils/token";
 import type { User } from "@/domain/user/User";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import SplashScreen from "@/features/auth/components/SplashScreen";
 import { useQueryClient } from "@tanstack/react-query";
+import { AUTH_QUERY_KEYS } from "@/features/auth/constants/authQueries.constant";
 
 interface UserContextValue {
   user: User | null;
   isAuthenticated: boolean;
+  isLoadingUser: boolean;
   refetchUser: () => void;
   logout: () => void;
-  setUser: (user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextValue | undefined>(undefined);
@@ -27,55 +25,33 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user: fetchedUser, isLoading, isError, refetchUser } = useCurrentUser();
-  const hasRedirectedRef = useRef(false);
-
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    if (fetchedUser) {
-      setUser(fetchedUser);
-      setIsAuthenticated(true);
-      hasRedirectedRef.current = false;
-    } else {
-      setUser(null);
-      setIsAuthenticated(false);
-    }
-  }, [fetchedUser]);
+  const hasLoggedOutRef = useRef(false);
+  const { data: user, isLoading, refetch } = useCurrentUser();
 
   const logout = () => {
+    if (hasLoggedOutRef.current) return;
+    hasLoggedOutRef.current = true;
+
     removeAccessToken();
     removeRefreshToken();
-    setUser(null);
-    setIsAuthenticated(false);
 
-    queryClient.clear();
-
+    queryClient.setQueryData(AUTH_QUERY_KEYS.AUTH.ME, null);
+    queryClient.removeQueries({ queryKey: AUTH_QUERY_KEYS.AUTH.ME, exact: true });
     navigate(ROUTES.AUTH.LOGIN, { replace: true });
   };
 
-  useEffect(() => {
-    if (isError && !hasRedirectedRef.current) {
-      hasRedirectedRef.current = true;
-      logout();
-    }
-  }, [isError]);
-
   const value = useMemo(
     () => ({
-      user,
-      isAuthenticated,
-      refetchUser,
-      setUser,
+      user: user ?? null,
+      isAuthenticated: !!user,
+      isLoadingUser: isLoading,
+      refetchUser: refetch,
       logout,
     }),
-    [user, isAuthenticated, refetchUser]
+    [user, isLoading, refetch]
   );
 
-  const content = isLoading ? <SplashScreen /> : children;
-
-  return <UserContext.Provider value={value}>{content}</UserContext.Provider>;
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useAuth = (): UserContextValue => {

@@ -1,19 +1,26 @@
 import { Toaster } from "react-hot-toast"
 import AppRouter from "./routes/AppRouter"
-import { UserProvider } from "./contexts/authContext"
+import { useAuth, UserProvider } from "./contexts/authContext"
 import { ResponseInterceptor } from "./interceptors/ResponseInterceptor"
+import SplashScreen from "./features/auth/components/SplashScreen";
 
-function App() {
-  return (
-    <>
-      <ResponseInterceptor />
-      <UserProvider>
-        <Toaster position="top-center" />
-        <AppRouter />
-      </UserProvider>
-    </>
-  );
+
+function AppContent() {
+  const { isLoadingUser } = useAuth();
+
+  if (isLoadingUser) {
+    return <SplashScreen />;
+  }
+
+  return <AppRouter />;
 }
 
-
-export default App
+export default function App() {
+  return (
+    <UserProvider>
+      <ResponseInterceptor />
+      <Toaster position="top-center" />
+      <AppContent />
+    </UserProvider>
+  );
+}

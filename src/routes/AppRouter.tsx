@@ -10,6 +10,9 @@ import ProfilePage from "@/pages/ProfilePage";
 import TermsAndConditionsPage from "@/pages/TermsAndConditionsPage";
 import RecoverPasswordPage from "@/pages/RecoverPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPasge";
+import RoleGuard from "@/guards/RoleGuard";
+import { RoleConstant } from "@/domain/role/RoleConstant";
+import AdminLayout from "@/components/layouts/AdminLayout";
 
 export default function AppRouter() {
   return (
@@ -31,6 +34,13 @@ export default function AppRouter() {
           <Route path={ROUTES.AUTH.RESET_PASSWORD} element={<ResetPasswordPage />} />
         </Route>
       </Route>
+
+      <Route element={<RoleGuard allowedRoles={[RoleConstant.ADMIN]} />}>
+        <Route element={<AdminLayout />}>
+          <Route path={ROUTES.ADMIN.BASE} element={<h1>Test</h1>} />
+        </Route>
+      </Route>
+
     </Routes>
   );
 }
