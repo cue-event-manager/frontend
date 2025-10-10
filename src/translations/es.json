@@ -53,6 +53,11 @@
         "logout": "Cerrar sesión",
         "loggingOut": "Cerrando sesión"
     },
+    "admin": {
+        "nav": {
+            "title": "Panel Administrativo"
+        }
+    },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
         "subtitle": "Una solución moderna, rápida y confiable para la Corporacion Empresarial Universitaria Alexander von Humboldt.",
