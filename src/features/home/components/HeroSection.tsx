@@ -1,6 +1,7 @@
 import useNavbarHeight from "@/shared/hooks/useNavbarHeight";
-import { Container, Typography, Button, Box, Stack, useTheme } from "@mui/material";
+import { Container, Typography, Button, Box, Stack, useTheme, alpha } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export default function HeroSection() {
   const { t } = useTranslation();
@@ -61,22 +62,72 @@ export default function HeroSection() {
             <Button
               variant="contained"
               size="large"
-              disableRipple
-
+              endIcon={<ArrowForwardIcon />}
+              sx={{
+                px: 4,
+                py: 1.75,
+                fontSize: "1rem",
+                fontWeight: 600,
+                borderRadius: 3,
+                textTransform: "none",
+                boxShadow: `0 4px 14px ${alpha(theme.palette.primary.main, 0.4)}`,
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: `0 6px 20px ${alpha(
+                    theme.palette.primary.main,
+                    0.5
+                  )}`,
+                },
+              }}
             >
               {t("hero.cta")}
             </Button>
           </Box>
 
-          <Box flex={1} sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            flex={1}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                width: { xs: "300px", md: "500px" },
+                height: { xs: "300px", md: "500px" },
+                borderRadius: "50%",
+                background: `radial-gradient(circle, ${alpha(
+                  theme.palette.primary.main,
+                  0.1
+                )}, transparent 70%)`,
+                animation: "float 6s ease-in-out infinite",
+                "@keyframes float": {
+                  "0%, 100%": {
+                    transform: "translateY(0px)",
+                  },
+                  "50%": {
+                    transform: "translateY(-20px)",
+                  },
+                },
+              }}
+            />
+
             <Box
               component="img"
               src="/hero/illustration.png"
               alt="Hero illustration"
               sx={{
-                width: { xs: "100%", md: "80%" },
-                maxWidth: { xs: "200px", md: "320px" },
-                filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.1))",
+                width: { xs: "80%", md: "85%" },
+                maxWidth: { xs: "280px", md: "400px" },
+                position: "relative",
+                zIndex: 1,
+                filter: "drop-shadow(0 20px 60px rgba(0,0,0,0.15))",
+                animation: "float 6s ease-in-out infinite",
+                animationDelay: "0.5s",
               }}
             />
           </Box>

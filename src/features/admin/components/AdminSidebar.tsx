@@ -8,9 +8,13 @@ import {
     ListItemIcon,
     ListItemText,
     Toolbar,
+    Typography,
+    Avatar,
+    useTheme,
+    alpha,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/authContext";
 import Logo from "@/components/atoms/Logo";
 import { ADMIN_MENU_ITEMS } from "../constants/adminMenuItems.constant";
@@ -26,6 +30,17 @@ export default function AdminSidebar({
     mobileOpen,
     onDrawerToggle,
 }: AdminSidebarProps) {
+    const theme = useTheme();
+
+    const drawerStyles = {
+        "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: drawerWidth,
+            backgroundColor: theme.palette.background.paper,
+            borderRight: `1px solid ${theme.palette.divider}`,
+        },
+    };
+
     return (
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
             <Drawer
@@ -35,17 +50,17 @@ export default function AdminSidebar({
                 ModalProps={{ keepMounted: true }}
                 sx={{
                     display: { xs: "block", sm: "none" },
-                    "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+                    ...drawerStyles,
                 }}
             >
-                <AdminSidebarContent />
+                <AdminSidebarContent onItemClick={onDrawerToggle} />
             </Drawer>
 
             <Drawer
                 variant="permanent"
                 sx={{
                     display: { xs: "none", sm: "block" },
-                    "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+                    ...drawerStyles,
                 }}
                 open
             >
@@ -55,45 +70,177 @@ export default function AdminSidebar({
     );
 }
 
-export function AdminSidebarContent() {
+interface AdminSidebarContentProps {
+    onItemClick?: () => void;
+}
+
+export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const location = useLocation();
+    const { logout, user } = useAuth();
+    const theme = useTheme();
 
     const menuItems = ADMIN_MENU_ITEMS;
 
+    const handleNavigation = (path: string) => {
+        navigate(path);
+        onItemClick?.();
+    };
+
+    const isActive = (path: string) => {
+        return location.pathname === path || location.pathname.startsWith(path + "/");
+    };
+
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-            <Toolbar sx={{ display: "flex", justifyContent: "center", paddingY: 2 }}>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                backgroundColor: "background.paper",
+            }}
+        >
+            <Toolbar
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    py: 3,
+                    px: 2,
+                }}
+            >
                 <Logo />
             </Toolbar>
 
-            <Divider />
+            <Divider sx={{ mx: 2 }} />
 
-            <Box sx={{ flexGrow: 1 }}>
-                <List>
-                    {menuItems.map((item) => (
-                        <ListItem key={item.text} disablePadding>
-                            <ListItemButton onClick={() => navigate(item.path)}>
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+            {user && (
+                <Box sx={{ px: 2, py: 3 }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5,
+                            p: 1.5,
+                            borderRadius: 2,
+                            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                            border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+                        }}
+                    >
+                        <Avatar
+                            sx={{
+                                width: 40,
+                                height: 40,
+                                backgroundColor: "primary.main",
+                                fontSize: "1rem",
+                                fontWeight: 600,
+                            }}
+                        >
+                            {user.firstName?.charAt(0).toUpperCase() || "A"}
+                        </Avatar>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                            <Typography
+                                variant="subtitle2"
+                                fontWeight={600}
+                                noWrap
+                                sx={{ color: "text.primary" }}
+                            >
+                                {user.firstName}
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                noWrap
+                                sx={{ color: "text.secondary" }}
+                            >
+                                {user.email}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Box>
+            )}
+
+            {/* Navigation Menu */}
+            <Box sx={{ flexGrow: 1, overflowY: "auto", px: 2 }}>
+                <List sx={{ py: 1 }}>
+                    {menuItems.map((item) => {
+                        const active = isActive(item.path);
+                        return (
+                            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+                                <ListItemButton
+                                    onClick={() => handleNavigation(item.path)}
+                                    sx={{
+                                        borderRadius: 2,
+                                        py: 1.25,
+                                        px: 2,
+                                        transition: "all 0.2s",
+                                        backgroundColor: active
+                                            ? alpha(theme.palette.primary.main, 0.12)
+                                            : "transparent",
+                                        "&:hover": {
+                                            backgroundColor: active
+                                                ? alpha(theme.palette.primary.main, 0.16)
+                                                : "action.hover",
+                                            transform: "translateX(4px)",
+                                        },
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 40,
+                                            color: active
+                                                ? "primary.main"
+                                                : "text.secondary",
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={item.text}
+                                        primaryTypographyProps={{
+                                            fontSize: "0.875rem",
+                                            fontWeight: active ? 600 : 500,
+                                            color: active
+                                                ? "primary.main"
+                                                : "text.primary",
+                                        }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        );
+                    })}
                 </List>
             </Box>
 
-            <Divider />
-
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={logout}>
-                        <ListItemIcon>
-                            <LogoutIcon color="error" />
-                        </ListItemIcon>
-                        <ListItemText primary="Cerrar sesión" />
-                    </ListItemButton>
-                </ListItem>
-            </List>
+            {/* Logout Section */}
+            <Box sx={{ px: 2, pb: 2 }}>
+                <Divider sx={{ mb: 2 }} />
+                <ListItemButton
+                    onClick={logout}
+                    sx={{
+                        borderRadius: 2,
+                        py: 1.25,
+                        px: 2,
+                        transition: "all 0.2s",
+                        border: `1px solid ${theme.palette.divider}`,
+                        "&:hover": {
+                            backgroundColor: alpha(theme.palette.error.main, 0.08),
+                            borderColor: "error.main",
+                            transform: "translateX(4px)",
+                        },
+                    }}
+                >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                        <LogoutIcon color="error" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Cerrar sesión"
+                        primaryTypographyProps={{
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            color: "error.main",
+                        }}
+                    />
+                </ListItemButton>
+            </Box>
         </Box>
     );
 }
