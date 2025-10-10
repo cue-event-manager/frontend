@@ -1,10 +1,13 @@
 {
     "common": {
+        "filters": "Filtros",
         "actions": {
             "save": "Guardar",
             "cancel": "Cancelar",
             "delete": "Eliminar",
-            "confirm": "Confirmar"
+            "confirm": "Confirmar",
+            "search": "Buscar",
+            "clear": "Limpiar"
         },
         "messages": {
             "loading": "Cargando...",
@@ -53,6 +56,15 @@
         "logout": "Cerrar sesión",
         "loggingOut": "Cerrando sesión"
     },
+    "admin": {
+        "nav": {
+            "title": "Panel Administrativo"
+        },
+        "users": {
+            "title": "Gestión de Usuarios",
+            "description": "Administra los usuarios registrados en la plataforma."
+        }
+    },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
         "subtitle": "Una solución moderna, rápida y confiable para la Corporacion Empresarial Universitaria Alexander von Humboldt.",
@@ -60,6 +72,7 @@
     },
     "features": {
         "title": "Características principales",
+        "description":"Herramientas poderosas diseñadas para optimizar tu gestión",
         "events": {
             "title": "Gestión de eventos",
             "desc": "Crea, organiza y administra eventos de manera centralizada en un solo lugar."
@@ -190,5 +203,19 @@
             }
         },
         "footer": "Todos los derechos reservados."
+    },
+    "users": {
+        "filters": {
+            "name": "Nombre",
+            "identification": "Identificación",
+            "role": "Rol",
+            "allRoles": "Todos los roles"
+        }
+    },
+    "table": {
+        "actions": "Acciones",
+        "noData": "No hay datos disponibles",
+        "rowsPerPage": "Filas por página",
+        "of": "de"
     }
 }

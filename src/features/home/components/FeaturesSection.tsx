@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Paper, useTheme, Grid } from "@mui/material";
+import { Box, Container, Typography, Paper, useTheme, Grid, alpha } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import EventIcon from "@mui/icons-material/Event";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -30,55 +30,159 @@ export default function FeaturesSection() {
         <Box
             component="section"
             sx={{
-                py: { xs: 8, md: 12 },
-                backgroundColor: theme.palette.grey[50],
+                py: { xs: 10, md: 14 },
+                background: `linear-gradient(180deg, ${alpha(
+                    theme.palette.primary.main,
+                    0.02
+                )} 0%, ${theme.palette.background.paper} 100%)`,
+                position: "relative",
+                overflow: "hidden",
+                "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "150%",
+                    height: "100%",
+                    background: `radial-gradient(circle at 50% 0%, ${alpha(
+                        theme.palette.primary.main,
+                        0.02
+                    )}, transparent 70%)`,
+                    pointerEvents: "none",
+                },
             }}
         >
-            <Container maxWidth="xl">
-                <Typography
-                    variant="h4"
-                    align="center"
-                    sx={{ fontWeight: 700, mb: 6 }}
-                    color={theme.palette.primary.dark}
-                >
-                    {t("features.title")}
-                </Typography>
+            <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
+                <Box sx={{ textAlign: "center", mb: 8 }}>
+                    <Typography
+                        variant="h3"
+                        sx={{
+                            fontWeight: 800,
+                            mb: 2,
+                            fontSize: { xs: "2rem", md: "2.75rem" },
+                            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+                            backgroundClip: "text",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            letterSpacing: -1,
+                        }}
+                    >
+                        {t("features.title")}
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            color: "text.secondary",
+                            maxWidth: 600,
+                            mx: "auto",
+                            fontSize: "1.125rem",
+                        }}
+                    >
+                        {t("features.description") ||
+                            "Herramientas poderosas diseñadas para optimizar tu gestión"}
+                    </Typography>
+                </Box>
 
-                <Grid container spacing={2}>
-                    {features.map((f, i) => (
-                        <Grid key={i} size={{ xs: 12, md: 4 }}>
+                <Grid container spacing={3}>
+                    {features.map((feature, index) => (
+                        <Grid key={index} size={{ xs: 12, md: 4 }}>
                             <Paper
                                 elevation={0}
                                 sx={{
                                     p: 4,
                                     height: "100%",
                                     textAlign: "center",
-                                    borderRadius: 3,
-                                    border: "1px solid",
+                                    borderRadius: 4,
+                                    border: 1,
                                     borderColor: "divider",
-                                    transition: "transform 0.2s ease",
+                                    backgroundColor: "background.paper",
+                                    position: "relative",
+                                    overflow: "hidden",
+                                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                     "&:hover": {
-                                        transform: "translateY(-4px)",
-                                        boxShadow: 4,
+                                        transform: "translateY(-8px)",
+                                        boxShadow: `0 12px 40px ${alpha(
+                                            theme.palette.common.black,
+                                            0.12
+                                        )}`,
+                                        borderColor: "primary.main",
+                                        "& .feature-icon": {
+                                            transform: "scale(1.1) rotate(5deg)",
+                                        },
+                                        "& .gradient-bg": {
+                                            opacity: 1,
+                                        },
                                     },
                                 }}
                             >
+                                {/* Gradient Background */}
                                 <Box
+                                    className="gradient-bg"
                                     sx={{
-                                        display: "flex",
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: 180,
+                                        opacity: 0,
+                                        transition: "opacity 0.3s ease",
+                                        pointerEvents: "none",
+                                        "&::after": {
+                                            content: '""',
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            background: `linear-gradient(180deg, transparent 0%, ${theme.palette.background.paper} 100%)`,
+                                        },
+                                    }}
+                                />
+
+                                <Box
+                                    className="feature-icon"
+                                    sx={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
                                         justifyContent: "center",
-                                        color: theme.palette.primary.main,
-                                        mb: 2,
+                                        width: 80,
+                                        height: 80,
+                                        borderRadius: 3,
+                                        background: alpha(theme.palette.primary.main, 0.1),
+                                        color: "primary.main",
+                                        mb: 3,
+                                        position: "relative",
+                                        zIndex: 1,
+                                        transition: "all 0.3s ease",
                                     }}
                                 >
-                                    {f.icon}
+                                    {feature.icon}
                                 </Box>
-                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                                    {t(f.titleKey)}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {t(f.descKey)}
-                                </Typography>
+
+                                <Box sx={{ position: "relative", zIndex: 1 }}>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            mb: 1.5,
+                                            fontSize: "1.25rem",
+                                            color: "text.primary",
+                                        }}
+                                    >
+                                        {t(feature.titleKey)}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: "text.secondary",
+                                            lineHeight: 1.7,
+                                            fontSize: "0.9375rem",
+                                        }}
+                                    >
+                                        {t(feature.descKey)}
+                                    </Typography>
+                                </Box>
                             </Paper>
                         </Grid>
                     ))}
