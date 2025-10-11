@@ -9,9 +9,6 @@ import type { Page } from "@/shared/types/DataTable";
 export function useUsers(query: PaginationQuery & UserPaginationQuery) {
     return useQuery<Page<User>, Error>({
         queryKey: [USER_QUERY_KEYS.USERS.ROOT, query],
-        queryFn: async ({ queryKey }) => {
-            const [, params] = queryKey as [string, PaginationQuery & UserPaginationQuery];
-            return getUsers(params);
-        }
+        queryFn: () => getUsers(query),
     });
 }

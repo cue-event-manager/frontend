@@ -7,4 +7,6 @@ export interface User {
     phoneNumber: string;
     email: string;
     role: Role;
+    identification: string;
+    birthDate:  Date
 }

@@ -7,6 +7,7 @@ interface AdminSectionProps {
     description?: string;
     children: React.ReactNode;
     withPaper?: boolean;
+    actions?: React.ReactNode;
 }
 
 
@@ -15,6 +16,7 @@ export function AdminSection({
     description,
     children,
     withPaper = true,
+    actions,
 }: AdminSectionProps) {
     const { t } = useTranslation();
 
@@ -27,20 +29,52 @@ export function AdminSection({
                 gap: 3,
             }}
         >
-            <Box>
-                <Typography variant="h5" fontWeight={600}>
-                    {t(title)}
-                </Typography>
-                {description && (
-                    <Typography variant="body2" color="text.secondary" mt={0.5}>
-                        {t(description)}
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: 2,
+                }}
+            >
+                <Box>
+                    <Typography variant="h5" fontWeight={600}>
+                        {t(title)}
                     </Typography>
+                    {description && (
+                        <Typography variant="body2" color="text.secondary" mt={0.5}>
+                            {t(description)}
+                        </Typography>
+                    )}
+                </Box>
+
+                {/* Slot para botones o acciones */}
+                {actions && (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mt: { xs: 1, sm: 0 },
+                        }}
+                    >
+                        {actions}
+                    </Box>
                 )}
-                <Divider sx={{ mt: 2 }} />
             </Box>
 
+            <Divider />
+
             {withPaper ? (
-                <Paper sx={{ p: 3, borderRadius: 2, boxShadow: "none" }}>
+                <Paper
+                    sx={{
+                        p: 3,
+                        borderRadius: 2,
+                        boxShadow: "none",
+                        overflowX: "auto",
+                    }}
+                >
                     {children}
                 </Paper>
             ) : (
