@@ -7,7 +7,10 @@
             "delete": "Eliminar",
             "confirm": "Confirmar",
             "search": "Buscar",
-            "clear": "Limpiar"
+            "clear": "Limpiar",
+            "create": "Crear",
+            "select": "Seleccionar",
+            "update": "Actualizar"
         },
         "messages": {
             "loading": "Cargando...",
@@ -62,7 +65,11 @@
         },
         "users": {
             "title": "Gestión de Usuarios",
-            "description": "Administra los usuarios registrados en la plataforma."
+            "description": "Administra los usuarios registrados en la plataforma.",
+            "created": "Usuario creado exitosamente.",
+            "updated": "Usuario actualizado correctamente.",
+            "createTitle": "Crear usuario",
+            "editTitle": "Actualizar usuario"
         }
     },
     "hero": {
@@ -72,7 +79,7 @@
     },
     "features": {
         "title": "Características principales",
-        "description":"Herramientas poderosas diseñadas para optimizar tu gestión",
+        "description": "Herramientas poderosas diseñadas para optimizar tu gestión",
         "events": {
             "title": "Gestión de eventos",
             "desc": "Crea, organiza y administra eventos de manera centralizada en un solo lugar."
@@ -125,7 +132,8 @@
         "phoneFormat": "Formato de número no válido.",
         "phoneMax": "El número de teléfono es demasiado largo.",
         "codeLength": "Código no válido.",
-        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial."
+        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
+        "invalidDate": "La fecha no es válida."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
@@ -210,6 +218,21 @@
             "identification": "Identificación",
             "role": "Rol",
             "allRoles": "Todos los roles"
+        },
+        "form": {
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "role": "Rol",
+            "identification": "Identificación",
+            "birthDate": "Fecha de nacimiento",
+            "togglePassword": "Ver contraseña",
+            "generatePassword": "Generar contraseña",
+            "sections": {
+                "personalInfo": "Información personal",
+                "accountInfo": "Información de la cuenta"
+            }
         }
     },
     "table": {
