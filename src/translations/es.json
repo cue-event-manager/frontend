@@ -2,15 +2,20 @@
     "common": {
         "filters": "Filtros",
         "actions": {
-            "save": "Guardar",
-            "cancel": "Cancelar",
+            "edit": "Editar",
             "delete": "Eliminar",
+            "cancel": "Cancelar",
             "confirm": "Confirmar",
+            "save": "Guardar",
+            "close": "Cerrar",
             "search": "Buscar",
             "clear": "Limpiar",
-            "create": "Crear",
-            "select": "Seleccionar",
-            "update": "Actualizar"
+            "create": "Crear"
+        },
+        "status": {
+            "loading": "Cargando...",
+            "success": "Completado con éxito",
+            "error": "Ha ocurrido un error"
         },
         "messages": {
             "loading": "Cargando...",
@@ -68,6 +73,7 @@
             "description": "Administra los usuarios registrados en la plataforma.",
             "created": "Usuario creado exitosamente.",
             "updated": "Usuario actualizado correctamente.",
+            "deleted": "Usuario eliminado correctamente.",
             "createTitle": "Crear usuario",
             "editTitle": "Actualizar usuario"
         }
@@ -218,6 +224,17 @@
             "identification": "Identificación",
             "role": "Rol",
             "allRoles": "Todos los roles"
+        },
+        "fields": {
+            "firstName": "Nombre",
+            "email": "Correo electrónico",
+            "identification": "Identificación",
+            "role": "Rol"
+        },
+        "noRole": "Sin rol asignado",
+        "delete": {
+            "title": "Eliminar usuario",
+            "message": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer."
         },
         "form": {
             "firstName": "Nombre",
