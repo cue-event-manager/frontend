@@ -155,7 +155,7 @@
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
         "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
         "forbidden": "No tienes permisos para acceder a este recurso.",
-        "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
+        "serverError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
         "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
         "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
     },

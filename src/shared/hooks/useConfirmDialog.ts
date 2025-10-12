@@ -1,47 +1,42 @@
 import { useState, useCallback } from "react";
 
-interface ConfirmDialogState {
+export interface UseConfirmDialogReturn<T> {
     isOpen: boolean;
-    itemId: number | null;
-}
-
-interface UseConfirmDialogReturn {
-    isOpen: boolean;
-    itemId: number | null;
-    openDialog: (id: number) => void;
+    data: T | null;
+    openDialog: (data: T) => void;
     closeDialog: () => void;
-    handleConfirm: (onConfirm: (id: number) => void) => void;
+    confirm: (callback: (data: T) => void | Promise<void>) => void;
 }
 
-export function useConfirmDialog(): UseConfirmDialogReturn {
-    const [state, setState] = useState<ConfirmDialogState>({
-        isOpen: false,
-        itemId: null,
-    });
 
-    const openDialog = useCallback((id: number) => {
-        setState({ isOpen: true, itemId: id });
+export function useConfirmDialog<T = number>(): UseConfirmDialogReturn<T> {
+    const [isOpen, setIsOpen] = useState(false);
+    const [data, setData] = useState<T | null>(null);
+
+    const openDialog = useCallback((value: T) => {
+        setData(value);
+        setIsOpen(true);
     }, []);
 
     const closeDialog = useCallback(() => {
-        setState({ isOpen: false, itemId: null });
+        setIsOpen(false);
+        setData(null);
     }, []);
 
-    const handleConfirm = useCallback(
-        (onConfirm: (id: number) => void) => {
-            if (state.itemId !== null) {
-                onConfirm(state.itemId);
-                closeDialog();
-            }
+    const confirm = useCallback(
+        async (callback: (data: T) => void | Promise<void>) => {
+            if (!data) return;
+            await callback(data);
+            closeDialog();
         },
-        [state.itemId, closeDialog]
+        [data, closeDialog]
     );
 
     return {
-        isOpen: state.isOpen,
-        itemId: state.itemId,
+        isOpen,
+        data,
         openDialog,
         closeDialog,
-        handleConfirm,
+        confirm,
     };
 }
