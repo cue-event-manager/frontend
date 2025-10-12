@@ -15,6 +15,7 @@ import { RoleConstant } from "@/domain/role/RoleConstant";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import AdminUsersPage from "@/pages/AdminUsersPage";
 import AdminSpaceTypesPage from "@/pages/AdminSpaceTypesPage";
+import AdminSpaceResourcesPage from "@/pages/AdminSpaceResourcesPage";
 
 export default function AppRouter() {
   return (
@@ -41,6 +42,7 @@ export default function AppRouter() {
         <Route element={<AdminLayout />}>
           <Route path={ROUTES.ADMIN.USERS} element={<AdminUsersPage />} />
           <Route path={ROUTES.ADMIN.SPACE_TYPES} element={<AdminSpaceTypesPage />} />
+          <Route path={ROUTES.ADMIN.SPACE_RESOURCES} element={<AdminSpaceResourcesPage />} />
 
         </Route>
       </Route>

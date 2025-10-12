@@ -10,21 +10,25 @@ export default function AdminUsersPage() {
 
     return (
         <>
-            <AdminSection
-                title="admin.users.title"
-                description="admin.users.description"
-                actions={
-                    <Button
-                        variant="contained"
-                        onClick={() => createUserModal.openModal()}
-                    >
-                        Crear usuario
-                    </Button>
-                }
-            >
-                <UsersTableFilter />
-                <UsersTable />
-            </AdminSection>
+            <AdminSection.Root>
+                <AdminSection.Header
+                    title="admin.users.title"
+                    description="admin.users.description"
+                    actions={
+                        <Button
+                            variant="contained"
+                            onClick={() => createUserModal.openModal}
+                        >
+                            Crear usuario
+                        </Button>
+                    }
+                />
+
+                <AdminSection.Body>
+                    <UsersTableFilter />
+                    <UsersTable />
+                </AdminSection.Body>
+            </AdminSection.Root>
 
             <UserFormModal
                 open={createUserModal.isOpen}

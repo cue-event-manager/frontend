@@ -1,32 +1,32 @@
 import { Button } from "@mui/material";
 import { AdminSection } from "@/features/admin/components/AdminSection";
 import { useModalState } from "@/features/user/hooks/useModalState";
-import { SpaceTypesTable } from "@/features/spacetype/components/SpaceTypesTable";
-import { SpaceTypesTableFilter } from "@/features/spacetype/components/SpaceTypesTableFilter";
-import { SpaceTypeFormModal } from "@/features/spacetype/components/SpeceTypeFormModal";
+import { SpaceResourcesTableFilter } from "@/features/spaceresource/components/SpaceResourceTableFilter";
+import { SpaceResourceFormModal } from "@/features/spaceresource/components/SpeceResourceFormModal";
+import { SpaceResourceTable } from "@/features/spaceresource/components/SpaceResourceTable";
 
-export default function AdminSpaceTypesPage() {
+export default function AdminSpaceResourcesPage() {
     const createModal = useModalState();
 
     return (
         <>
             <AdminSection.Root>
                 <AdminSection.Header
-                    title="admin.spaceTypes.title"
-                    description="admin.spaceTypes.description"
+                    title="admin.spaceResources.title"
+                    description="admin.spaceResources.description"
                     actions={
                         <Button variant="contained" onClick={() => createModal.openModal()}>
-                            Crear Tipo de Espacio
+                            Crear Recurso de Espacio
                         </Button>
                     }
                 />
                 <AdminSection.Body>
-                    <SpaceTypesTableFilter />
-                    <SpaceTypesTable />
+                    <SpaceResourcesTableFilter />
+                    <SpaceResourceTable />
                 </AdminSection.Body>
             </AdminSection.Root>
 
-            <SpaceTypeFormModal
+            <SpaceResourceFormModal
                 open={createModal.isOpen}
                 onClose={createModal.closeModal}
                 onSuccess={createModal.closeModal}

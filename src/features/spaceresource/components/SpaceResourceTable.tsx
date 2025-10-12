@@ -3,41 +3,41 @@ import { Edit, Delete } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { BaseDataTable } from "@/components/organisms/DataTable";
 import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
-import { SpaceTypeFormModal } from "./SpeceTypeFormModal";
 import { useModalState } from "@/features/user/hooks/useModalState";
 import { useConfirmDialog } from "@/shared/hooks/useConfirmDialog";
-import { useDeleteSpaceType } from "../hooks/useDeleteSpaceType";
-import { useSpaceTypes } from "../hooks/useSpaceTypes";
 import type { TableAction } from "@/shared/types/DataTable";
-import type { SpaceType } from "@/domain/spacetype/SpaceType";
 import type { PaginationQuery } from "@/domain/common/PaginationQuery";
 import { useEntityTable } from "@/features/user/hooks/useEntityTable";
+import { useSpaceResources } from "../hooks/useSpaceResources";
+import { useDeleteSpaceResource } from "../hooks/useDeleteSpaceResource";
+import { SpaceResourceFormModal } from "./SpeceResourceFormModal";
+import type { SpaceResource } from "@/domain/spaceresource/SpaceResource";
 
-export function SpaceTypesTable() {
+export function SpaceResourceTable() {
     const { t } = useTranslation();
 
-    const { updateQuery, data: spaceTypes, isLoading, refetch } =
-        useEntityTable<PaginationQuery, SpaceType>(useSpaceTypes);
+    const { updateQuery, data: spaceResource, isLoading, refetch } =
+        useEntityTable<PaginationQuery, SpaceResource>(useSpaceResources);
 
-    const spaceTypeModal = useModalState<SpaceType>();
+    const spaceResourceModal = useModalState<SpaceResource>();
     const confirmDialog = useConfirmDialog<number>();
-    const deleteSpaceType = useDeleteSpaceType();
+    const deleteSpaceResource = useDeleteSpaceResource();
 
     const reloadTable = () => refetch();
 
     const handleModalSuccess = () => {
         reloadTable();
-        spaceTypeModal.closeModal();
+        spaceResourceModal.closeModal();
     };
 
-    const handleEdit = (spaceType: SpaceType) => spaceTypeModal.openModal(spaceType);
+    const handleEdit = (spaceResource: SpaceResource) => spaceResourceModal.openModal(spaceResource);
     const handleDelete = (id: number) => confirmDialog.openDialog(id);
 
     const handleConfirmDelete = () => {
         const id = confirmDialog.data;
         if (!id) return;
 
-        deleteSpaceType.mutate(id, {
+        deleteSpaceResource.mutate(id, {
             onSuccess: () => {
                 reloadTable();
                 confirmDialog.closeDialog();
@@ -47,19 +47,19 @@ export function SpaceTypesTable() {
 
     const columns = useMemo(
         () => [
-            { key: "name", label: t("admin.spaceTypes.fields.name"), sortable: true },
-            { key: "description", label: t("admin.spaceTypes.fields.description") },
+            { key: "name", label: t("admin.spaceResources.fields.name"), sortable: true },
+            { key: "description", label: t("admin.spaceResources.fields.description") },
             {
                 key: "createdAt",
                 label: t("common.fields.createdAt"),
-                render: (row: SpaceType) =>
+                render: (row: SpaceResource) =>
                     new Date(row.createdAt).toLocaleDateString("es-CO"),
             },
         ],
         [t]
     );
 
-    const actions = useMemo<TableAction<SpaceType>[]>(
+    const actions = useMemo<TableAction<SpaceResource>[]>(
         () => [
             {
                 label: t("common.actions.edit"),
@@ -71,7 +71,7 @@ export function SpaceTypesTable() {
                 label: t("common.actions.delete"),
                 icon: <Delete fontSize="small" />,
                 color: "error",
-                onClick: (row: SpaceType) => handleDelete(row.id),
+                onClick: (row: SpaceResource) => handleDelete(row.id),
             },
         ],
         [t, handleEdit, handleDelete]
@@ -79,29 +79,29 @@ export function SpaceTypesTable() {
 
     return (
         <>
-            <BaseDataTable<SpaceType>
-                data={spaceTypes}
+            <BaseDataTable<SpaceResource>
+                data={spaceResource}
                 loading={isLoading}
                 columns={columns}
                 actions={actions}
                 onQueryChange={updateQuery}
             />
 
-            <SpaceTypeFormModal
-                open={spaceTypeModal.isOpen}
-                initialData={spaceTypeModal.data}
-                onClose={spaceTypeModal.closeModal}
+            <SpaceResourceFormModal
+                open={spaceResourceModal.isOpen}
+                initialData={spaceResourceModal.data}
+                onClose={spaceResourceModal.closeModal}
                 onSuccess={handleModalSuccess}
             />
 
             <ConfirmDialog
                 open={confirmDialog.isOpen}
-                title={t("admin.spaceTypes.delete.title")}
-                message={t("admin.spaceTypes.delete.message")}
+                title={t("admin.spaceResources.delete.title")}
+                message={t("admin.spaceResources.delete.message")}
                 confirmText={t("common.actions.delete")}
                 onConfirm={handleConfirmDelete}
                 onCancel={confirmDialog.closeDialog}
-                isLoading={deleteSpaceType.isPending}
+                isLoading={deleteSpaceResource.isPending}
                 severity="error"
             />
         </>

@@ -12,7 +12,7 @@ const SPACE_ENDPOINT_PREFFIX = `${SPACE_SERVICE}/api/space-resources`
 
 export const createSpaceResource = async (createSpaceResourceRequest: CreateSpaceResourceRequestDto): Promise<SpaceResource> => {
     const { data } = await axiosInstance.post<SpaceResource>(
-        `${SPACE_ENDPOINT_PREFFIX}`,
+        `${SPACE_ENDPOINT_PREFFIX}/create`,
         createSpaceResourceRequest
     );
 
@@ -30,7 +30,7 @@ export const getSpaceResources = async (query: SpaceResourcePaginationRequestDto
 
 export const updateSpaceResource = async (updateSpaceResourceRequest: UpdateSpaceResourceRequestDto): Promise<SpaceResource> => {
     const { data } = await axiosInstance.put<SpaceResource>(
-        `${SPACE_ENDPOINT_PREFFIX}/${updateSpaceResourceRequest.id}`,
+        `${SPACE_ENDPOINT_PREFFIX}/${updateSpaceResourceRequest.id}/update`,
         updateSpaceResourceRequest
     );
 
@@ -39,7 +39,7 @@ export const updateSpaceResource = async (updateSpaceResourceRequest: UpdateSpac
 
 export const deleteSpaceResource = async (id: number): Promise<void> => {
     await axiosInstance.delete<SpaceResource>(
-        `${SPACE_ENDPOINT_PREFFIX}/${id}`);
+        `${SPACE_ENDPOINT_PREFFIX}/${id}/delete`);
 }
 
 

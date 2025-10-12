@@ -98,13 +98,24 @@
             }
         },
         "spaceResources": {
-            "title": "Gestión de Recursos de Espacio",
+            "title": "Gestión de Tipos de Recursos de Espacio",
             "description": "Administra los recursos de espacios registrados en la plataforma.",
             "created": "Recurso de espacio creado exitosamente.",
             "updated": "Recurso de espacio actualizado correctamente.",
             "deleted": "Recurso de espacio eliminado correctamente.",
             "createTitle": "Crear recurso de espacio",
-            "editTitle": "Actualizar recurso de espacio"
+            "editTitle": "Actualizar recurso de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de recurso de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de recurso de espacio? Esta acción no se puede deshacer."
+            }
         }
     },
     "users": {
@@ -155,7 +166,7 @@
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
         "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
         "forbidden": "No tienes permisos para acceder a este recurso.",
-        "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
+        "serverError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
         "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
         "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
     },
