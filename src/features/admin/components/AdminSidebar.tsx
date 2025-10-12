@@ -12,12 +12,22 @@ import {
     Avatar,
     useTheme,
     alpha,
+    Collapse,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/authContext";
 import Logo from "@/components/atoms/Logo";
 import { ADMIN_MENU_ITEMS } from "../constants/adminMenuItems.constant";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useState } from "react";
+
+interface AdminSidebarProps {
+    drawerWidth: number;
+    mobileOpen: boolean;
+    onDrawerToggle: () => void;
+}
+
 
 interface AdminSidebarProps {
     drawerWidth: number;
@@ -48,20 +58,14 @@ export default function AdminSidebar({
                 open={mobileOpen}
                 onClose={onDrawerToggle}
                 ModalProps={{ keepMounted: true }}
-                sx={{
-                    display: { xs: "block", sm: "none" },
-                    ...drawerStyles,
-                }}
+                sx={{ display: { xs: "block", sm: "none" }, ...drawerStyles }}
             >
                 <AdminSidebarContent onItemClick={onDrawerToggle} />
             </Drawer>
 
             <Drawer
                 variant="permanent"
-                sx={{
-                    display: { xs: "none", sm: "block" },
-                    ...drawerStyles,
-                }}
+                sx={{ display: { xs: "none", sm: "block" }, ...drawerStyles }}
                 open
             >
                 <AdminSidebarContent />
@@ -80,16 +84,19 @@ export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
     const { logout, user } = useAuth();
     const theme = useTheme();
 
-    const menuItems = ADMIN_MENU_ITEMS;
+    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+
+    const toggleGroup = (key: string) => {
+        setOpenGroups((prev) => ({ ...prev, [key]: !prev[key] }));
+    };
 
     const handleNavigation = (path: string) => {
         navigate(path);
         onItemClick?.();
     };
 
-    const isActive = (path: string) => {
-        return location.pathname === path || location.pathname.startsWith(path + "/");
-    };
+    const isActive = (path?: string) =>
+        !!path && (location.pathname === path || location.pathname.startsWith(path + "/"));
 
     return (
         <Box
@@ -100,14 +107,7 @@ export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
                 backgroundColor: "background.paper",
             }}
         >
-            <Toolbar
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    py: 3,
-                    px: 2,
-                }}
-            >
+            <Toolbar sx={{ justifyContent: "center", py: 3 }}>
                 <Logo />
             </Toolbar>
 
@@ -138,19 +138,10 @@ export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
                             {user.firstName?.charAt(0).toUpperCase() || "A"}
                         </Avatar>
                         <Box sx={{ flex: 1, minWidth: 0 }}>
-                            <Typography
-                                variant="subtitle2"
-                                fontWeight={600}
-                                noWrap
-                                sx={{ color: "text.primary" }}
-                            >
+                            <Typography variant="subtitle2" fontWeight={600} noWrap>
                                 {user.firstName}
                             </Typography>
-                            <Typography
-                                variant="caption"
-                                noWrap
-                                sx={{ color: "text.secondary" }}
-                            >
+                            <Typography variant="caption" noWrap sx={{ color: "text.secondary" }}>
                                 {user.email}
                             </Typography>
                         </Box>
@@ -158,59 +149,116 @@ export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
                 </Box>
             )}
 
-            {/* Navigation Menu */}
             <Box sx={{ flexGrow: 1, overflowY: "auto", px: 2 }}>
                 <List sx={{ py: 1 }}>
-                    {menuItems.map((item) => {
+                    {ADMIN_MENU_ITEMS.map((item) => {
                         const active = isActive(item.path);
+                        const hasChildren = item.children?.length;
+                        const open = openGroups[item.text] || false;
+
                         return (
-                            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-                                <ListItemButton
-                                    onClick={() => handleNavigation(item.path)}
-                                    sx={{
-                                        borderRadius: 2,
-                                        py: 1.25,
-                                        px: 2,
-                                        transition: "all 0.2s",
-                                        backgroundColor: active
-                                            ? alpha(theme.palette.primary.main, 0.12)
-                                            : "transparent",
-                                        "&:hover": {
-                                            backgroundColor: active
-                                                ? alpha(theme.palette.primary.main, 0.16)
-                                                : "action.hover",
-                                            transform: "translateX(4px)",
-                                        },
-                                    }}
-                                >
-                                    <ListItemIcon
+                            <Box key={item.text}>
+                                <ListItem disablePadding sx={{ mb: 0.5 }}>
+                                    <ListItemButton
+                                        onClick={
+                                            hasChildren
+                                                ? () => toggleGroup(item.text)
+                                                : () => item.path && handleNavigation(item.path)
+                                        }
                                         sx={{
-                                            minWidth: 40,
-                                            color: active
-                                                ? "primary.main"
-                                                : "text.secondary",
+                                            borderRadius: 2,
+                                            py: 1.25,
+                                            px: 2,
+                                            backgroundColor: active
+                                                ? alpha(theme.palette.primary.main, 0.12)
+                                                : "transparent",
+                                            "&:hover": {
+                                                backgroundColor: active
+                                                    ? alpha(theme.palette.primary.main, 0.16)
+                                                    : "action.hover",
+                                                transform: "translateX(4px)",
+
+                                                transition:'ease-in'
+                                            },
                                         }}
                                     >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={item.text}
-                                        primaryTypographyProps={{
-                                            fontSize: "0.875rem",
-                                            fontWeight: active ? 600 : 500,
-                                            color: active
-                                                ? "primary.main"
-                                                : "text.primary",
-                                        }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 40,
+                                                color: active ? "primary.main" : "text.secondary",
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={item.text}
+                                            primaryTypographyProps={{
+                                                fontSize: "0.875rem",
+                                                fontWeight: active ? 600 : 500,
+                                                color: active ? "primary.main" : "text.primary",
+                                            }}
+                                        />
+                                        {hasChildren && (open ? <ExpandLess /> : <ExpandMore />)}
+                                    </ListItemButton>
+                                </ListItem>
+
+                                {hasChildren && (
+                                    <Collapse in={open} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding sx={{ pl: 4 }}>
+                                            {item.children!.map((child) => {
+                                                const childActive = isActive(child.path);
+                                                return (
+                                                    <ListItem key={child.text} disablePadding sx={{ mb: 0.5 }}>
+                                                        <ListItemButton
+                                                            onClick={() => child.path && handleNavigation(child.path)}
+                                                            sx={{
+                                                                borderRadius: 2,
+                                                                py: 1,
+                                                                px: 2,
+                                                                backgroundColor: childActive
+                                                                    ? alpha(theme.palette.primary.main, 0.12)
+                                                                    : "transparent",
+                                                                "&:hover": {
+                                                                    backgroundColor: childActive
+                                                                        ? alpha(theme.palette.primary.main, 0.16)
+                                                                        : "action.hover",
+                                                                    transform: "translateX(4px)",
+                                                                },
+                                                            }}
+                                                        >
+                                                            <ListItemIcon
+                                                                sx={{
+                                                                    minWidth: 36,
+                                                                    color: childActive
+                                                                        ? "primary.main"
+                                                                        : "text.secondary",
+                                                                }}
+                                                            >
+                                                                {child.icon}
+                                                            </ListItemIcon>
+                                                            <ListItemText
+                                                                primary={child.text}
+                                                                primaryTypographyProps={{
+                                                                    fontSize: "0.85rem",
+                                                                    fontWeight: childActive ? 600 : 500,
+                                                                    color: childActive
+                                                                        ? "primary.main"
+                                                                        : "text.primary",
+                                                                }}
+                                                            />
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                );
+                                            })}
+                                        </List>
+                                    </Collapse>
+                                )}
+                            </Box>
                         );
                     })}
                 </List>
             </Box>
 
-            {/* Logout Section */}
             <Box sx={{ px: 2, pb: 2 }}>
                 <Divider sx={{ mb: 2 }} />
                 <ListItemButton
@@ -219,7 +267,6 @@ export function AdminSidebarContent({ onItemClick }: AdminSidebarContentProps) {
                         borderRadius: 2,
                         py: 1.25,
                         px: 2,
-                        transition: "all 0.2s",
                         border: `1px solid ${theme.palette.divider}`,
                         "&:hover": {
                             backgroundColor: alpha(theme.palette.error.main, 0.08),

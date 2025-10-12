@@ -9,9 +9,8 @@ import type { User } from "@/domain/user/User";
 import { useDeleteUser } from "../hooks/useUserDelete";
 import { BaseDataTable } from "@/components/organisms/DataTable";
 import { UserFormModal } from "./UserFormModal";
-import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
 import type { TableAction } from "@/shared/types/DataTable";
-
+import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
 
 export function UsersTable() {
     const { t } = useTranslation();

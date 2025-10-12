@@ -1,16 +1,21 @@
 {
     "common": {
         "filters": "Filtros",
+        "profile": "Perfil",
         "actions": {
+            "create": "Crear",
             "edit": "Editar",
             "delete": "Eliminar",
-            "cancel": "Cancelar",
             "confirm": "Confirmar",
+            "cancel": "Cancelar",
             "save": "Guardar",
             "close": "Cerrar",
             "search": "Buscar",
             "clear": "Limpiar",
-            "create": "Crear"
+            "update": "Actualizar"
+        },
+        "fields": {
+            "createdAt": "Fecha de creación"
         },
         "status": {
             "loading": "Cargando...",
@@ -20,12 +25,7 @@
         "messages": {
             "loading": "Cargando...",
             "error": "Ocurrió un error"
-        },
-        "profile": "Perfil"
-    },
-    "home": {
-        "title": "Bienvenido a la página principal",
-        "button": "Haz clic aquí"
+        }
     },
     "auth": {
         "login": {
@@ -34,14 +34,6 @@
             "password": "Contraseña",
             "submit": "Entrar",
             "forgotPassword": "¿Olvidaste tu contraseña?"
-        },
-        "terms": {
-            "title": "Términos y Condiciones",
-            "message": "Debes aceptar los términos y condiciones antes de continuar.",
-            "version": "Versión actual:",
-            "view": "Ver términos y condiciones completos",
-            "accept": "Acepto los términos y condiciones",
-            "preview": "Al aceptar, confirmas que has leído y comprendido los términos del servicio y las políticas de privacidad."
         },
         "recover": {
             "title": "Recuperar contraseña",
@@ -61,6 +53,14 @@
             "success": "Tu contraseña ha sido restablecida correctamente.",
             "error": "No se pudo restablecer la contraseña. Intenta nuevamente."
         },
+        "terms": {
+            "title": "Términos y Condiciones",
+            "message": "Debes aceptar los términos y condiciones antes de continuar.",
+            "version": "Versión actual:",
+            "view": "Ver términos y condiciones completos",
+            "accept": "Acepto los términos y condiciones",
+            "preview": "Al aceptar, confirmas que has leído y comprendido los términos del servicio y las políticas de privacidad."
+        },
         "logout": "Cerrar sesión",
         "loggingOut": "Cerrando sesión"
     },
@@ -76,11 +76,116 @@
             "deleted": "Usuario eliminado correctamente.",
             "createTitle": "Crear usuario",
             "editTitle": "Actualizar usuario"
+        },
+        "spaceTypes": {
+            "title": "Gestión de Tipos de Espacio",
+            "description": "Administra los tipos de espacios registrados en la plataforma.",
+            "created": "Tipo de espacio creado exitosamente.",
+            "updated": "Tipo de espacio actualizado correctamente.",
+            "deleted": "Tipo de espacio eliminado correctamente.",
+            "createTitle": "Crear tipo de espacio",
+            "editTitle": "Actualizar tipo de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "spaceResources": {
+            "title": "Gestión de Recursos de Espacio",
+            "description": "Administra los recursos de espacios registrados en la plataforma.",
+            "created": "Recurso de espacio creado exitosamente.",
+            "updated": "Recurso de espacio actualizado correctamente.",
+            "deleted": "Recurso de espacio eliminado correctamente.",
+            "createTitle": "Crear recurso de espacio",
+            "editTitle": "Actualizar recurso de espacio"
         }
+    },
+    "users": {
+        "filters": {
+            "name": "Nombre",
+            "identification": "Identificación",
+            "role": "Rol",
+            "allRoles": "Todos los roles"
+        },
+        "fields": {
+            "firstName": "Nombre",
+            "email": "Correo electrónico",
+            "identification": "Identificación",
+            "role": "Rol"
+        },
+        "form": {
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "role": "Rol",
+            "identification": "Identificación",
+            "birthDate": "Fecha de nacimiento",
+            "togglePassword": "Ver contraseña",
+            "generatePassword": "Generar contraseña",
+            "sections": {
+                "personalInfo": "Información personal",
+                "accountInfo": "Información de la cuenta"
+            }
+        },
+        "noRole": "Sin rol asignado",
+        "delete": {
+            "title": "Eliminar usuario",
+            "message": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer."
+        }
+    },
+    "validation": {
+        "required": "Este campo es obligatorio",
+        "email": "Debe ser un correo válido",
+        "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
+        "phoneFormat": "Formato de número no válido.",
+        "phoneMax": "El número de teléfono es demasiado largo.",
+        "codeLength": "Código no válido.",
+        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
+        "invalidDate": "La fecha no es válida."
+    },
+    "errors": {
+        "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
+        "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
+        "forbidden": "No tienes permisos para acceder a este recurso.",
+        "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
+        "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
+    },
+    "profile": {
+        "title": "Actualizar Perfil",
+        "subtitle": "Actualiza tu información personal y de seguridad.",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "email": "Correo electrónico",
+        "phoneNumber": "Teléfono",
+        "currentPassword": "Contraseña actual",
+        "newPassword": "Nueva contraseña",
+        "saveChanges": "Guardar cambios",
+        "sections": {
+            "general": "Información General",
+            "contact": "Información de Contacto",
+            "security": "Seguridad"
+        },
+        "messages": {
+            "success": "Tu perfil se ha actualizado correctamente.",
+            "error": "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente."
+        }
+    },
+    "home": {
+        "title": "Bienvenido a la página principal",
+        "button": "Haz clic aquí"
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
-        "subtitle": "Una solución moderna, rápida y confiable para la Corporacion Empresarial Universitaria Alexander von Humboldt.",
+        "subtitle": "Una solución moderna, rápida y confiable para la Corporación Empresarial Universitaria Alexander von Humboldt.",
         "cta": "Comienza ahora"
     },
     "features": {
@@ -122,7 +227,7 @@
             "home": "Inicio",
             "features": "Características",
             "contact": "Contacto",
-            "termsAndConditions": "Terminos y Condiciones"
+            "termsAndConditions": "Términos y Condiciones"
         },
         "contact": {
             "title": "Contacto",
@@ -130,44 +235,6 @@
             "phone": "Teléfono"
         },
         "rights": "Todos los derechos reservados."
-    },
-    "validation": {
-        "required": "Este campo es obligatorio",
-        "email": "Debe ser un correo válido",
-        "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
-        "phoneFormat": "Formato de número no válido.",
-        "phoneMax": "El número de teléfono es demasiado largo.",
-        "codeLength": "Código no válido.",
-        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
-        "invalidDate": "La fecha no es válida."
-    },
-    "errors": {
-        "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
-        "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
-        "forbidden": "No tienes permisos para acceder a este recurso.",
-        "internalServerError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
-        "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
-        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
-    },
-    "profile": {
-        "title": "Actualizar Perfil",
-        "subtitle": "Actualiza tu información personal y de seguridad.",
-        "firstName": "Nombre",
-        "lastName": "Apellido",
-        "email": "Correo electrónico",
-        "phoneNumber": "Teléfono",
-        "currentPassword": "Contraseña actual",
-        "newPassword": "Nueva contraseña",
-        "saveChanges": "Guardar cambios",
-        "sections": {
-            "general": "Información General",
-            "contact": "Información de Contacto",
-            "security": "Seguridad"
-        },
-        "messages": {
-            "success": "Tu perfil se ha actualizado correctamente.",
-            "error": "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente."
-        }
     },
     "termsAndConditions": {
         "title": "Política de Tratamiento de Datos Personales",
@@ -217,40 +284,6 @@
             }
         },
         "footer": "Todos los derechos reservados."
-    },
-    "users": {
-        "filters": {
-            "name": "Nombre",
-            "identification": "Identificación",
-            "role": "Rol",
-            "allRoles": "Todos los roles"
-        },
-        "fields": {
-            "firstName": "Nombre",
-            "email": "Correo electrónico",
-            "identification": "Identificación",
-            "role": "Rol"
-        },
-        "noRole": "Sin rol asignado",
-        "delete": {
-            "title": "Eliminar usuario",
-            "message": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer."
-        },
-        "form": {
-            "firstName": "Nombre",
-            "lastName": "Apellido",
-            "email": "Correo electrónico",
-            "password": "Contraseña",
-            "role": "Rol",
-            "identification": "Identificación",
-            "birthDate": "Fecha de nacimiento",
-            "togglePassword": "Ver contraseña",
-            "generatePassword": "Generar contraseña",
-            "sections": {
-                "personalInfo": "Información personal",
-                "accountInfo": "Información de la cuenta"
-            }
-        }
     },
     "table": {
         "actions": "Acciones",
