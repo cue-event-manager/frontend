@@ -10,6 +10,7 @@ export const ROUTES = {
     TERMS_AND_CONDITIONS: "/terms-and-conditions",
     ADMIN: {
         BASE: '/admin',
-        USERS: '/admin/users'
+        USERS: '/admin/users',
+        SPACE_TYPES:'/admin/space-types'
     }
 }

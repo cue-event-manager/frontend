@@ -14,6 +14,7 @@ import RoleGuard from "@/guards/RoleGuard";
 import { RoleConstant } from "@/domain/role/RoleConstant";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import AdminUsersPage from "@/pages/AdminUsersPage";
+import AdminSpaceTypesPage from "@/pages/AdminSpaceTypesPage";
 
 export default function AppRouter() {
   return (
@@ -39,6 +40,8 @@ export default function AppRouter() {
       <Route element={<RoleGuard allowedRoles={[RoleConstant.ADMIN]} />}>
         <Route element={<AdminLayout />}>
           <Route path={ROUTES.ADMIN.USERS} element={<AdminUsersPage />} />
+          <Route path={ROUTES.ADMIN.SPACE_TYPES} element={<AdminSpaceTypesPage />} />
+
         </Route>
       </Route>
 

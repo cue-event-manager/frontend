@@ -33,4 +33,12 @@ export const updateUser = async (updateUserRequestDto: UpdateUserRequestDto): Pr
         updateUserRequestDto);
 
     return data;
-} 
+}
+
+export const deleteUser = async (id: number): Promise<void> => {
+
+    await axiosInstance.delete<void>(
+        `${USER_ENDPOINT_PREFFIX}/${id}/delete`
+    );
+
+}
