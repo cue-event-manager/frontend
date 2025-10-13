@@ -25,7 +25,9 @@
         "messages": {
             "loading": "Cargando...",
             "error": "Ocurrió un error"
-        }
+        },
+        "yes" : "Sí",
+        "no": "No"
     },
     "auth": {
         "login": {
@@ -115,6 +117,27 @@
             "delete": {
                 "title": "Eliminar tipo de recurso de espacio",
                 "message": "¿Estás seguro de que deseas eliminar este tipo de recurso de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "spaceStatuses": {
+            "title": "Gestión de Tipos de Estato de Espacio",
+            "description": "Administra los estados de espacios registrados en la plataforma.",
+            "created": "Estado de espacio creado exitosamente.",
+            "updated": "Estado de espacio actualizado correctamente.",
+            "deleted": "Estado de espacio eliminado correctamente.",
+            "createTitle": "Crear estado de espacio",
+            "editTitle": "Actualizar estado de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "canBeReserved": "¿Puede ser reservado?"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de estado de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de estado de espacio? Esta acción no se puede deshacer."
             }
         }
     },

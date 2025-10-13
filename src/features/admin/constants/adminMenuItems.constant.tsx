@@ -5,6 +5,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import CategoryIcon from "@mui/icons-material/Category";
 import BuildIcon from "@mui/icons-material/Build";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 export interface AdminMenuItem {
   text: string;
@@ -43,6 +44,11 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
         icon: <BuildIcon fontSize="small" />,
         path: "/admin/space-resources",
       },
+      {
+        text: "Estados de espacio",
+        icon: <ToggleOnIcon fontSize="small" />,
+        path: ROUTES.ADMIN.SPACE_STATUSES,
+      }
     ],
   },
   {
