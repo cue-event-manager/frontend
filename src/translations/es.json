@@ -26,7 +26,7 @@
             "loading": "Cargando...",
             "error": "Ocurrió un error"
         },
-        "yes" : "Sí",
+        "yes": "Sí",
         "no": "No"
     },
     "auth": {
@@ -138,6 +138,26 @@
             "delete": {
                 "title": "Eliminar tipo de estado de espacio",
                 "message": "¿Estás seguro de que deseas eliminar este tipo de estado de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "campuses": {
+            "title": "Gestión de Sedes",
+            "description": "Administra las sedes registrados en la plataforma.",
+            "created": "Sede creada exitosamente.",
+            "updated": "Sede actualizada correctamente.",
+            "deleted": "Sede eliminada correctamente.",
+            "createTitle": "Crear Sede",
+            "editTitle": "Actualizar Sede",
+            "fields": {
+                "name": "Nombre",
+                "address": "Dirección"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar Sede",
+                "message": "¿Estás seguro de que deseas eliminar esta sede? Esta acción no se puede deshacer."
             }
         }
     },
@@ -324,5 +344,12 @@
         "noData": "No hay datos disponibles",
         "rowsPerPage": "Filas por página",
         "of": "de"
+    },
+    "fileUpload": {
+        "label": "Subir imagen",
+        "hint": "Arrastra o haz clic para seleccionar un archivo",
+        "uploading": "Subiendo...",
+        "success": "Imagen subida correctamente",
+        "previewAlt": "Vista previa de la imagen"
     }
 }
