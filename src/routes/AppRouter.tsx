@@ -17,6 +17,7 @@ import AdminUsersPage from "@/pages/AdminUsersPage";
 import AdminSpaceTypesPage from "@/pages/AdminSpaceTypesPage";
 import AdminSpaceResourcesPage from "@/pages/AdminSpaceResourcesPage";
 import AdminSpaceStatusPage from "@/pages/AdminSpaceStatusPage";
+import AdminCampusPage from "@/pages/AdminCampusPage";
 
 export default function AppRouter() {
   return (
@@ -45,6 +46,7 @@ export default function AppRouter() {
           <Route path={ROUTES.ADMIN.SPACE_TYPES} element={<AdminSpaceTypesPage />} />
           <Route path={ROUTES.ADMIN.SPACE_RESOURCES} element={<AdminSpaceResourcesPage />} />
           <Route path={ROUTES.ADMIN.SPACE_STATUSES} element={<AdminSpaceStatusPage />} />
+          <Route path={ROUTES.ADMIN.CAMPUSES} element={<AdminCampusPage />} />
         </Route>
       </Route>
 

@@ -13,6 +13,7 @@ export const ROUTES = {
         USERS: '/admin/users',
         SPACE_TYPES: '/admin/space-types',
         SPACE_RESOURCES: '/admin/space-resources',
-        SPACE_STATUSES: '/admin/space-statuses'
+        SPACE_STATUSES: '/admin/space-statuses',
+        CAMPUSES: '/admin/campuses'
     }
 }
