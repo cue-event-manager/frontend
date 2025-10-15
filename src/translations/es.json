@@ -26,7 +26,7 @@
             "loading": "Cargando...",
             "error": "Ocurrió un error"
         },
-        "yes" : "Sí",
+        "yes": "Sí",
         "no": "No"
     },
     "auth": {
@@ -324,5 +324,12 @@
         "noData": "No hay datos disponibles",
         "rowsPerPage": "Filas por página",
         "of": "de"
+    },
+    "fileUpload": {
+        "label": "Subir imagen",
+        "hint": "Arrastra o haz clic para seleccionar un archivo",
+        "uploading": "Subiendo...",
+        "success": "Imagen subida correctamente",
+        "previewAlt": "Vista previa de la imagen"
     }
 }
