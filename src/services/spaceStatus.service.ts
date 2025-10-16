@@ -28,6 +28,14 @@ export const getSpaceStatuses = async (query: SpaceStatusPaginationRequestDto & 
     return data;
 }
 
+export const getAllSpaceStatuses = async (): Promise<SpaceStatus[]> => {
+    const { data } = await axiosInstance.get<SpaceStatus[]>(
+        `${SPACE_STATUS_ENDPOINT_PREFFIX}/all`
+    );
+    return data;
+}
+
+
 export const updateSpaceStatus = async (updateSpaceStatusRequest: UpdateSpaceStatusRequestDto): Promise<SpaceStatus> => {
     const { data } = await axiosInstance.put<SpaceStatus>(
         `${SPACE_STATUS_ENDPOINT_PREFFIX}/${updateSpaceStatusRequest.id}/update`,

@@ -11,14 +11,12 @@ export function useCreateSpaceStatus() {
 
     return useMutation({
         mutationFn: (payload: CreateSpaceStatusRequestDto) => createSpaceStatus(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceStatuses.created"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ALL] }),
+            ]);
         },
     });
 }

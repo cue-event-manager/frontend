@@ -28,6 +28,13 @@ export const getCampuses = async (query: CampusPaginationRequestDto & Pagination
     return data;
 }
 
+export const getAllCampuses = async (): Promise<Campus[]> => {
+    const { data } = await axiosInstance.get<Campus[]>(
+        `${CAMPUS_ENDPOINT_PREFFIX}/all`
+    );
+    return data;
+}
+
 export const updateCampus = async (updateCampusRequest: UpdateCampusRequestDto): Promise<Campus> => {
     const { data } = await axiosInstance.put<Campus>(
         `${CAMPUS_ENDPOINT_PREFFIX}/${updateCampusRequest.id}/update`,

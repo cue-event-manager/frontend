@@ -33,7 +33,7 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
       {
         text: "Gestión de espacios",
         icon: <MeetingRoomIcon fontSize="small" />,
-        path: "/admin/spaces",
+        path: ROUTES.ADMIN.SPACES,
       },
       {
         text: "Sedes",

@@ -7,7 +7,7 @@ import { useUpdateSpaceResource } from "../hooks/useUpdateSpaceResource";
 import type { SpaceResource } from "@/domain/spaceresource/SpaceResource";
 import type { CreateSpaceResourceRequestDto } from "@/domain/spaceresource/CreateSpaceResourceRequestDto";
 import type { UpdateSpaceResourceRequestDto } from "@/domain/spaceresource/UpdateSpaceResourceRequestDto";
-import { spaceResourceSchema } from "@/shared/validation/spaceRsourceSchema";
+import { spaceResourceSchema } from "@/shared/validation/spaceResourceSchema";
 
 interface SpaceResourceFormProps {
     initialData?: SpaceResource | null;

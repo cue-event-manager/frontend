@@ -11,14 +11,12 @@ export function useCreateSpaceResource() {
 
     return useMutation({
         mutationFn: (payload: CreateSpaceResourceRequestDto) => createSpaceResource(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceResources.created"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ALL] }),
+            ]);
         },
     });
 }
