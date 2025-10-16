@@ -7,7 +7,6 @@ import {
     Button,
     Typography,
     Divider,
-    Paper,
     Chip,
 } from "@mui/material";
 import { Search, Clear, FilterList, Close } from "@mui/icons-material";
