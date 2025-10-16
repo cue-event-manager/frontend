@@ -6,7 +6,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import BuildIcon from "@mui/icons-material/Build";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import SchoolIcon from "@mui/icons-material/School";
-
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 export interface AdminMenuItem {
   text: string;
@@ -57,4 +57,17 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
       }
     ],
   },
+
+  {
+    text: "Academia",
+    icon: <SchoolIcon />,
+    children: [
+      {
+        text: "Áreas Académicas",
+        icon: <AssignmentIndIcon fontSize="small" />,
+        path: ROUTES.ADMIN.ACADEMIC_AREAS,
+      },
+    ],
+  },
+
 ];
