@@ -17,7 +17,7 @@ export default function AdminUsersPage() {
                     actions={
                         <Button
                             variant="contained"
-                            onClick={() => createUserModal.openModal}
+                            onClick={() => createUserModal.openModal()}
                         >
                             Crear usuario
                         </Button>

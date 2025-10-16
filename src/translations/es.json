@@ -12,8 +12,10 @@
             "close": "Cerrar",
             "search": "Buscar",
             "clear": "Limpiar",
-            "update": "Actualizar"
+            "update": "Actualizar",
+            "select": "Seleccionar"
         },
+        "noOptions":"No hay opciones disponbiles",
         "fields": {
             "createdAt": "Fecha de creación"
         },
@@ -78,6 +80,35 @@
             "deleted": "Usuario eliminado correctamente.",
             "createTitle": "Crear usuario",
             "editTitle": "Actualizar usuario"
+        },
+        "spaces": {
+            "title": "Gestión de Espacios",
+            "description": "Administra los espacios registrados en la plataforma.",
+            "created": "Espacio creado exitosamente.",
+            "updated": "Espacio actualizado correctamente.",
+            "deleted": "Espacio eliminado correctamente.",
+            "createTitle": "Crear espacio",
+            "editTitle": "Actualizar espacio",
+            "fields": {
+                "name": "Nombre",
+                "campus": "Sede",
+                "type": "Tipo",
+                "status": "Estado",
+                "capacity": "Capacidad",
+                "resources": "Recursos"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de estado de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de estado de espacio? Esta acción no se puede deshacer."
+            },
+            "sections": {
+                "basicInfo": "Información Básica",
+                "classification": "Clasificación",
+                "resources": "Recursos"
+            }
         },
         "spaceTypes": {
             "title": "Gestión de Tipos de Espacio",

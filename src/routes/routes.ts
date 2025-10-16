@@ -11,6 +11,7 @@ export const ROUTES = {
     ADMIN: {
         BASE: '/admin',
         USERS: '/admin/users',
+        SPACES: '/admin/spaces',
         SPACE_TYPES: '/admin/space-types',
         SPACE_RESOURCES: '/admin/space-resources',
         SPACE_STATUSES: '/admin/space-statuses',

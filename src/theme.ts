@@ -77,6 +77,27 @@ const theme = createTheme({
                 },
             },
         },
+
+        MuiAutocomplete: {
+            styleOverrides: {
+                root: {
+                    "& .MuiOutlinedInput-root": {
+                        height: 42,
+                        paddingRight: "30px !important",
+                    },
+                    "& .MuiInputBase-input": {
+                        padding: "8px 14px !important",
+                    },
+                },
+            },
+        },
+
+        MuiTextField: {
+            defaultProps: {
+                size: "small",
+                variant: "outlined",
+            },
+        },
     },
 });
 
