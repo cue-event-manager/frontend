@@ -28,6 +28,14 @@ export const getSpaceTypes = async (query: SpaceTypePaginationRequestDto & Pagin
     return data;
 }
 
+export const getAllSpaceTypes = async (): Promise<SpaceType[]> => {
+    const { data } = await axiosInstance.get<SpaceType[]>(
+        `${SPACE_ENDPOINT_PREFFIX}/all`
+    );
+    return data;
+}
+
+
 export const updateSpaceType = async (updateSpaceTypeRequest: UpdateSpaceTypeRequestDto): Promise<SpaceType> => {
     const { data } = await axiosInstance.put<SpaceType>(
         `${SPACE_ENDPOINT_PREFFIX}/${updateSpaceTypeRequest.id}/update`,
