@@ -10,14 +10,12 @@ export function useDeleteSpaceResource() {
 
     return useMutation({
         mutationFn: (id: number) => deleteSpaceResource(id),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceResources.deleted"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ALL] }),
+            ]);
         },
     });
 }

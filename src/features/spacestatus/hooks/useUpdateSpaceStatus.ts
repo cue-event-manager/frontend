@@ -11,14 +11,12 @@ export function useUpdateSpaceStatus() {
 
     return useMutation({
         mutationFn: (payload: UpdateSpaceStatusRequestDto) => updateSpaceStatus(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceStatuses.updated"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_STATUS_QUERY_KEYS.SPACE_STATUSES.ALL] }),
+            ]);
         },
     });
 }

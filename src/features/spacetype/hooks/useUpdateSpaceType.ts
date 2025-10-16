@@ -11,14 +11,12 @@ export function useUpdateSpaceType() {
 
     return useMutation({
         mutationFn: (payload: UpdateSpaceTypeRequestDto) => updateSpaceType(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceTypes.updated"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_TYPES_QUERY_KEYS.SPACE_TYPES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_TYPES_QUERY_KEYS.SPACE_TYPES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_TYPES_QUERY_KEYS.SPACE_TYPES.ALL] }),
+            ]);
         },
     });
 }

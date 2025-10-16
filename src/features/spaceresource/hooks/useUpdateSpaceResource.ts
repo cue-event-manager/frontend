@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { updateSpaceResource } from "@/services/spaceResource.service";
 import type { UpdateSpaceResourceRequestDto } from "@/domain/spaceresource/UpdateSpaceResourceRequestDto";
-import { SPACE_TYPES_QUERY_KEYS } from "@/features/spacetype/constants/spaceTypeQueries.constant";
+import { SPACE_RESOURCE_QUERY_KEYS } from "../constants/spaceResourceQueries.constant";
 
 export function useUpdateSpaceResource() {
     const { t } = useTranslation();
@@ -11,14 +11,12 @@ export function useUpdateSpaceResource() {
 
     return useMutation({
         mutationFn: (payload: UpdateSpaceResourceRequestDto) => updateSpaceResource(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(t("admin.spaceResources.updated"));
-            queryClient.invalidateQueries({
-                predicate: (q) => {
-                    const key = q.queryKey[0];
-                    return key === SPACE_TYPES_QUERY_KEYS.SPACE_TYPES.ROOT;
-                },
-            });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ROOT] }),
+                queryClient.invalidateQueries({ queryKey: [SPACE_RESOURCE_QUERY_KEYS.SPACE_RESOURCES.ALL] }),
+            ]);
         },
     });
 }
