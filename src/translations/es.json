@@ -15,7 +15,7 @@
             "update": "Actualizar",
             "select": "Seleccionar"
         },
-        "noOptions":"No hay opciones disponbiles",
+        "noOptions": "No hay opciones disponbiles",
         "fields": {
             "createdAt": "Fecha de creación"
         },
@@ -189,6 +189,26 @@
             "delete": {
                 "title": "Eliminar Sede",
                 "message": "¿Estás seguro de que deseas eliminar esta sede? Esta acción no se puede deshacer."
+            }
+        },
+        "academicAreas": {
+            "title": "Gestión de Áreas académicas",
+            "description": "Administra las áreas académicas registradas en la plataforma.",
+            "created": "Áreas académica creada exitosamente.",
+            "updated": "Áreas académica actualizada correctamente.",
+            "deleted": "Áreas académica eliminada correctamente.",
+            "createTitle": "Crear área académica",
+            "editTitle": "Actualizar área académica",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar  área académica",
+                "message": "¿Estás seguro de que deseas eliminar esta área académica? Esta acción no se puede deshacer."
             }
         }
     },

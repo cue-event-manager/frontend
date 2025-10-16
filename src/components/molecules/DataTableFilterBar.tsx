@@ -28,7 +28,7 @@ export function DataTableFilterBar({
 }: DataTableFilterBarProps) {
     const { t } = useTranslation();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleSearch = () => {

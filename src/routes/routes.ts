@@ -15,6 +15,7 @@ export const ROUTES = {
         SPACE_TYPES: '/admin/space-types',
         SPACE_RESOURCES: '/admin/space-resources',
         SPACE_STATUSES: '/admin/space-statuses',
-        CAMPUSES: '/admin/campuses'
+        CAMPUSES: '/admin/campuses',
+        ACADEMIC_AREAS: '/admin/academic-areas'
     }
 }
