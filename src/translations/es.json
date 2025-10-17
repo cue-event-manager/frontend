@@ -291,7 +291,8 @@
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
         "subtitle": "Una solución moderna, rápida y confiable para la Corporación Empresarial Universitaria Alexander von Humboldt.",
-        "cta": "Comienza ahora"
+        "cta": "Comienza ahora",
+        "badge": "✨ La mejor solución"
     },
     "features": {
         "title": "Características principales",
@@ -315,6 +316,8 @@
         "mission": "Creamos herramientas que conectan organizadores y asistentes para que cada evento sea un éxito."
     },
     "stats": {
+        "title": "Nuestros Logros",
+        "subtitle": "Números que hablan por sí mismos",
         "events": "+100",
         "eventsLabel": "Eventos organizados",
         "users": "+5000",

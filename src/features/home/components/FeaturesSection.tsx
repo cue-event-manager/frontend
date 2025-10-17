@@ -34,7 +34,7 @@ export default function FeaturesSection() {
                 background: `linear-gradient(180deg, ${alpha(
                     theme.palette.primary.main,
                     0.02
-                )} 0%, ${theme.palette.background.paper} 100%)`,
+                )} 0%, ${theme.palette.common.white} 100%)`,
                 position: "relative",
                 overflow: "hidden",
                 "&::before": {
@@ -95,7 +95,6 @@ export default function FeaturesSection() {
                                     textAlign: "center",
                                     borderRadius: 4,
                                     border: 1,
-                                    borderColor: "divider",
                                     backgroundColor: "background.paper",
                                     position: "relative",
                                     overflow: "hidden",
@@ -116,7 +115,6 @@ export default function FeaturesSection() {
                                     },
                                 }}
                             >
-                                {/* Gradient Background */}
                                 <Box
                                     className="gradient-bg"
                                     sx={{
