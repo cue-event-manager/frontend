@@ -7,6 +7,8 @@ import BuildIcon from "@mui/icons-material/Build";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import SchoolIcon from "@mui/icons-material/School";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import BusinessIcon from '@mui/icons-material/Business';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export interface AdminMenuItem {
   text: string;
@@ -66,6 +68,16 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
         text: "Áreas Académicas",
         icon: <AssignmentIndIcon fontSize="small" />,
         path: ROUTES.ADMIN.ACADEMIC_AREAS,
+      },
+      {
+        text: "Facultades",
+        icon: <BusinessIcon fontSize="small" />,
+        path: ROUTES.ADMIN.FACULTIES,
+      },
+      {
+        text: "Programas Académicos",
+        icon: <MenuBookIcon fontSize="small" />,
+        path: ROUTES.ADMIN.ACADEMIC_PROGRAMS,
       },
     ],
   },
