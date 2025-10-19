@@ -210,6 +210,48 @@
                 "title": "Eliminar  área académica",
                 "message": "¿Estás seguro de que deseas eliminar esta área académica? Esta acción no se puede deshacer."
             }
+        },
+        "academicPrograms": {
+            "title": "Gestión de Programas académicos",
+            "description": "Administra las áreas académicos registradas en la plataforma.",
+            "created": "Programa académico creada exitosamente.",
+            "updated": "Programa académico actualizada correctamente.",
+            "deleted": "Programa académico eliminada correctamente.",
+            "createTitle": "Crear programa académico",
+            "editTitle": "Actualizar programa académico",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "faculty": "Facultdad"
+            },
+            "filters": {
+                "name": "Buscar por nombre",
+                "faculty": "Buscar por facultad"
+            },
+            "delete": {
+                "title": "Eliminar programa académico",
+                "message": "¿Estás seguro de que deseas eliminar esta programa académico? Esta acción no se puede deshacer."
+            }
+        },
+        "faculties": {
+            "title": "Gestión de Facultades",
+            "description": "Administra las facultades registradas en la plataforma.",
+            "created": "Facultad creada exitosamente.",
+            "updated": "Facultad actualizada correctamente.",
+            "deleted": "Facultad eliminada correctamente.",
+            "createTitle": "Crear facultad",
+            "editTitle": "Actualizar facultad",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar facultad",
+                "message": "¿Estás seguro de que deseas eliminar esta facultad? Esta acción no se puede deshacer."
+            }
         }
     },
     "users": {
