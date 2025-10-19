@@ -20,7 +20,7 @@ export const createAcademicProgram = async (createAcademicProgramRequest: Create
 }
 
 
-export const getFaculties = async (query: AcademicProgramPaginationRequestDto & PaginationQuery): Promise<Page<AcademicProgram>> => {
+export const getAcademicPrograms = async (query: AcademicProgramPaginationRequestDto & PaginationQuery): Promise<Page<AcademicProgram>> => {
     const params = new URLSearchParams(query as any).toString();
     const { data } = await axiosInstance.get<Page<AcademicProgram>>(
         `${ACADEMIC_PROGRAM_ENDPOINT_PREFFIX}?${params}`
@@ -28,7 +28,7 @@ export const getFaculties = async (query: AcademicProgramPaginationRequestDto & 
     return data;
 }
 
-export const getAllFaculties = async (): Promise<AcademicProgram[]> => {
+export const getAllAcademicPrograms = async (): Promise<AcademicProgram[]> => {
     const { data } = await axiosInstance.get<AcademicProgram[]>(
         `${ACADEMIC_PROGRAM_ENDPOINT_PREFFIX}/all`
     );
