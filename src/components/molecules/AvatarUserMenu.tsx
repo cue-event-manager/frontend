@@ -27,8 +27,8 @@ export default function AvatarUserMenu() {
     const handleMenuClose = () => setAnchorEl(null);
 
     const handleLogout = () => {
-        handleMenuClose();
         logout();
+        handleMenuClose();
     };
 
     if (!user) return null;
@@ -66,7 +66,7 @@ export default function AvatarUserMenu() {
                     to={ROUTES.PROFILE}
                     disabled={isLoggingOut}
                 >
-                    <AccountCircleIcon fontSize="small" sx={{ mr: 1 }}  />
+                    <AccountCircleIcon fontSize="small" sx={{ mr: 1 }} />
                     {t("common.profile")}
                 </MenuItem>
 

@@ -5,7 +5,7 @@ import {
     TextField,
     Divider,
     Button,
-    CircularProgress,
+    Paper,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -47,8 +47,9 @@ export default function UpdateProfileForm() {
     };
 
     return (
-        <Box
+        <Paper
             component="form"
+            sx={{p:4, borderRadius:2}}
             onSubmit={handleSubmit(onSubmit)}
         >
             <Typography variant="h4" fontWeight={700} gutterBottom>
@@ -161,6 +162,6 @@ export default function UpdateProfileForm() {
                     {t("profile.saveChanges")}
                 </Button>
             </Box>
-        </Box>
+        </Paper>
     );
 }

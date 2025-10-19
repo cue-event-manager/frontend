@@ -12,8 +12,8 @@ export default function AdminAcademicAreasPage() {
         <>
             <AdminSection.Root>
                 <AdminSection.Header
-                    title="admin.spaceResources.title"
-                    description="admin.spaceResources.description"
+                    title="admin.academicAreas.title"
+                    description="admin.academicAreas.description"
                     actions={
                         <Button variant="contained" onClick={() => createModal.openModal()}>
                             Crear Área Académica

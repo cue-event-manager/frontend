@@ -25,13 +25,9 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const hasLoggedOutRef = useRef(false);
   const { data: user, isLoading, refetch } = useCurrentUser();
 
   const logout = () => {
-    if (hasLoggedOutRef.current) return;
-    hasLoggedOutRef.current = true;
-
     removeAccessToken();
     removeRefreshToken();
 
