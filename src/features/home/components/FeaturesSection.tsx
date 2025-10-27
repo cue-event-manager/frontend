@@ -1,4 +1,12 @@
-import { Box, Container, Typography, Paper, useTheme, Grid, alpha } from "@mui/material";
+import {
+    Box,
+    Container,
+    Typography,
+    Paper,
+    useTheme,
+    Grid,
+    alpha,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import EventIcon from "@mui/icons-material/Event";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -25,18 +33,29 @@ const features = [
 export default function FeaturesSection() {
     const { t } = useTranslation();
     const theme = useTheme();
+    const isDark = theme.palette.mode === "dark";
 
     return (
         <Box
             component="section"
             sx={{
                 py: { xs: 10, md: 14 },
-                background: `linear-gradient(180deg, ${alpha(
-                    theme.palette.primary.main,
-                    0.02
-                )} 0%, ${theme.palette.common.white} 100%)`,
                 position: "relative",
                 overflow: "hidden",
+                transition: "background 0.4s ease",
+
+                background: isDark
+                    ? `linear-gradient(
+              180deg,
+              ${alpha(theme.palette.primary.main, 0.05)} 0%,
+              ${theme.palette.background.default} 100%
+            )`
+                    : `linear-gradient(
+              180deg,
+              ${alpha(theme.palette.primary.main, 0.02)} 0%,
+              ${theme.palette.common.white} 100%
+            )`,
+
                 "&::before": {
                     content: '""',
                     position: "absolute",
@@ -45,10 +64,15 @@ export default function FeaturesSection() {
                     transform: "translateX(-50%)",
                     width: "150%",
                     height: "100%",
-                    background: `radial-gradient(circle at 50% 0%, ${alpha(
-                        theme.palette.primary.main,
-                        0.02
-                    )}, transparent 70%)`,
+                    background: isDark
+                        ? `radial-gradient(circle at 50% 0%, ${alpha(
+                            theme.palette.primary.main,
+                            0.08
+                        )}, transparent 70%)`
+                        : `radial-gradient(circle at 50% 0%, ${alpha(
+                            theme.palette.primary.main,
+                            0.02
+                        )}, transparent 70%)`,
                     pointerEvents: "none",
                 },
             }}
@@ -70,6 +94,7 @@ export default function FeaturesSection() {
                     >
                         {t("features.title")}
                     </Typography>
+
                     <Typography
                         variant="body1"
                         sx={{
@@ -95,16 +120,16 @@ export default function FeaturesSection() {
                                     textAlign: "center",
                                     borderRadius: 4,
                                     border: 1,
+                                    borderColor: alpha(theme.palette.divider, 0.4),
                                     backgroundColor: "background.paper",
                                     position: "relative",
                                     overflow: "hidden",
                                     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                     "&:hover": {
                                         transform: "translateY(-8px)",
-                                        boxShadow: `0 12px 40px ${alpha(
-                                            theme.palette.common.black,
-                                            0.12
-                                        )}`,
+                                        boxShadow: isDark
+                                            ? `0 12px 40px ${alpha(theme.palette.common.black, 0.6)}`
+                                            : `0 12px 40px ${alpha(theme.palette.common.black, 0.12)}`,
                                         borderColor: "primary.main",
                                         "& .feature-icon": {
                                             transform: "scale(1.1) rotate(5deg)",
@@ -170,6 +195,7 @@ export default function FeaturesSection() {
                                     >
                                         {t(feature.titleKey)}
                                     </Typography>
+
                                     <Typography
                                         variant="body2"
                                         sx={{
