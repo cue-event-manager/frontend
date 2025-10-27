@@ -204,8 +204,6 @@ export function DataTableFilterBar({
                 mb: 3,
                 flexWrap: "wrap",
                 borderRadius: 3,
-                backgroundColor: "background.paper",
-
             }}
         >
             <Box

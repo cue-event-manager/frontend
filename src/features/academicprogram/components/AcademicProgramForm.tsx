@@ -81,7 +81,7 @@ export default function AcademicProgramForm({ initialData, onSuccess }: Academic
 
             <SearchSelect
                 name="facultyId"
-                label={t("admin.spaces.fields.campus")}
+                label={t("admin.academicPrograms.fields.faculty")}
                 control={control}
                 options={
                     faculties.data?.map((c) => ({ label: c.name, value: c.id })) ?? []

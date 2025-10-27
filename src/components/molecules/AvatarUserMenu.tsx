@@ -7,27 +7,38 @@ import {
     MenuItem,
     Typography,
     CircularProgress,
+    ListItemIcon,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import { useState } from "react";
 import { useAuth } from "@/contexts/authContext";
 import { ROUTES } from "@/routes/routes";
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useThemeMode } from "@/contexts/themeContext"; // 👈 import your theme context
 
 export default function AvatarUserMenu() {
     const { t } = useTranslation();
     const { user } = useAuth();
     const { mutate: logout, isPending: isLoggingOut } = useLogout();
+    const { mode, toggleMode } = useThemeMode(); // 👈 access theme state
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) =>
+        setAnchorEl(event.currentTarget);
     const handleMenuClose = () => setAnchorEl(null);
 
     const handleLogout = () => {
         logout();
+        handleMenuClose();
+    };
+
+    const handleToggleTheme = () => {
+        toggleMode();
         handleMenuClose();
     };
 
@@ -66,9 +77,26 @@ export default function AvatarUserMenu() {
                     to={ROUTES.PROFILE}
                     disabled={isLoggingOut}
                 >
-                    <AccountCircleIcon fontSize="small" sx={{ mr: 1 }} />
+                    <ListItemIcon>
+                        <AccountCircleIcon fontSize="small" />
+                    </ListItemIcon>
                     {t("common.profile")}
                 </MenuItem>
+
+                <MenuItem onClick={handleToggleTheme}>
+                    <ListItemIcon>
+                        {mode === "light" ? (
+                            <DarkModeIcon fontSize="small" />
+                        ) : (
+                            <LightModeIcon fontSize="small" />
+                        )}
+                    </ListItemIcon>
+                    {mode === "light"
+                        ? t("common.darkMode")
+                        : t("common.lightMode")}
+                </MenuItem>
+
+                <Divider sx={{ my: 1 }} />
 
                 <MenuItem onClick={handleLogout} disabled={isLoggingOut}>
                     {isLoggingOut ? (
@@ -78,7 +106,9 @@ export default function AvatarUserMenu() {
                         </>
                     ) : (
                         <>
-                            <LogoutIcon fontSize="small" sx={{ mr: 1 }} />
+                            <ListItemIcon>
+                                <LogoutIcon fontSize="small" />
+                            </ListItemIcon>
                             {t("auth.logout")}
                         </>
                     )}

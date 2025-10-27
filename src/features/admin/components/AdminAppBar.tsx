@@ -88,7 +88,7 @@ export default function AdminAppBar({ drawerWidth, onMenuClick }: AdminAppBarPro
                     </Box>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center"}}>
                     <AvatarUserMenu />
                 </Box>
             </Toolbar>

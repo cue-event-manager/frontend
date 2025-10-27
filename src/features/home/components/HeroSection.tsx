@@ -247,6 +247,8 @@ export default function HeroSection() {
               component="img"
               src="/hero/illustration.png"
               alt="Hero illustration"
+              loading="eager"
+              fetchPriority="high"
               sx={{
                 width: { xs: "80%", md: "85%" },
                 maxWidth: { xs: "280px", md: "400px" },

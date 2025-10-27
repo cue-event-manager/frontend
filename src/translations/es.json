@@ -29,7 +29,9 @@
             "error": "Ocurrió un error"
         },
         "yes": "Sí",
-        "no": "No"
+        "no": "No",
+        "darkMode":"Modo Oscuro",
+        "lightMode":"Modo Claro"
     },
     "auth": {
         "login": {
