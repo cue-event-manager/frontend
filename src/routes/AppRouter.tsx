@@ -22,6 +22,7 @@ import AdminSpacesPage from "@/pages/AdminSpacesPage";
 import AdminAcademicAreasPage from "@/pages/AdminAcademicAreasPage";
 import AdminFacultiesPage from "@/pages/AdminFacultiesPage";
 import AdminAcademicProgramsPage from "@/pages/AdminAcademicProgramsPage";
+import AdminEventModalitiesPage from "@/pages/AdminEventModalitiesPage";
 
 export default function AppRouter() {
   return (
@@ -55,7 +56,7 @@ export default function AppRouter() {
           <Route path={ROUTES.ADMIN.ACADEMIC_AREAS} element={<AdminAcademicAreasPage />} />
           <Route path={ROUTES.ADMIN.FACULTIES} element={<AdminFacultiesPage />} />
           <Route path={ROUTES.ADMIN.ACADEMIC_PROGRAMS} element={<AdminAcademicProgramsPage />} />
-
+          <Route path={ROUTES.ADMIN.EVENT_MODALITIES} element={<AdminEventModalitiesPage />} />
 
         </Route>
       </Route>
