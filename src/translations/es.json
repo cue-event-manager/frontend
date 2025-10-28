@@ -254,6 +254,28 @@
                 "title": "Eliminar facultad",
                 "message": "¿Estás seguro de que deseas eliminar esta facultad? Esta acción no se puede deshacer."
             }
+        },
+        "eventModalities": {
+            "title": "Gestión de Modalidades de Evento",
+            "description": "Administra las modalidades de eventos registradas en la plataforma.",
+            "created": "Modalidad de evento creada exitosamente.",
+            "updated": "Modalidad de evento actualizada correctamente.",
+            "deleted": "Modalidad de evento eliminada correctamente.",
+            "createTitle": "Crear modalidad de evento",
+            "editTitle": "Actualizar modalidad de evento",
+            "create": "Crear Modalidad",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "requiresSpace": "Requiere espacio"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar modalidad de evento",
+                "message": "¿Estás seguro de que deseas eliminar esta modalidad de evento? Esta acción no se puede deshacer."
+            }
         }
     },
     "users": {

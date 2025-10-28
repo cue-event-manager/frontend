@@ -9,6 +9,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import BusinessIcon from '@mui/icons-material/Business';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import EventIcon from '@mui/icons-material/Event';
+import StyleIcon from '@mui/icons-material/Style';
 
 export interface AdminMenuItem {
   text: string;
@@ -78,6 +80,18 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
         text: "Programas Académicos",
         icon: <MenuBookIcon fontSize="small" />,
         path: ROUTES.ADMIN.ACADEMIC_PROGRAMS,
+      },
+    ],
+  },
+
+  {
+    text: "Eventos",
+    icon: <EventIcon />,
+    children: [
+      {
+        text: "Modalidades de Evento",
+        icon: <StyleIcon fontSize="small" />,
+        path: ROUTES.ADMIN.EVENT_MODALITIES,
       },
     ],
   },
