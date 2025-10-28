@@ -18,6 +18,7 @@ export const ROUTES = {
         CAMPUSES: '/admin/campuses',
         ACADEMIC_AREAS: '/admin/academic-areas',
         FACULTIES: '/admin/faculties',
-        ACADEMIC_PROGRAMS: '/admin/academic-programs'
+        ACADEMIC_PROGRAMS: '/admin/academic-programs',
+        EVENT_MODALITIES: '/admin/event-modalities'
     }
 }
