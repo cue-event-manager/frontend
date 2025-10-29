@@ -11,6 +11,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EventIcon from '@mui/icons-material/Event';
 import StyleIcon from '@mui/icons-material/Style';
+import LabelIcon from '@mui/icons-material/Label';
 
 export interface AdminMenuItem {
   text: string;
@@ -92,6 +93,11 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
         text: "Modalidades de Evento",
         icon: <StyleIcon fontSize="small" />,
         path: ROUTES.ADMIN.EVENT_MODALITIES,
+      },
+      {
+        text: "Categorías de Evento",
+        icon: <LabelIcon fontSize="small" />,
+        path: ROUTES.ADMIN.EVENT_CATEGORIES,
       },
     ],
   },
