@@ -276,6 +276,27 @@
                 "title": "Eliminar modalidad de evento",
                 "message": "¿Estás seguro de que deseas eliminar esta modalidad de evento? Esta acción no se puede deshacer."
             }
+        },
+        "eventCategories": {
+            "title": "Gestión de Categorías de Evento",
+            "description": "Administra las categorías de eventos registradas en la plataforma.",
+            "created": "Categoría de evento creada exitosamente.",
+            "updated": "Categoría de evento actualizada correctamente.",
+            "deleted": "Categoría de evento eliminada correctamente.",
+            "createTitle": "Crear categoría de evento",
+            "editTitle": "Actualizar categoría de evento",
+            "create": "Crear Categoría",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar categoría de evento",
+                "message": "¿Estás seguro de que deseas eliminar esta categoría de evento? Esta acción no se puede deshacer."
+            }
         }
     },
     "users": {
