@@ -21,7 +21,7 @@ export default function Footer() {
             <Container maxWidth="lg">
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 700, color: theme.palette.primary.dark }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>
                             {t("footer.about.title")}
                         </Typography>
                         <Typography variant="body2" color="grey.400">
@@ -30,14 +30,14 @@ export default function Footer() {
                     </Grid>
 
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 700, color: theme.palette.primary.dark }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>
                             {t("footer.links.title")}
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Link
+                                color="grey.400"
                                 component={RouterLink}
                                 to={ROUTES.HOME}
-                                color="inherit"
                                 underline="hover"
                                 sx={{ width: "fit-content" }}
                             >
@@ -45,9 +45,9 @@ export default function Footer() {
                             </Link>
 
                             <Link
+                                color="grey.400"
                                 component={RouterLink}
                                 to="/#features"
-                                color="inherit"
                                 underline="hover"
                                 sx={{ width: "fit-content" }}
                             >
@@ -55,9 +55,9 @@ export default function Footer() {
                             </Link>
 
                             <Link
+                                color="grey.400"
                                 component={RouterLink}
                                 to="/#contact"
-                                color="inherit"
                                 underline="hover"
                                 sx={{ width: "fit-content" }}
                             >
@@ -65,9 +65,9 @@ export default function Footer() {
                             </Link>
 
                             <Link
+                                color="grey.400"
                                 component={RouterLink}
                                 to={ROUTES.TERMS_AND_CONDITIONS}
-                                color="inherit"
                                 underline="hover"
                                 sx={{ width: "fit-content" }}
                             >
@@ -78,11 +78,11 @@ export default function Footer() {
                     </Grid>
 
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>
                             {t("footer.contact.title")}
                         </Typography>
                         <Typography variant="body2" color="grey.400">
-                            {t("footer.contact.email")}: info@eventum.com
+                            {t("footer.contact.email")}: info@cue.com
                         </Typography>
                         <Typography variant="body2" color="grey.400">
                             {t("footer.contact.phone")}: +57 300 000 0000
