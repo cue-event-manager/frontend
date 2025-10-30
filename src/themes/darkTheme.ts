@@ -36,6 +36,18 @@ export const darkTheme = createTheme({
             disabled: alpha("#ffffff", 0.12),
             focus: alpha("#ffffff", 0.12),
         },
+        grey: {
+            50: "#222222",
+            100: "#3b3b3b",
+            200: "#515151",
+            300: "#626262",
+            400: "#7e7e7e",
+            500: "#9e9e9e",
+            600: "#c2c2c2",
+            700: "#e0e0e0",
+            800: "#f0f0f0",
+            900: "#f9f9f9",
+        },
     },
 
     typography: {
