@@ -24,6 +24,8 @@ import AdminFacultiesPage from "@/pages/AdminFacultiesPage";
 import AdminAcademicProgramsPage from "@/pages/AdminAcademicProgramsPage";
 import AdminEventModalitiesPage from "@/pages/AdminEventModalitiesPage";
 import AdminEventCategoriesPage from "@/pages/AdminEventCategoriesPage";
+import OrganizerLayout from "@/components/layouts/OrganizerLayout";
+import OrganizerHomePage from "@/pages/OrganizerHomePage";
 
 export default function AppRouter() {
   return (
@@ -59,9 +61,16 @@ export default function AppRouter() {
           <Route path={ROUTES.ADMIN.ACADEMIC_PROGRAMS} element={<AdminAcademicProgramsPage />} />
           <Route path={ROUTES.ADMIN.EVENT_MODALITIES} element={<AdminEventModalitiesPage />} />
           <Route path={ROUTES.ADMIN.EVENT_CATEGORIES} element={<AdminEventCategoriesPage />} />
-
         </Route>
       </Route>
+
+      
+      <Route element={<RoleGuard allowedRoles={[RoleConstant.ORGANIZER]} />}>
+        <Route element={<OrganizerLayout />}>
+          <Route path={ROUTES.ORGANIZER.BASE} element={<OrganizerHomePage />} />
+        </Route>
+      </Route>
+
 
     </Routes>
   );
