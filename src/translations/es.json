@@ -30,8 +30,8 @@
         },
         "yes": "Sí",
         "no": "No",
-        "darkMode":"Modo Oscuro",
-        "lightMode":"Modo Claro"
+        "darkMode": "Modo Oscuro",
+        "lightMode": "Modo Claro"
     },
     "auth": {
         "login": {
@@ -492,5 +492,12 @@
         "uploading": "Subiendo...",
         "success": "Imagen subida correctamente",
         "previewAlt": "Vista previa de la imagen"
+    },
+    "organizer": {
+        "welcome": {
+            "greeting": "¡Hola, {{name}}!",
+            "defaultName": "Organizador",
+            "description": "Bienvenido a tu panel de gestión de eventos. Aquí podrás crear, administrar y hacer seguimiento a tus actividades."
+        }
     }
 }
