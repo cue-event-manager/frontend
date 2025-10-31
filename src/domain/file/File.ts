@@ -5,6 +5,6 @@ export interface File {
     contentType: FileContentType,
     originalName: string;
     size: number;
-    path: String;
+    path: string;
     ownerId: number;
 }

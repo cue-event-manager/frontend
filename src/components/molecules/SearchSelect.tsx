@@ -35,8 +35,8 @@ interface CommonProps {
 interface FormControlledProps extends CommonProps {
     name: string;
     control: Control<any>;
-    value?: never;
-    onChange?: never;
+    value?: string | number | (string | number)[] | null;
+    onChange?: (value: string | number | (string | number)[] | null) => void;
 }
 
 interface StandaloneProps extends CommonProps {
@@ -64,7 +64,8 @@ export function SearchSelect(props: SearchSelectProps) {
     const { t } = useTranslation();
 
     if ("control" in props && props.control) {
-        const { name, control } = props;
+        const { name, control, onChange: externalOnChange, value: externalValue } =
+            props;
 
         return (
             <Controller
@@ -79,7 +80,26 @@ export function SearchSelect(props: SearchSelectProps) {
                                 ? field.value.includes(opt.value)
                                 : false
                         )
-                        : options.find((opt) => opt.value === field.value) ?? null;
+                        : options.find(
+                            (opt) =>
+                                opt.value === (externalValue ?? field.value)
+                        ) ?? null;
+
+                    const handleChange = (
+                        _: any,
+                        newValue: Option | Option[] | null
+                    ) => {
+                        let newVal: string | number | (string | number)[] | null = null;
+
+                        if (multiple) {
+                            newVal = (newValue as Option[]).map((v) => v.value);
+                        } else {
+                            newVal = (newValue as Option | null)?.value ?? null;
+                        }
+
+                        field.onChange(newVal);
+                        if (externalOnChange) externalOnChange(newVal);
+                    };
 
                     return (
                         <Autocomplete
@@ -89,17 +109,7 @@ export function SearchSelect(props: SearchSelectProps) {
                             options={options}
                             getOptionLabel={(opt) => opt.label ?? ""}
                             value={currentValue}
-                            onChange={(_, newValue) => {
-                                if (multiple) {
-                                    field.onChange(
-                                        (newValue as Option[]).map((v) => v.value)
-                                    );
-                                } else {
-                                    field.onChange(
-                                        (newValue as Option | null)?.value ?? null
-                                    );
-                                }
-                            }}
+                            onChange={handleChange}
                             onBlur={field.onBlur}
                             loading={loading}
                             disabled={disabled}
@@ -110,6 +120,7 @@ export function SearchSelect(props: SearchSelectProps) {
                                     label={label}
                                     placeholder={placeholder}
                                     error={!!error}
+                                    helperText={String(error?.message ?? " ")}
                                     margin={margin}
                                     size={size}
                                     onBlur={field.onBlur}
@@ -117,7 +128,9 @@ export function SearchSelect(props: SearchSelectProps) {
                                         ...params.InputProps,
                                         endAdornment: (
                                             <>
-                                                {loading ? <CircularProgress size={20} /> : null}
+                                                {loading ? (
+                                                    <CircularProgress size={20} />
+                                                ) : null}
                                                 {params.InputProps.endAdornment}
                                             </>
                                         ),
@@ -164,6 +177,7 @@ export function SearchSelect(props: SearchSelectProps) {
                     placeholder={placeholder}
                     margin={margin}
                     size={size}
+                    helperText={props.helperText ?? " "}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

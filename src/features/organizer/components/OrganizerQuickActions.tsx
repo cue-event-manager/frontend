@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Box,
     Card,
@@ -10,13 +11,14 @@ import EventIcon from "@mui/icons-material/Event";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { useNavigate } from "react-router-dom";
+import CreateEventFormModal from "@/features/event/components/CreateEventForm/CreateEventFormModal";
 
 const quickActions = [
     {
         title: "Crear nuevo evento",
         description: "Inicia la planeación de un nuevo evento",
         icon: <EventIcon fontSize="large" color="primary" />,
-        path: "/organizer/events/create",
+        action: "createEvent",
     },
     {
         title: "Ver mis eventos",
@@ -34,6 +36,17 @@ const quickActions = [
 
 export default function OrganizerQuickActions() {
     const navigate = useNavigate();
+    const [openEventModal, setOpenEventModal] = useState(false);
+
+    const handleActionClick = (action: (typeof quickActions)[0]) => {
+        if (action.action === "createEvent") {
+            setOpenEventModal(true);
+        } else if (action.path) {
+            navigate(action.path);
+        }
+    };
+
+    const handleCloseModal = () => setOpenEventModal(false);
 
     return (
         <Box>
@@ -55,7 +68,7 @@ export default function OrganizerQuickActions() {
                                 },
                             }}
                         >
-                            <CardActionArea onClick={() => navigate(action.path)}>
+                            <CardActionArea onClick={() => handleActionClick(action)}>
                                 <CardContent
                                     sx={{
                                         display: "flex",
@@ -81,6 +94,8 @@ export default function OrganizerQuickActions() {
                     </Grid>
                 ))}
             </Grid>
+
+            <CreateEventFormModal open={openEventModal} onClose={handleCloseModal} />
         </Box>
     );
 }

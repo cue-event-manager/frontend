@@ -19,13 +19,13 @@ import { ROUTES } from "@/routes/routes";
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLogout } from "@/features/auth/hooks/useLogout";
-import { useThemeMode } from "@/contexts/themeContext"; // 👈 import your theme context
+import { useThemeMode } from "@/contexts/themeContext"; 
 
 export default function AvatarUserMenu() {
     const { t } = useTranslation();
     const { user } = useAuth();
     const { mutate: logout, isPending: isLoggingOut } = useLogout();
-    const { mode, toggleMode } = useThemeMode(); // 👈 access theme state
+    const { mode, toggleMode } = useThemeMode(); 
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) =>

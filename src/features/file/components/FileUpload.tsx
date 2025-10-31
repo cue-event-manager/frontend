@@ -27,7 +27,7 @@ export function FileUpload({
     accept = "image/*",
     disabled = false,
     shape = "square",
-    size = 120,
+    size = 120
 }: FileUploadProps) {
     const { t } = useTranslation();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -55,12 +55,12 @@ export function FileUpload({
         [uploadMutation, onUploadSuccess]
     );
 
-    const handleRemoveFile = () => {
+    const handleRemoveFile = (e: React.MouseEvent) => {
+        e.stopPropagation();
         setSelectedFile(null);
         setPreviewUrl(null);
         if (inputRef.current) inputRef.current.value = "";
     };
-
     const handleClick = () => {
         if (!disabled && inputRef.current) {
             inputRef.current.click();
@@ -74,6 +74,7 @@ export function FileUpload({
         <Box
             sx={{
                 border: "2px dashed",
+                width: '100%',
                 borderColor: isUploaded ? "success.main" : "grey.400",
                 borderRadius: shape === "circle" ? "50%" : 2,
                 p: 3,
@@ -105,8 +106,8 @@ export function FileUpload({
                         src={previewUrl}
                         alt={t("fileUpload.previewAlt")}
                         style={{
-                            width: size,
-                            height: size,
+                            width: "100%",
+                            maxHeight: "100%",
                             objectFit: "cover",
                             borderRadius: shape === "circle" ? "50%" : 8,
                         }}
