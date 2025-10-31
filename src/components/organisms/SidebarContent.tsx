@@ -1,4 +1,3 @@
-// SidebarContent.tsx
 import {
     Box,
     Divider,

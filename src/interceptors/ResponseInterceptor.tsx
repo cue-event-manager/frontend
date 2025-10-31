@@ -102,7 +102,7 @@ export const ResponseInterceptor = () => {
                         break;
 
                     case HttpStatusCode.InternalServerError:
-                        toast.error(t("errors.internalServerError"));
+                        toast.error(t("errors.serverError"));
                         break;
 
                     default:
