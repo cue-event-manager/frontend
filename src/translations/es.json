@@ -13,7 +13,10 @@
             "search": "Buscar",
             "clear": "Limpiar",
             "update": "Actualizar",
-            "select": "Seleccionar"
+            "select": "Seleccionar",
+            "next": "Siguiente",
+            "back": "Atrás",
+            "exit": "Salir"
         },
         "noOptions": "No hay opciones disponbiles",
         "fields": {
@@ -31,7 +34,11 @@
         "yes": "Sí",
         "no": "No",
         "darkMode": "Modo Oscuro",
-        "lightMode": "Modo Claro"
+        "lightMode": "Modo Claro",
+        "confirmExit": {
+            "title": "¿Salir del formulario?",
+            "message": "Tienes cambios sin guardar. Si sales ahora, se perderán los datos ingresados."
+        }
     },
     "auth": {
         "login": {
@@ -299,6 +306,83 @@
             }
         }
     },
+    "events": {
+        "title": "Gestión de Eventos",
+        "description": "Administra todos los eventos registrados en la plataforma, incluyendo su información básica, agenda y organizadores.",
+        "created": "Evento creado exitosamente.",
+        "updated": "Evento actualizado correctamente.",
+        "deleted": "Evento eliminado correctamente.",
+        "createTitle": "Crear nuevo evento",
+        "editTitle": "Actualizar evento",
+        "create": "Crear Evento",
+        "fields": {
+            "name": "Nombre del evento",
+            "description": "Descripción",
+            "category": "Categoría",
+            "modality": "Modalidad",
+            "space": "Espacio",
+            "cost": "Costo",
+            "capacity": "Capacidad",
+            "bannerUpload": "Subir banner del evento",
+            "startDate": "Fecha de inicio",
+            "endDate": "Fecha de finalización",
+            "date": "Fecha del evento",
+            "startTime": "Hora de inicio",
+            "endTime": "Hora de finalización",
+            "recurrenceType": "Tipo de recurrencia",
+            "isRecurrent": "Evento recurrente",
+            "requiresSpace": "Requiere espacio",
+            "organizerType": "Tipo de organizador",
+            "organizer": "Organizador",
+            "attachments": "Archivos adjuntos",
+            "agenda": "Agenda",
+            "extraContacts": "Contactos adicionales"
+        },
+        "recurrence": {
+            "daily": "Diario",
+            "weekly": "Semanal",
+            "monthly": "Mensual"
+        },
+        "sections": {
+            "banner": "Banner del evento",
+            "basicInfo": "Información básica",
+            "type": "Tipo de evento",
+            "organizer": "Organizador",
+            "agenda": "Agenda del evento",
+            "attachments": "Archivos y contactos",
+            "summary": "Resumen del evento",
+            "schedule": "Programación del evento",
+            "dates": "Fechas y horarios",
+            "space": "Espacio"
+        },
+        "steps": {
+            "basicInfo": "Información básica",
+            "schedule": "Programación",
+            "organizer": "Organizador",
+            "agenda": "Agenda",
+            "attachments": "Archivos y contactos",
+            "summary": "Resumen"
+        },
+        "labels": {
+            "singleEventHint": "Define la fecha y horario de un evento único.",
+            "recurrentEventHint": "Selecciona el rango de fechas y tipo de recurrencia.",
+            "requiresSpace": "Este evento requiere asignar un espacio físico."
+        },
+        "hints": {
+            "recurrentMode": "Los eventos recurrentes permiten definir un rango de fechas y un tipo de recurrencia (diaria, semanal o mensual).",
+            "banner": "Sube una imagen de portada para representar tu evento."
+        },
+        "filters": {
+            "name": "Buscar por nombre del evento",
+            "category": "Filtrar por categoría",
+            "modality": "Filtrar por modalidad",
+            "date": "Filtrar por fecha"
+        },
+        "delete": {
+            "title": "Eliminar evento",
+            "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+        }
+    },
     "users": {
         "filters": {
             "name": "Nombre",
@@ -334,6 +418,8 @@
         }
     },
     "validation": {
+        "min": "El valor debe ser mayor o igual a {{min}}.",
+        "max": "El valor no puede superar {{max}} caracteres.",
         "required": "Este campo es obligatorio",
         "email": "Debe ser un correo válido",
         "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
@@ -341,7 +427,10 @@
         "phoneMax": "El número de teléfono es demasiado largo.",
         "codeLength": "Código no válido.",
         "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
-        "invalidDate": "La fecha no es válida."
+        "invalidDate": "La fecha no es válida.",
+        "timeRange": "La hora de finalización debe ser posterior a la hora de inicio.",
+        "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
+        "positive": "El valor debe ser positivo."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
