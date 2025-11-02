@@ -20,6 +20,8 @@ import {
     type EventFormData,
 } from "@/shared/validation/eventSchema";
 import StepSchedule from "./steps/StepSchedule";
+import StepSpace from "./steps/StepSpace";
+import StepOrganizer from "./steps/StepOrganizer";
 
 export default function CreateEventForm() {
     const { t } = useTranslation();
@@ -30,6 +32,7 @@ export default function CreateEventForm() {
         () => [
             t("events.steps.basicInfo"),
             t("events.steps.schedule"),
+            t("events.steps.space"),
             t("events.steps.organizer"),
             t("events.steps.agenda"),
             t("events.steps.attachments"),
@@ -128,6 +131,8 @@ export default function CreateEventForm() {
                     <Box sx={{ minHeight: 400 }}>
                         {activeStep === 0 && <StepBasicInfo />}
                         {activeStep === 1 && <StepSchedule />}
+                        {activeStep === 2 && <StepSpace />}
+                        {activeStep === 3 && <StepOrganizer />}
                     </Box>
                 </Box>
 
