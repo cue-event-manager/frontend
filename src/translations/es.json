@@ -231,7 +231,7 @@
             "fields": {
                 "name": "Nombre",
                 "description": "Descripción",
-                "faculty": "Facultdad"
+                "faculty": "Facultad"
             },
             "filters": {
                 "name": "Buscar por nombre",
@@ -321,6 +321,7 @@
             "category": "Categoría",
             "modality": "Modalidad",
             "space": "Espacio",
+            "campus": "Sede",
             "cost": "Costo",
             "capacity": "Capacidad",
             "bannerUpload": "Subir banner del evento",
@@ -332,12 +333,25 @@
             "recurrenceType": "Tipo de recurrencia",
             "isRecurrent": "Evento recurrente",
             "requiresSpace": "Requiere espacio",
+            "requireFullAvailability": "Requiere disponibilidad total",
             "organizerType": "Tipo de organizador",
             "organizer": "Organizador",
             "attachments": "Archivos adjuntos",
             "agenda": "Agenda",
-            "extraContacts": "Contactos adicionales"
-        },
+            "extraContacts": "Contactos adicionales",
+            "faculty": "Facultad",
+            "program": "Programa académico",
+            "organizerName": "Nombre del organizador",
+            "organizerEmail": "Correo electrónico del organizador",
+            "organizerPhone": "Teléfono del organizador",
+            "academicArea":"Área académica",
+            "organizationName":"Nombre de la organización",
+            "organizationWebsite": "Sitio web de la organización"
+       },
+       "organizerType":{
+            "internal": "Organizador interno",
+            "external":"Organizador externo"
+       }, 
         "recurrence": {
             "daily": "Diario",
             "weekly": "Semanal",
@@ -353,11 +367,16 @@
             "summary": "Resumen del evento",
             "schedule": "Programación del evento",
             "dates": "Fechas y horarios",
-            "space": "Espacio"
+            "space": "Espacio",
+            "spaceSelection": "Selección de espacio",
+            "contactInfo":"Información de contacto",
+            "internalInfo": "Información interna",
+            "externalInfo": "Información externa"
         },
         "steps": {
             "basicInfo": "Información básica",
             "schedule": "Programación",
+            "space": "Espacio",
             "organizer": "Organizador",
             "agenda": "Agenda",
             "attachments": "Archivos y contactos",
@@ -366,11 +385,19 @@
         "labels": {
             "singleEventHint": "Define la fecha y horario de un evento único.",
             "recurrentEventHint": "Selecciona el rango de fechas y tipo de recurrencia.",
-            "requiresSpace": "Este evento requiere asignar un espacio físico."
+            "requiresSpace": "Este evento requiere asignar un espacio físico.",
+            "availableSpaces": "Espacios disponibles",
+            "capacity": "Capacidad",
+            "unknownType": "Tipo no especificado",
+            "resources": "Recursos"
+        },
+        "messages": {
+            "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados."
         },
         "hints": {
             "recurrentMode": "Los eventos recurrentes permiten definir un rango de fechas y un tipo de recurrencia (diaria, semanal o mensual).",
-            "banner": "Sube una imagen de portada para representar tu evento."
+            "banner": "Sube una imagen de portada para representar tu evento.",
+            "partialAvailabilityWarning": "Si desactivas esta opción, tendrás que asignar manualmente los espacios para las fechas sin disponibilidad completa."
         },
         "filters": {
             "name": "Buscar por nombre del evento",
