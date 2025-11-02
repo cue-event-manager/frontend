@@ -148,19 +148,13 @@ export const organizerSchema = yup.object({
         name: yup
             .string()
             .nullable()
-            .when("type", {
-                is: "EXTERNAL",
-                then: (schema) => schema.required(messages.required),
-            }),
+            .required(messages.required),
         email: yup
             .string()
             .email(messages.email)
             .nullable()
-            .when("type", {
-                is: "EXTERNAL",
-                then: (schema) => schema.required(messages.required),
-            }),
-        phone: yup.string().nullable(),
+            .required(messages.required),
+        phone: yup.string().nullable().required(messages.required),
         internalFacultyId: yup
             .number()
             .nullable()
