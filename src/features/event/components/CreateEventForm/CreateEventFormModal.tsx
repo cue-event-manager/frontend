@@ -4,6 +4,7 @@ import {
     DialogContent,
     Typography,
     IconButton,
+    Paper,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
@@ -50,32 +51,29 @@ export default function CreateEventFormModal({
                 onClose={handleRequestClose}
                 fullWidth
                 maxWidth="md"
-                PaperProps={{
-                    sx: {
-                        borderRadius: 3,
-                        overflow: "visible",
-                    },
-                }}
             >
-                <DialogTitle
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        pb: 1,
-                    }}
-                >
-                    <Typography variant="h6" fontWeight={600}>
-                        {t("events.createTitle")}
-                    </Typography>
-                    <IconButton onClick={handleRequestClose}>
-                        <Close />
-                    </IconButton>
-                </DialogTitle>
+                <Paper elevation={6}>
+                    <DialogTitle
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            pb: 1,
+                        }}
+                    >
+                        <Typography variant="h6" fontWeight={600}>
+                            {t("events.createTitle")}
+                        </Typography>
+                        <IconButton onClick={handleRequestClose}>
+                            <Close />
+                        </IconButton>
+                    </DialogTitle>
 
-                <DialogContent dividers sx={{ py: 4 }}>
-                    <CreateEventForm />
-                </DialogContent>
+                    <DialogContent dividers sx={{ py: 4 }}>
+                        <CreateEventForm />
+                    </DialogContent>
+                </Paper>
+
             </Dialog>
 
             <ConfirmDialog

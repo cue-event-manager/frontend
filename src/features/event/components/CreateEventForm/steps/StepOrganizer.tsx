@@ -4,25 +4,26 @@ import {
     Grid,
     TextField,
     Typography,
-    Divider,
     ToggleButton,
     ToggleButtonGroup,
     Paper,
-    Alert,
+    Divider,
+    Fade,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import BusinessIcon from "@mui/icons-material/Business";
 import SchoolIcon from "@mui/icons-material/School";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 import { SearchSelect } from "@/components/molecules/SearchSelect";
-import type { EventFormData } from "@/shared/validation/eventSchema";
 import { useAllFaculties } from "@/features/faculty/hooks/useAllFaculties";
 import { useAllAcademicAreas } from "@/features/academicarea/hooks/useAllAcademicAreas";
-import { useEffect } from "react";
 import { useAllAcademicPrograms } from "@/features/academicprogram/hooks/useAllAcademicPrograms";
+import type { EventFormData } from "@/shared/validation/eventSchema";
 
 export default function StepOrganizer() {
     const { t } = useTranslation();
-
     const {
         control,
         register,
@@ -67,25 +68,26 @@ export default function StepOrganizer() {
     }, [selectedFacultyId, organizerType, setValue]);
 
     return (
-        <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
+        <Box
+            sx={{ mt: 1 }}
+        >
+            <Typography variant="h6" fontWeight={700} sx={{ mb: 3 }}>
                 {t("events.sections.organizer")}
             </Typography>
 
             <Paper
-                elevation={0}
+                elevation={1}
                 sx={{
                     p: 2.5,
-                    mb: 3,
-                    backgroundColor: "grey.50",
+                    mb: 4,
                     borderRadius: 2,
-                    border: "1px solid",
-                    borderColor: "grey.200",
+                    backgroundColor: "background.surface",
+                    transition: "all 0.3s ease",
                 }}
             >
                 <Typography
                     variant="subtitle2"
-                    sx={{ mb: 2, fontWeight: 600, color: "text.primary" }}
+                    sx={{ mb: 1.5, fontWeight: 600, color: "text.primary" }}
                 >
                     {t("events.fields.organizerType")}
                 </Typography>
@@ -97,25 +99,25 @@ export default function StepOrganizer() {
                         <ToggleButtonGroup
                             value={field.value || "INTERNAL"}
                             exclusive
-                            onChange={(_, value) => {
-                                if (value !== null) {
-                                    field.onChange(value);
-                                }
-                            }}
-                            fullWidth
+                            onChange={(_, value) => value && field.onChange(value)}
                             sx={{
+                                display: "flex",
+                                gap: 2,
                                 "& .MuiToggleButton-root": {
-                                    py: 1.5,
-                                    textTransform: "none",
-                                    fontSize: "1rem",
+                                    flex: 1,
+                                    py: 2,
+                                    borderRadius: 2,
                                     fontWeight: 600,
-                                    borderRadius: 1.5,
+                                    transition: "all 0.25s ease",
+                                    color: "text.secondary",
+                                    borderColor: "divider",
                                     "&.Mui-selected": {
+                                        color: "primary.contrastText",
                                         backgroundColor: "primary.main",
-                                        color: "white",
-                                        "&:hover": {
-                                            backgroundColor: "primary.dark",
-                                        },
+                                        borderColor: "primary.main",
+                                    },
+                                    "&:hover": {
+                                        backgroundColor: "action.hover",
                                     },
                                 },
                             }}
@@ -131,21 +133,13 @@ export default function StepOrganizer() {
                         </ToggleButtonGroup>
                     )}
                 />
-
-                {errors.organizer?.type && (
-                    <Typography color="error" variant="caption" sx={{ mt: 1, display: "block" }}>
-                        {String(errors.organizer.type.message)}
-                    </Typography>
-                )}
             </Paper>
 
-            <Divider sx={{ my: 3 }} />
-
-            <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
                 {t("events.sections.contactInfo")}
             </Typography>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={2.5}>
                 <Grid size={{ xs: 12, md: 4 }}>
                     <TextField
                         fullWidth
@@ -155,7 +149,6 @@ export default function StepOrganizer() {
                         helperText={String(errors.organizer?.name?.message ?? " ")}
                     />
                 </Grid>
-
                 <Grid size={{ xs: 12, md: 4 }}>
                     <TextField
                         fullWidth
@@ -166,7 +159,6 @@ export default function StepOrganizer() {
                         helperText={String(errors.organizer?.email?.message ?? " ")}
                     />
                 </Grid>
-
                 <Grid size={{ xs: 12, md: 4 }}>
                     <TextField
                         fullWidth
@@ -178,26 +170,19 @@ export default function StepOrganizer() {
                 </Grid>
             </Grid>
 
-            <Divider sx={{ my: 3 }} />
+            <Divider sx={{ my:4 }} />
 
-            {organizerType === "INTERNAL" && (
-                <>
-                    <Alert
-                        severity="info"
-                        sx={{
-                            mb: 3,
-                            borderRadius: 2,
-                            fontSize: "0.9rem",
-                        }}
-                    >
-                        {t("events.hints.internalOrganizer", "Seleccione la facultad, programa y área académica que organiza el evento")}
-                    </Alert>
+            <Fade timeout={{ appear: 200, enter: 200, exit: 0 }}
+                in={organizerType === "INTERNAL"} unmountOnExit>
+                <Box>
+                    <HintBar
+                        text={t(
+                            "events.hints.internalOrganizer",
+                            "Seleccione la facultad, programa y área académica que organiza el evento"
+                        )}
+                    />
 
-                    <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-                        {t("events.sections.internalInfo")}
-                    </Typography>
-
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2.5} sx={{ mt: 2 }}>
                         <Grid size={{ xs: 12, md: 4 }}>
                             <Controller
                                 name="organizer.internalFacultyId"
@@ -217,12 +202,10 @@ export default function StepOrganizer() {
                                         }
                                         loading={faculties.isLoading}
                                         required
-                                        margin="none"
                                     />
                                 )}
                             />
                         </Grid>
-
                         <Grid size={{ xs: 12, md: 4 }}>
                             <Controller
                                 name="organizer.internalProgramId"
@@ -242,12 +225,10 @@ export default function StepOrganizer() {
                                         }
                                         loading={programs.isLoading}
                                         required
-                                        margin="none"
                                     />
                                 )}
                             />
                         </Grid>
-
                         <Grid size={{ xs: 12, md: 4 }}>
                             <Controller
                                 name="organizer.internalAcademicAreaId"
@@ -267,33 +248,24 @@ export default function StepOrganizer() {
                                         }
                                         loading={academicAreas.isLoading}
                                         required
-                                        margin="none"
                                     />
                                 )}
                             />
                         </Grid>
                     </Grid>
-                </>
-            )}
+                </Box>
+            </Fade>
 
-            {organizerType === "EXTERNAL" && (
-                <>
-                    <Alert
-                        severity="info"
-                        sx={{
-                            mb: 3,
-                            borderRadius: 2,
-                            fontSize: "0.9rem",
-                        }}
-                    >
-                        {t("events.hints.externalOrganizer", "Ingrese los datos de la organización externa")}
-                    </Alert>
-
-                    <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-                        {t("events.sections.externalInfo")}
-                    </Typography>
-
-                    <Grid container spacing={2}>
+            <Fade timeout={{ appear: 200, enter: 200, exit: 0 }}
+                in={organizerType === "EXTERNAL"} unmountOnExit>
+                <Box>
+                    <HintBar
+                        text={t(
+                            "events.hints.externalOrganizer",
+                            "Ingrese los datos de la organización externa"
+                        )}
+                    />
+                    <Grid container spacing={2.5} sx={{ mt: 2 }}>
                         <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 fullWidth
@@ -305,7 +277,6 @@ export default function StepOrganizer() {
                                 )}
                             />
                         </Grid>
-
                         <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 fullWidth
@@ -320,8 +291,29 @@ export default function StepOrganizer() {
                             />
                         </Grid>
                     </Grid>
-                </>
-            )}
+                </Box>
+            </Fade>
+        </Box>
+    );
+}
+
+function HintBar({ text }: { text: string }) {
+    return (
+        <Box
+            sx={(theme) => ({
+                display: "flex",
+                alignItems: "center",
+                gap: 1.2,
+                p: 1.5,
+                borderRadius: 2,
+                backgroundColor: alpha(theme.palette.info.main, 0.08),
+                color: theme.palette.info.main,
+                fontWeight: 500,
+                fontSize: "0.9rem",
+            })}
+        >
+            <InfoOutlinedIcon fontSize="small" />
+            {text}
         </Box>
     );
 }
