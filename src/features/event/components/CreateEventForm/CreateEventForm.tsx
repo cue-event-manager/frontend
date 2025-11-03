@@ -22,6 +22,9 @@ import {
 import StepSchedule from "./steps/StepSchedule";
 import StepSpace from "./steps/StepSpace";
 import StepOrganizer from "./steps/StepOrganizer";
+import StepAgenda from "./steps/StepAgenda";
+import StepAttachments from "./steps/StepAttachments";
+import StepSummary from "./steps/StepSummary";
 
 export default function CreateEventForm() {
     const { t } = useTranslation();
@@ -82,16 +85,21 @@ export default function CreateEventForm() {
     const {
         handleSubmit,
         trigger,
-        formState: { isSubmitting, errors, isValid },
+        formState: { isSubmitting, errors },
     } = form;
 
-    const handleNext = async () => {
+   const handleNext = async (e?: React.MouseEvent)=> {
+        e?.preventDefault();
         const stepSchema = getStepSchema(activeStep);
         const stepFields = Object.keys(stepSchema.fields);
         const isValid = await trigger(stepFields as any, { shouldFocus: true });
 
         if (isValid) {
-            setActiveStep((prev) => Math.min(prev + 1, steps.length - 1));
+            console.log("Moving from step:", activeStep);
+            setActiveStep((prev) => {
+                console.log("Now moving to step:", prev + 1);
+                return Math.min(prev + 1, steps.length - 1);
+            });
         } else {
             console.warn("Step validation failed:", errors);
         }
@@ -102,6 +110,8 @@ export default function CreateEventForm() {
     };
 
     const onSubmit = handleSubmit(async (data) => {
+        console.log("🔥 onSubmit called! activeStep:", activeStep);
+
         try {
             await eventFormSchema.validate(data, { abortEarly: false });
 
@@ -133,6 +143,9 @@ export default function CreateEventForm() {
                         {activeStep === 1 && <StepSchedule />}
                         {activeStep === 2 && <StepSpace />}
                         {activeStep === 3 && <StepOrganizer />}
+                        {activeStep === 4 && <StepAgenda />}
+                        {activeStep === 5 && <StepAttachments />}
+                        {activeStep === 6 && <StepSummary />}
                     </Box>
                 </Box>
 
@@ -161,6 +174,7 @@ export default function CreateEventForm() {
 
                     {activeStep < steps.length - 1 ? (
                         <Button
+                            type="button"
                             variant="contained"
                             onClick={handleNext}
                             disabled={isSubmitting || createEventMutation.isPending}
