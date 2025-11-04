@@ -12,7 +12,6 @@ import { FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppForm } from "@shared/hooks/useAppForm";
 import useCreateEvent from "../../hooks/useCreateEvent";
-
 import StepBasicInfo from "./steps/StepBasicInfo";
 import {
     eventFormSchema,
@@ -26,7 +25,13 @@ import StepAgenda from "./steps/StepAgenda";
 import StepAttachments from "./steps/StepAttachments";
 import StepSummary from "./steps/StepSummary";
 
-export default function CreateEventForm() {
+
+interface CreateEventFormProps {
+        onSuccess?: () => void;
+}
+
+
+export default function CreateEventForm({onSuccess}:CreateEventFormProps) {
     const { t } = useTranslation();
     const [activeStep, setActiveStep] = useState(0);
     const createEventMutation = useCreateEvent();
@@ -110,8 +115,6 @@ export default function CreateEventForm() {
     };
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log("🔥 onSubmit called! activeStep:", activeStep);
-
         try {
             await eventFormSchema.validate(data, { abortEarly: false });
 
@@ -121,6 +124,7 @@ export default function CreateEventForm() {
 
             console.log("Submitting final data:", cleanedData);
             createEventMutation.mutate(cleanedData);
+            onSuccess?.();
         } catch (error) {
             console.error("Final validation failed:", error);
         }
