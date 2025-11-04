@@ -90,6 +90,11 @@ export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
     icon: <EventIcon />,
     children: [
       {
+        text: "Gestión de Eventos",
+        icon: <EventIcon fontSize="small" />,
+        path: ROUTES.ADMIN.EVENTS,
+      },
+      {
         text: "Modalidades de Evento",
         icon: <StyleIcon fontSize="small" />,
         path: ROUTES.ADMIN.EVENT_MODALITIES,

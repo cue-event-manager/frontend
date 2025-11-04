@@ -20,7 +20,8 @@ export const ROUTES = {
         FACULTIES: '/admin/faculties',
         ACADEMIC_PROGRAMS: '/admin/academic-programs',
         EVENT_MODALITIES: '/admin/event-modalities',
-        EVENT_CATEGORIES: '/admin/event-categories'
+        EVENT_CATEGORIES: '/admin/event-categories',
+        EVENTS: '/admin/events'
     },
     ORGANIZER: {
         BASE: '/organizer'
