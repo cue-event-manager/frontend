@@ -418,6 +418,7 @@
             "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint"
         },
         "messages": {
+            "created":"Evento creado exitosamente.",
             "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados.",
             "uploadSuccess": "Archivo subido correctamente.",
             "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",

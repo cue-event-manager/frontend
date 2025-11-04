@@ -70,8 +70,8 @@ export default function CreateEventFormModal({
                     </DialogTitle>
 
                     <DialogContent dividers sx={{ py: 4 }}>
-                        <CreateEventForm />
-                    </DialogContent>
+                        <CreateEventForm onSuccess={handleSuccess} />
+                    </DialogContent> 
                 </Paper>
 
             </Dialog>
