@@ -80,7 +80,6 @@ export default function StepAgenda() {
                         borderRadius: 2,
                         border: "1px dashed",
                         borderColor: theme.palette.divider,
-                        backgroundColor: alpha(theme.palette.background.paper, 0.3),
                         textAlign: "center",
                         py: 6,
                     })}

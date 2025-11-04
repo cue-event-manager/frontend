@@ -11,6 +11,7 @@ import {
     IconButton,
     Tooltip,
     Fade,
+    LinearProgress,
 } from "@mui/material";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,9 +19,9 @@ import { alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import type { EventFormData } from "@/shared/validation/eventSchema";
-import { uploadImage } from "@/services/file.service";
 import DropzoneArea from "@/components/molecules/DropzoneArea";
 import FileCard from "@/components/molecules/FileCard";
+import { useUploadFile } from "@/features/file/hooks/useUploadFile";
 
 export default function StepAttachments() {
     const { t } = useTranslation();
@@ -33,6 +34,7 @@ export default function StepAttachments() {
 
     const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
     const [uploadedIndexes, setUploadedIndexes] = useState<Set<number>>(new Set());
+    const uploadFileMutation = useUploadFile();
 
     const {
         fields: attachments,
@@ -53,32 +55,34 @@ export default function StepAttachments() {
         name: "extraContacts",
     });
 
-    const handleFileChange = async (file: File, index: number) => {
+    const handleDropFiles = async (files: File[]) => {
+        for (const file of files) {
+            const newIndex = attachments.length;
+            appendAttachment({
+                name: file.name,
+                filePath: "",
+                contentType: file.type,
+            });
+            await handleFileUpload(file, newIndex);
+        }
+    };
+
+    const handleFileUpload = async (file: File, index: number) => {
         try {
             setUploadingIndex(index);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            const uploaded = await uploadImage({ file });
+            const uploaded = await uploadFileMutation.mutateAsync({ file });
             setValue(`attachments.${index}.name`, uploaded.originalName);
             setValue(`attachments.${index}.filePath`, uploaded.path);
             setValue(`attachments.${index}.contentType`, uploaded.contentType.toString());
             setUploadedIndexes((prev) => new Set(prev).add(index));
+        } catch (err) {
+            console.error("Error al subir archivo:", err);
         } finally {
             setUploadingIndex(null);
         }
     };
 
-    const handleDropFiles = (files: File[]) => {
-        files.forEach((file) =>
-            appendAttachment({
-                name: file.name,
-                filePath: "",
-                contentType: file.type,
-            })
-        );
-    };
-
-    const handleAddContact = () =>
-        appendContact({ name: "", email: "", phone: "" });
+    const handleAddContact = () => appendContact({ name: "", email: "", phone: "" });
 
     return (
         <Box sx={{ mt: 1 }}>
@@ -95,17 +99,46 @@ export default function StepAttachments() {
             {attachments.length > 0 && (
                 <Stack spacing={2.5} sx={{ mt: 3 }}>
                     {attachments.map((field, index) => (
-                        <FileCard
+                        <Paper
                             key={field.id}
-                            name={field.name}
-                            contentType={field.contentType}
-                            uploading={uploadingIndex === index}
-                            uploaded={uploadedIndexes.has(index)}
-                            onDelete={() => removeAttachment(index)}
-                            onRename={(newName: string) =>
-                                updateAttachment(index, { ...field, name: newName })
-                            }
-                        />
+                            elevation={1}
+                            sx={(theme) => ({
+                                borderRadius: 2.5,
+                                border: "1px solid",
+                                borderColor: alpha(theme.palette.divider, 0.2),
+                                backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                                transition: "all 0.25s ease",
+                            })}
+                        >
+                            <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
+                                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ fontWeight: 700, color: "text.primary" }}
+                                    >
+                                        {t("events.labels.attachment")} {index + 1}
+                                    </Typography>
+
+                                </Stack>
+
+                                <Divider sx={{ mb: 2 }} />
+
+                                <FileCard
+                                    name={field.name}
+                                    contentType={field.contentType}
+                                    uploading={uploadingIndex === index}
+                                    uploaded={uploadedIndexes.has(index)}
+                                    onRename={(newName) =>
+                                        updateAttachment(index, { ...field, name: newName })
+                                    }
+                                    onDelete={() => removeAttachment(index)}
+                                />
+
+                                {uploadingIndex === index && (
+                                    <LinearProgress sx={{ mt: 2 }} color="primary" />
+                                )}
+                            </Box>
+                        </Paper>
                     ))}
                 </Stack>
             )}
@@ -162,41 +195,26 @@ export default function StepAttachments() {
                                     border: "1px solid",
                                     borderColor: alpha(theme.palette.divider, 0.2),
                                     backgroundColor: alpha(theme.palette.background.paper, 0.9),
-                                    transition: "all 0.25s ease",
                                 })}
                             >
                                 <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                            mb: 1.5,
-                                        }}
-                                    >
+                                    <Stack direction="row" justifyContent="space-between" mb={1.5}>
                                         <Typography
                                             variant="subtitle2"
                                             sx={{ fontWeight: 700, color: "text.primary" }}
                                         >
                                             {t("events.labels.contact")} {index + 1}
                                         </Typography>
-
                                         <Tooltip title={t("common.actions.delete") ?? ""}>
                                             <IconButton
                                                 color="error"
                                                 size="small"
                                                 onClick={() => removeContact(index)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: "error.light",
-                                                        color: "white",
-                                                    },
-                                                }}
                                             >
                                                 <DeleteIcon fontSize="small" />
                                             </IconButton>
                                         </Tooltip>
-                                    </Box>
+                                    </Stack>
 
                                     <Divider sx={{ mb: 2 }} />
 
@@ -214,7 +232,7 @@ export default function StepAttachments() {
                                             />
                                         </Grid>
 
-                                        <Grid size={{ xs: 12, sm: 4 }} >
+                                        <Grid size={{ xs: 12, sm: 4 }}>
                                             <TextField
                                                 fullWidth
                                                 size="small"
@@ -228,7 +246,7 @@ export default function StepAttachments() {
                                             />
                                         </Grid>
 
-                                        <Grid size={{ xs: 12, sm: 4 }} >
+                                        <Grid size={{ xs: 12, sm: 4 }}>
                                             <TextField
                                                 fullWidth
                                                 size="small"
