@@ -352,7 +352,8 @@
             "fileName": "Nombre del archivo",
             "contactName": "Nombre del contacto",
             "contactEmail": "Correo electrónico del contacto",
-            "contactPhone": "Teléfono del contacto"
+            "contactPhone": "Teléfono del contacto",
+            "virtualMeetingLink": "Enlace de reunión virtual"
         },
         "organizerType": {
             "internal": "Organizador interno",
@@ -414,13 +415,14 @@
             "attachment": "Archivo",
             "contact": "Contacto",
             "dropzoneLabel": "Arrastra tus archivos o haz clic para subirlos",
-              "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint"
-
+            "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint"
         },
         "messages": {
             "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados.",
             "uploadSuccess": "Archivo subido correctamente.",
-            "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente."
+            "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
+            "noSpacesGeneral": "No se encontraron espacios. Ajusta los filtros o intenta más tarde.",
+            "noSpacesFullyAvailable": "No hay espacios con disponibilidad total para todas las fechas. Desactiva 'Disponibilidad Total' para ver todos los espacios y ajustar manualmente después."
         },
         "hints": {
             "recurrentMode": "Los eventos recurrentes permiten definir un rango de fechas y un tipo de recurrencia (diaria, semanal o mensual).",
@@ -433,7 +435,12 @@
             "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint",
             "noContacts": "No hay contactos adicionales agregados",
             "contact": "Contacto",
-            "attachment": "Archivo adjunto"
+            "attachment": "Archivo adjunto",
+            "noPhysicalSpaceRequired": "Esta modalidad no requiere espacio físico. Puedes ingresar un enlace de reunión o ubicación virtual.",
+            "recurrentSpaceTitle": "Evento Recurrente",
+            "recurrentSpaceDescription": "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente.",
+            "requireFullAvailabilityDescription": "Solo mostrar espacios disponibles en todas las fechas del evento",
+            "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles"
         },
         "filters": {
             "name": "Buscar por nombre del evento",
@@ -494,7 +501,8 @@
         "timeRange": "La hora de finalización debe ser posterior a la hora de inicio.",
         "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
         "positive": "El valor debe ser positivo.",
-        "url": "Formato de la URL no válida"
+        "url": "Formato de la URL no válida",
+        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
