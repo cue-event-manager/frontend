@@ -1,4 +1,6 @@
-export function buildQueryParams<T extends object>(query: T): string {
+export function buildQueryParams<T extends object>(query?: T): string {
+  if(!query) return "";
+
   const cleanedEntries = Object.entries(query)
     .filter(([_, value]) => value !== undefined && value !== null && value !== "")
     .map(([key, value]) => {
@@ -7,6 +9,8 @@ export function buildQueryParams<T extends object>(query: T): string {
       }
       return [key, String(value)];
     });
+
+    console.log(cleanedEntries);
 
   return new URLSearchParams(cleanedEntries).toString();
 }

@@ -1,0 +1,5 @@
+export const EVENT_SCHEDULE_CONSTRAINT = {
+    MIN_HOUR:"7:00",
+    MAX_HOUR:"22:00",
+    STEP:900
+}

@@ -6,6 +6,8 @@ import type { CreateAcademicProgramRequestDto } from "@/domain/academicprogram/C
 import type { AcademicProgram } from "@/domain/academicprogram/AcademicProgram";
 import type { AcademicProgramPaginationRequestDto } from "@/domain/academicprogram/AcademicProgramPaginationRequestDto";
 import type { UpdateAcademicProgramRequestDto } from "@/domain/academicprogram/UpdateAcademicProgramRequestDto";
+import type { GetAllAcademicProgramRequestDto } from "@/domain/academicprogram/GetAllAcademicProgramsRequestDto";
+import { buildQueryParams } from "@/utils/buildQueryParams";
 
 const ACADEMIC_PROGRAM_ENDPOINT_PREFFIX = `${ACADEMIC_SERVICE}/api/academic-programs`
 
@@ -28,9 +30,10 @@ export const getAcademicPrograms = async (query: AcademicProgramPaginationReques
     return data;
 }
 
-export const getAllAcademicPrograms = async (): Promise<AcademicProgram[]> => {
+export const getAllAcademicPrograms = async (query?: GetAllAcademicProgramRequestDto): Promise<AcademicProgram[]> => {
+    const params = buildQueryParams(query);
     const { data } = await axiosInstance.get<AcademicProgram[]>(
-        `${ACADEMIC_PROGRAM_ENDPOINT_PREFFIX}/all`
+        `${ACADEMIC_PROGRAM_ENDPOINT_PREFFIX}/all?${params}`
     );
     return data;
 }

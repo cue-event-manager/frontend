@@ -38,7 +38,7 @@ export default function StepOrganizer() {
     const selectedFacultyId = watch("organizer.internalFacultyId");
 
     const faculties = useAllFaculties();
-    const programs = useAllAcademicPrograms();
+    const programs = useAllAcademicPrograms({ facultyId: selectedFacultyId ?? undefined });
     const academicAreas = useAllAcademicAreas();
 
     useEffect(() => {
@@ -170,7 +170,7 @@ export default function StepOrganizer() {
                 </Grid>
             </Grid>
 
-            <Divider sx={{ my:4 }} />
+            <Divider sx={{ my: 4 }} />
 
             <Fade timeout={{ appear: 200, enter: 200, exit: 0 }}
                 in={organizerType === "INTERNAL"} unmountOnExit>
