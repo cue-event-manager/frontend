@@ -34,7 +34,7 @@ export const createRecurrentEvent = async (createRecurrentEventRequest: CreateRe
 export const updateEvent = async (updateEventRequest: UpdateEventRequestDto): Promise<UpdateEventResponseDto> => {
     const { id, ...payload } = updateEventRequest;
     const { data } = await axiosInstance.put<UpdateEventResponseDto>(
-        `${EVENT_ENDPOINT_PREFIX}/${id}`,
+        `${EVENT_ENDPOINT_PREFIX}/${id}/update`,
         payload
     );
     return data;
