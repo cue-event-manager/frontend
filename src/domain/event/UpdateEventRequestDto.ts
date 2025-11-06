@@ -12,6 +12,7 @@ export interface UpdateEventRequestDto {
     categoryId?: number;
     modalityId?: number;
     spaceId?: number;
+    virtualMeetingLink?: string;
     capacity?: number;
     imagePath?: string;
     status?: EventStatus;

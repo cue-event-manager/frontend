@@ -16,6 +16,7 @@ export interface Event {
     startTime: string;
     endTime: string;
     spaceId: number;
+    virtualMeetingLink?: string;
     capacity: number;
     status: EventStatus;
     recurrenceMode: EventRecurrenceMode;
