@@ -8,6 +8,7 @@ import type { SpacePaginationRequestDto } from "@/domain/space/SpacePaginationRe
 import type { UpdateSpaceRequestDto } from "@/domain/space/UpdateSpaceRequestDto";
 import type { GetAvailableSpacesRequestDto } from "@/domain/space/GetAvailableSpacesRequestDto";
 import { buildQueryParams } from "@/utils/buildQueryParams";
+import type { GetAllSpacesRequestDto } from "@/domain/space/GetAllSpacesRequestDto";
 
 const SPACE_ENDPOINT_PREFFIX = `${SPACE_SERVICE}/api/spaces`
 
@@ -30,15 +31,25 @@ export const getSpaces = async (query: SpacePaginationRequestDto & PaginationQue
     return data;
 }
 
-export const getAllAvailableSpaces = async (query: GetAvailableSpacesRequestDto)  => {
-    console.log(query);
-  const params = buildQueryParams(query);
+export const getAllSpaces = async (query: GetAllSpacesRequestDto) => {
+    const params = buildQueryParams(query);
 
-    const {data} = await axiosInstance.get<Space[]>(
+    const { data } = await axiosInstance.get<Space[]>(
+        `${SPACE_ENDPOINT_PREFFIX}/all?${params}`
+    );
+
+    return data;
+}
+
+
+export const getAllAvailableSpaces = async (query: GetAvailableSpacesRequestDto) => {
+    const params = buildQueryParams(query);
+
+    const { data } = await axiosInstance.get<Space[]>(
         `${SPACE_ENDPOINT_PREFFIX}/available?${params}`
     );
 
-    return data; 
+    return data;
 }
 
 export const updateSpace = async (updateSpaceRequest: UpdateSpaceRequestDto): Promise<Space> => {

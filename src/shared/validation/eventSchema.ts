@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import i18n from "@/translations";
+import { EVENT_SCHEDULE_CONSTRAINT } from "@/features/event/constants/event.constant";
 
 const messages = {
     required: i18n.t("validation.required"),
@@ -11,6 +12,10 @@ const messages = {
     invalidDate: i18n.t("validation.invalidDate"),
     dateRange: i18n.t("validation.dateRange"),
     timeRange: i18n.t("validation.timeRange"),
+    timeOutsideRange: i18n.t(
+        "validation.timeOutsideRange",
+        { min: EVENT_SCHEDULE_CONSTRAINT.MIN_HOUR, max: EVENT_SCHEDULE_CONSTRAINT.MAX_HOUR }
+    ),
 };
 
 export const basicInfoSchema = yup.object({
@@ -88,6 +93,7 @@ export const scheduleSchema = yup
         startTime: yup
             .string()
             .required(messages.required)
+            .test("startTime-in-range", messages.timeOutsideRange, (v) => isWithinAllowedHours(v!))
             .test("startTime-valid", messages.invalidDate, function (value) {
                 if (!value) return true;
                 const [h, m] = value.split(":").map(Number);
@@ -96,6 +102,7 @@ export const scheduleSchema = yup
         endTime: yup
             .string()
             .required(messages.required)
+            .test("endTime-in-range", messages.timeOutsideRange, (v) => isWithinAllowedHours(v!))
             .test("endTime-after-startTime", messages.timeRange, function (value) {
                 const { startTime } = this.parent;
                 if (!startTime || !value) return true;
@@ -126,17 +133,37 @@ export const scheduleSchema = yup
         return endMinutes > startMinutes;
     });
 
+function isWithinAllowedHours(time: string): boolean {
+    if (!time) return true;
+    const [h, m] = time.split(":").map(Number);
+    const [minH, minM] = EVENT_SCHEDULE_CONSTRAINT.MIN_HOUR.split(":").map(Number);
+    const [maxH, maxM] = EVENT_SCHEDULE_CONSTRAINT.MAX_HOUR.split(":").map(Number);
+    const minutes = h * 60 + m;
+    const minMinutes = minH * 60 + minM;
+    const maxMinutes = maxH * 60 + maxM;
+    return minutes >= minMinutes && minutes <= maxMinutes;
+}
+
 export const spaceSchema = yup.object({
     requiresSpace: yup.boolean().nullable(),
-    spaceId: yup
-        .number()
+    virtualMeetingLink: yup
+        .string()
         .nullable()
         .when("requiresSpace", {
-            is: true,
+            is: false,
             then: (schema) =>
-                schema.typeError(messages.required).required(messages.required),
-            otherwise: (schema) => schema.notRequired(),
-        }),
+                schema
+                    .url(messages.url)
+                    .required(messages.required),
+        }), spaceId: yup
+            .number()
+            .nullable()
+            .when("requiresSpace", {
+                is: true,
+                then: (schema) =>
+                    schema.typeError(messages.required).required(messages.required),
+                otherwise: (schema) => schema.notRequired(),
+            }),
 });
 
 export const organizerSchema = yup.object({
@@ -204,10 +231,12 @@ export const agendaSchema = yup.object({
             yup.object({
                 title: yup.string().required(messages.required),
                 description: yup.string().nullable(),
-                startTime: yup.string().required(messages.required),
+                startTime: yup.string().required(messages.required).test("agenda-start-in-range", messages.timeOutsideRange, (v) => isWithinAllowedHours(v!))
+                ,
                 endTime: yup
                     .string()
                     .required(messages.required)
+                    .test("agenda-end-in-range", messages.timeOutsideRange, (v) => isWithinAllowedHours(v!))
                     .test("agenda-time-range", messages.timeRange, function (endTime) {
                         const { startTime } = this.parent;
                         if (!startTime || !endTime) return true;
