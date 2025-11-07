@@ -304,6 +304,41 @@
                 "title": "Eliminar categoría de evento",
                 "message": "¿Estás seguro de que deseas eliminar esta categoría de evento? Esta acción no se puede deshacer."
             }
+        },
+        "events": {
+            "title": "Gestión de Eventos",
+            "description": "Administra los eventos registrados en la plataforma.",
+            "created": "Evento creado exitosamente.",
+            "updated": "Evento actualizado correctamente.",
+            "deleted": "Evento eliminado correctamente.",
+            "createTitle": "Crear evento",
+            "editTitle": "Actualizar evento",
+            "create": "Crear Evento",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "category": "Categoría",
+                "modality": "Modalidad",
+                "date": "Fecha",
+                "time": "Horario",
+                "status": "Estado"
+            },
+            "filters": {
+                "name": "Buscar por nombre",
+                "category": "Filtrar por categoría",
+                "modality": "Filtrar por modalidad",
+                "status": "Filtrar por estado"
+            },
+            "status": {
+                "published": "Publicado",
+                "inProgress": "En Progreso",
+                "finished": "Finalizado",
+                "cancelled": "Cancelado"
+            },
+            "delete": {
+                "title": "Eliminar evento",
+                "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+            }
         }
     },
     "events": {

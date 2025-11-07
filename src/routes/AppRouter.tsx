@@ -24,6 +24,7 @@ import AdminFacultiesPage from "@/pages/AdminFacultiesPage";
 import AdminAcademicProgramsPage from "@/pages/AdminAcademicProgramsPage";
 import AdminEventModalitiesPage from "@/pages/AdminEventModalitiesPage";
 import AdminEventCategoriesPage from "@/pages/AdminEventCategoriesPage";
+import AdminEventsPage from "@/pages/AdminEventsPage";
 import OrganizerLayout from "@/components/layouts/OrganizerLayout";
 import OrganizerHomePage from "@/pages/OrganizerHomePage";
 
@@ -61,6 +62,7 @@ export default function AppRouter() {
           <Route path={ROUTES.ADMIN.ACADEMIC_PROGRAMS} element={<AdminAcademicProgramsPage />} />
           <Route path={ROUTES.ADMIN.EVENT_MODALITIES} element={<AdminEventModalitiesPage />} />
           <Route path={ROUTES.ADMIN.EVENT_CATEGORIES} element={<AdminEventCategoriesPage />} />
+          <Route path={ROUTES.ADMIN.EVENTS} element={<AdminEventsPage />} />
         </Route>
       </Route>
 
