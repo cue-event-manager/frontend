@@ -6,12 +6,18 @@ import {
     Step,
     StepLabel,
     Divider,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppForm } from "@shared/hooks/useAppForm";
 import { useUpdateEvent } from "../../hooks/useUpdateEvent";
+import { useUpdateRecurrentEvent } from "../../hooks/useUpdateRecurrentEvent";
 import type { Event } from "@/domain/event/Event";
 
 import StepBasicInfo from "../CreateEventForm/steps/StepBasicInfo";
@@ -35,7 +41,13 @@ interface UpdateEventFormProps {
 export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormProps) {
     const { t } = useTranslation();
     const [activeStep, setActiveStep] = useState(0);
+    const [showRecurrentDialog, setShowRecurrentDialog] = useState(false);
+    const [pendingData, setPendingData] = useState<any>(null);
+
     const updateEventMutation = useUpdateEvent();
+    const updateRecurrentEventMutation = useUpdateRecurrentEvent();
+
+    const isRecurrentEvent = event.recurrenceMode === "RECURRING" && event.recurrenceId;
 
     const steps = useMemo(
         () => [
@@ -112,6 +124,67 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
         setActiveStep((prev) => Math.max(prev - 1, 0));
     };
 
+    const handleUpdateSingleEvent = (data: any) => {
+        // Update only this event
+        const updatePayload = {
+            id: event.id,
+            name: data.name,
+            description: data.description,
+            cost: data.cost,
+            categoryId: data.categoryId,
+            modalityId: data.modalityId,
+            spaceId: data.spaceId,
+            virtualMeetingLink: data.virtualMeetingLink,
+            capacity: data.capacity,
+            imagePath: data.imagePath,
+            date: data.date ? new Date(data.date).toISOString().split('T')[0] : undefined,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            organizer: data.organizer,
+            agenda: data.agenda,
+            attachments: data.attachments,
+            extraContacts: data.extraContacts,
+        };
+
+        updateEventMutation.mutate(updatePayload, {
+            onSuccess: () => {
+                setShowRecurrentDialog(false);
+                setPendingData(null);
+                onSuccess?.();
+            }
+        });
+    };
+
+    const handleUpdateAllEvents = (data: any) => {
+        // Update all events in the series
+        const updatePayload = {
+            recurrenceId: event.recurrenceId!,
+            name: data.name,
+            description: data.description,
+            cost: data.cost,
+            categoryId: data.categoryId,
+            modalityId: data.modalityId,
+            spaceId: data.spaceId,
+            virtualMeetingLink: data.virtualMeetingLink,
+            capacity: data.capacity,
+            imagePath: data.imagePath,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            organizer: data.organizer,
+            agenda: data.agenda,
+            attachments: data.attachments,
+            extraContacts: data.extraContacts,
+        };
+
+        updateRecurrentEventMutation.mutate(updatePayload, {
+            onSuccess: () => {
+                setShowRecurrentDialog(false);
+                setPendingData(null);
+                onSuccess?.();
+            }
+        });
+    };
+
     const onSubmit = handleSubmit(async (data) => {
         try {
             await eventFormSchema.validate(data, { abortEarly: false });
@@ -120,32 +193,15 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
                 JSON.stringify(data, (_k, v) => (v === null ? undefined : v))
             );
 
-            // Preparar payload para actualización
-            const updatePayload = {
-                id: event.id,
-                name: cleanedData.name,
-                description: cleanedData.description,
-                cost: cleanedData.cost,
-                categoryId: cleanedData.categoryId,
-                modalityId: cleanedData.modalityId,
-                spaceId: cleanedData.spaceId,
-                virtualMeetingLink: cleanedData.virtualMeetingLink,
-                capacity: cleanedData.capacity,
-                imagePath: cleanedData.imagePath,
-                date: cleanedData.date ? new Date(cleanedData.date).toISOString().split('T')[0] : undefined,
-                startTime: cleanedData.startTime,
-                endTime: cleanedData.endTime,
-                organizer: cleanedData.organizer,
-                agenda: cleanedData.agenda,
-                attachments: cleanedData.attachments,
-                extraContacts: cleanedData.extraContacts,
-            };
-
-            updateEventMutation.mutate(updatePayload, {
-                onSuccess: () => {
-                    onSuccess?.();
-                }
-            });
+            // Check if this is a recurrent event
+            if (isRecurrentEvent) {
+                // Show dialog to ask user what to update
+                setPendingData(cleanedData);
+                setShowRecurrentDialog(true);
+            } else {
+                // Directly update single event
+                handleUpdateSingleEvent(cleanedData);
+            }
         } catch (error) {
             console.error("Final validation failed:", error);
         }
@@ -218,6 +274,45 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
                         </Button>
                     )}
                 </Box>
+
+                {/* Recurrent Event Update Dialog */}
+                <Dialog
+                    open={showRecurrentDialog}
+                    onClose={() => setShowRecurrentDialog(false)}
+                    maxWidth="sm"
+                    fullWidth
+                >
+                    <DialogTitle>
+                        {t("events.updateRecurrent.title")}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {t("events.updateRecurrent.message")}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => setShowRecurrentDialog(false)}
+                            disabled={updateEventMutation.isPending || updateRecurrentEventMutation.isPending}
+                        >
+                            {t("common.actions.cancel")}
+                        </Button>
+                        <Button
+                            onClick={() => pendingData && handleUpdateSingleEvent(pendingData)}
+                            variant="outlined"
+                            disabled={updateEventMutation.isPending || updateRecurrentEventMutation.isPending}
+                        >
+                            {t("events.updateRecurrent.onlyThis")}
+                        </Button>
+                        <Button
+                            onClick={() => pendingData && handleUpdateAllEvents(pendingData)}
+                            variant="contained"
+                            disabled={updateEventMutation.isPending || updateRecurrentEventMutation.isPending}
+                        >
+                            {t("events.updateRecurrent.allSeries")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </FormProvider>
     );
