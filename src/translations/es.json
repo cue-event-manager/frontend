@@ -6,6 +6,7 @@
             "create": "Crear",
             "edit": "Editar",
             "delete": "Eliminar",
+            "view": "Ver",
             "confirm": "Confirmar",
             "cancel": "Cancelar",
             "save": "Guardar",
@@ -407,6 +408,12 @@
             "uploadFile": "Subir archivo",
             "uploading": "Subiendo archivo..."
         },
+        "updateRecurrent": {
+            "title": "Actualizar evento recurrente",
+            "message": "Este evento pertenece a una serie recurrente. ¿Qué deseas actualizar?",
+            "onlyThis": "Solo este evento",
+            "allSeries": "Toda la serie"
+        },
         "sections": {
             "banner": "Banner del evento",
             "basicInfo": "Información básica",
@@ -695,6 +702,41 @@
             "greeting": "¡Hola, {{name}}!",
             "defaultName": "Organizador",
             "description": "Bienvenido a tu panel de gestión de eventos. Aquí podrás crear, administrar y hacer seguimiento a tus actividades."
+        },
+        "events": {
+            "title": "Mis Eventos",
+            "description": "Administra los eventos que has creado.",
+            "created": "Evento creado exitosamente.",
+            "updated": "Evento actualizado correctamente.",
+            "recurrentUpdated": "Se actualizaron {{count}} eventos de la serie.",
+            "deleted": "Evento eliminado correctamente.",
+            "create": "Crear Evento",
+            "createTitle": "Crear nuevo evento",
+            "editTitle": "Actualizar evento",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "category": "Categoría",
+                "modality": "Modalidad",
+                "date": "Fecha",
+                "time": "Horario",
+                "status": "Estado",
+                "recurrence": "Recurrencia"
+            },
+            "status": {
+                "published": "Publicado",
+                "inProgress": "En Progreso",
+                "finished": "Finalizado",
+                "cancelled": "Cancelado"
+            },
+            "recurrence": {
+                "single": "Único",
+                "recurring": "Recurrente"
+            },
+            "delete": {
+                "title": "Eliminar evento",
+                "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+            }
         }
     }
 }
