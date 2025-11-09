@@ -41,7 +41,6 @@ export function DataTableFilterBar({
         setDrawerOpen(false);
     };
 
-    // ✅ Mobile version
     if (isMobile) {
         return (
             <>
@@ -91,7 +90,6 @@ export function DataTableFilterBar({
                         },
                     }}
                 >
-                    {/* Handle bar */}
                     <Box
                         sx={{
                             width: 40,
@@ -104,7 +102,6 @@ export function DataTableFilterBar({
                         }}
                     />
 
-                    {/* Header */}
                     <Box
                         display="flex"
                         alignItems="center"
@@ -139,7 +136,6 @@ export function DataTableFilterBar({
 
                     <Divider />
 
-                    {/* Filter content */}
                     <Box
                         sx={{
                             px: 3,
@@ -153,7 +149,6 @@ export function DataTableFilterBar({
                         </Box>
                     </Box>
 
-                    {/* Footer buttons */}
                     <Box
                         sx={{
                             px: 3,
