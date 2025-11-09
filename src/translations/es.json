@@ -736,6 +736,12 @@
             "delete": {
                 "title": "Eliminar evento",
                 "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+            },
+            "cancelled": "Evento cancelado correctamente.",
+            "cancel": {
+                "button": "Cancelar evento",
+                "title": "Cancelar evento",
+                "message": "¿Estás seguro de que deseas cancelar este evento? Los asistentes inscritos serán notificados automáticamente."
             }
         }
     }
