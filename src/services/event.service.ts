@@ -5,6 +5,8 @@ import type { CreateEventResponseDto } from "@/domain/event/CreateEventResponseD
 import type { CreateRecurrentEventRequestDto } from "@/domain/event/CreateRecurrentEventRequestDto";
 import type { UpdateEventRequestDto } from "@/domain/event/UpdateEventRequestDto";
 import type { UpdateEventResponseDto } from "@/domain/event/UpdateEventResponseDto";
+import type { UpdateRecurrentEventRequestDto } from "@/domain/event/UpdateRecurrentEventRequestDto";
+import type { UpdateRecurrentEventResponseDto } from "@/domain/event/UpdateRecurrentEventResponseDto";
 import type { Event } from "@/domain/event/Event";
 import type { EventPaginationRequestDto } from "@/domain/event/EventPaginationRequestDto";
 import type { PaginationQuery } from "@/domain/common/PaginationQuery";
@@ -35,6 +37,15 @@ export const updateEvent = async (updateEventRequest: UpdateEventRequestDto): Pr
     const { id, ...payload } = updateEventRequest;
     const { data } = await axiosInstance.put<UpdateEventResponseDto>(
         `${EVENT_ENDPOINT_PREFIX}/${id}/update`,
+        payload
+    );
+    return data;
+};
+
+export const updateRecurrentEvent = async (updateRecurrentEventRequest: UpdateRecurrentEventRequestDto): Promise<UpdateRecurrentEventResponseDto> => {
+    const { recurrenceId, ...payload } = updateRecurrentEventRequest;
+    const { data } = await axiosInstance.put<UpdateRecurrentEventResponseDto>(
+        `${EVENT_ENDPOINT_PREFIX}/recurrent/${recurrenceId}/update`,
         payload
     );
     return data;
