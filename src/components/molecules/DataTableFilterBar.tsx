@@ -199,19 +199,18 @@ export function DataTableFilterBar({
         <Box
             sx={{
                 display: "flex",
-                alignItems: "flex-end",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
                 gap: 2,
                 mb: 3,
-                flexWrap: "wrap",
-                borderRadius: 3,
             }}
         >
             <Box
                 sx={{
                     display: "flex",
-                    alignItems: "flex-end",
-                    gap: 2,
                     flexWrap: "wrap",
+                    gap: 2,
                     flex: 1,
                 }}
             >
@@ -221,8 +220,10 @@ export function DataTableFilterBar({
             <Box
                 sx={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: 1,
+                    flexDirection: "row",
+                    alignItems: "flex-end",
+                    gap: 1.5,
+                    flexShrink: 0,
                 }}
             >
                 <Button
@@ -236,13 +237,12 @@ export function DataTableFilterBar({
                         px: 3,
                         fontWeight: 600,
                         boxShadow: 1,
-                        "&:hover": {
-                            boxShadow: 2,
-                        },
+                        "&:hover": { boxShadow: 2 },
                     }}
                 >
                     {t("common.actions.search")}
                 </Button>
+
                 <Button
                     variant="outlined"
                     color="inherit"
@@ -259,4 +259,5 @@ export function DataTableFilterBar({
             </Box>
         </Box>
     );
+
 }
