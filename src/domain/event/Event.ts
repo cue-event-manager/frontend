@@ -1,3 +1,5 @@
+import type { EventCategory } from "../eventcategory/EventCategory";
+import type { EventModality } from "../eventmodality/EventModality";
 import type { EventAgendaItem } from "./EventAgendaItem";
 import type { EventAttachment } from "./EventAttachment";
 import type { EventExtraContact } from "./EventExtraContact";
@@ -23,10 +25,9 @@ export interface Event {
     recurrenceId?: string;
     parentId?: number;
     recurrenceType?: RecurrenceType;
-    categoryId: number;
     categoryName: string;
-    modalityId: number;
-    modalityName: string;
+    modality: EventModality;
+    category: EventCategory;
     organizer: EventOrganizer;
     agenda: EventAgendaItem[];
     attachments: EventAttachment[];
