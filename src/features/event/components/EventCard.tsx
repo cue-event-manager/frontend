@@ -3,64 +3,54 @@ import {
     CardContent,
     CardActions,
     Typography,
-    Chip,
     Box,
     Stack,
     useTheme,
 } from "@mui/material";
-import {
-    CalendarToday,
-    AccessTime,
-    VideoCall,
-    AttachFile,
-    People,
-} from "@mui/icons-material";
+import { CalendarToday, VideoCall, AttachFile, People } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import type { ReactNode } from "react";
 import type { Event } from "@/domain/event/Event";
+import { formatEventDate } from "@/features/event/utils/date";
 
 const CLOUDFRONT_BASE_URL = "https://d1z2jagk4z4o7g.cloudfront.net/";
 const DEFAULT_IMAGE = "/common/no-image.png";
 
 interface EventCardProps {
     event: Event;
-    actions?: React.ReactNode;
+    actions?: ReactNode;
 }
 
 export function EventCard({ event, actions }: EventCardProps) {
-    const { t } = useTranslation();
     const theme = useTheme();
+    const { t } = useTranslation();
 
     const imageUrl = event.imagePath
         ? `${CLOUDFRONT_BASE_URL}${event.imagePath}`
         : DEFAULT_IMAGE;
 
-    const formattedDate = new Date(event.date).toLocaleDateString("es-CO", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-    });
+    const formattedDate = formatEventDate(event.date, event.startTime);
 
-    const formattedTime = `${event.startTime?.slice(0, 5)} - ${event.endTime?.slice(0, 5)}`;
     const isVirtual = Boolean(event.virtualMeetingLink);
 
     return (
         <Card
-            elevation={3}
+            elevation={0}
             sx={{
-                borderRadius: 3,
+                borderRadius: 4,
                 overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-                transition: "all 0.25s ease",
-                width: { xs: "100%", sm: 300, md: 320 },
-                height: "auto",
+                border: "1px solid",
+                borderColor: "divider",
+                transition: "0.25s ease",
                 "&:hover": {
-                    transform: "translateY(-4px)",
-                    boxShadow: 6,
+                    boxShadow: "0 4px 22px rgba(0,0,0,0.08)",
+                    transform: "translateY(-3px)",
                 },
+                bgcolor: "white",
+                width: 330,
             }}
         >
-            <Box sx={{ position: "relative", height: 160, overflow: "hidden" }}>
+            <Box sx={{ position: "relative", height: 160 }}>
                 <Box
                     component="img"
                     src={imageUrl}
@@ -69,202 +59,135 @@ export function EventCard({ event, actions }: EventCardProps) {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        transition: "transform 0.4s ease",
-                        "&:hover": { transform: "scale(1.05)" },
+                        userSelect:"none"
                     }}
                 />
 
                 <Box
                     sx={{
                         position: "absolute",
-                        inset: 0,
-                        background:
-                            "linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6))",
-                    }}
-                />
-
-                <Chip
-                    label={event.modality.name}
-                    size="small"
-                    sx={{
-                        position: "absolute",
-                        top: 10,
-                        left: 10,
-                        bgcolor: theme.palette.warning.light,
-                        color: theme.palette.common.white,
-                        fontWeight: 600,
+                        top: 12,
+                        left: 12,
+                        px: 1.2,
+                        py: 0.5,
+                        bgcolor: "rgba(0, 190, 160, 1)",
+                        color: "white",
+                        fontWeight: 700,
                         fontSize: "0.7rem",
+                        borderRadius: 2,
+                        textTransform: "uppercase",
+                        letterSpacing: 0.5,
                     }}
-                />
+                >
+                    {event.modality.name}
+                </Box>
 
                 {isVirtual && (
                     <Box
                         sx={{
                             position: "absolute",
-                            bottom: 10,
-                            right: 10,
-                            bgcolor: "primary.main",
+                            bottom: 12,
+                            right: 12,
+                            width: 34,
+                            height: 34,
                             borderRadius: "50%",
-                            width: 32,
-                            height: 32,
+                            bgcolor: "white",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            boxShadow: 1,
                         }}
                     >
-                        <VideoCall sx={{ fontSize: 18, color: "white" }} />
+                        <VideoCall sx={{ fontSize: 20, color: "primary.main" }} />
                     </Box>
                 )}
             </Box>
 
-            <CardContent
-                sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    p: { xs: 2, sm: 2.5 },
-                    gap: 1,
-                }}
-            >
+            <CardContent sx={{ p: 2.4, pb: 1.6 }}>
                 <Typography
                     variant="h6"
                     fontWeight={700}
                     sx={{
-                        fontSize: "1rem",
-                        lineHeight: 1.4,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
+                        fontSize: "1.1rem",         
+                        lineHeight: 1.35,
+                        mb: 0.4,
                         overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        minHeight: 40,
                     }}
-                    title={event.name}
                 >
                     {event.name}
                 </Typography>
 
-                <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={0.75}
-                    mb={1}
-                    alignItems="center"
-                >
-                    <Chip
-                        label={event.category.name}
-                        size="small"
-                        sx={{
-                            fontSize: "0.7rem",
-                            fontWeight: 600,
-                            bgcolor: theme.palette.primary.main,
-                            color: theme.palette.common.white,
-                        }}
-                    />
-                    <Chip
-                        label={event.modality.name}
-                        size="small"
-                        sx={{
-                            fontSize: "0.7rem",
-                            fontWeight: 600,
-                            bgcolor: theme.palette.secondary.light,
-                            color: theme.palette.common.black,
-                        }}
-                    />
-                </Stack>
-
-                <Stack spacing={0.75}>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                        <CalendarToday sx={{ fontSize: 16, color: "text.secondary" }} />
-                        <Typography variant="body2" fontWeight={500} fontSize="0.8rem">
-                            {formattedDate}
-                        </Typography>
-                    </Stack>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                        <AccessTime sx={{ fontSize: 16, color: "text.secondary" }} />
-                        <Typography variant="body2" fontWeight={500} fontSize="0.8rem">
-                            {formattedTime}
-                        </Typography>
-                    </Stack>
-                </Stack>
-
-                <Box
+                <Typography
                     sx={{
-                        mt: "auto",
-                        pt: 1.5,
-                        borderTop: "1px solid",
-                        borderColor: "divider",
+                        fontSize: "0.95rem",
+                        color: theme.palette.primary.main,
+                        mb: 0.6,
                     }}
                 >
-                    <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        flexWrap="wrap"
-                        gap={1}
-                    >
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            {event.capacity > 0 && (
-                                <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    spacing={0.3}
-                                    sx={{
-                                        bgcolor: "action.hover",
-                                        borderRadius: 1,
-                                        px: 0.75,
-                                        py: 0.25,
-                                    }}
-                                >
-                                    <People sx={{ fontSize: 14, color: "text.secondary" }} />
-                                    <Typography
-                                        variant="caption"
-                                        fontSize="0.7rem"
-                                        fontWeight={600}
-                                        color="text.secondary"
-                                    >
-                                        {event.capacity}
-                                    </Typography>
-                                </Stack>
-                            )}
+                    {formattedDate}
+                </Typography>
 
-                            {event.attachments?.length > 0 && (
-                                <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    spacing={0.3}
-                                    sx={{
-                                        bgcolor: "action.hover",
-                                        borderRadius: 1,
-                                        px: 0.75,
-                                        py: 0.25,
-                                    }}
-                                >
-                                    <AttachFile sx={{ fontSize: 14, color: "text.secondary" }} />
-                                    <Typography
-                                        variant="caption"
-                                        fontSize="0.7rem"
-                                        fontWeight={600}
-                                        color="text.secondary"
-                                    >
-                                        {event.attachments.length}
-                                    </Typography>
-                                </Stack>
-                            )}
-                        </Stack>
-                    </Stack>
-                </Box>
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    sx={{ mb: 1.4 }}
+                >
+                    <CalendarToday sx={{ fontSize: 15, color: "text.secondary" }} />
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                            fontSize: "0.82rem",
+                            fontWeight: 500,
+                        }}
+                    >
+                        {event.category?.name}
+                    </Typography>
+                </Stack>
+
+                <Stack direction="row" spacing={2} alignItems="center">
+                    {event.capacity > 0 && (
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
+                            <People sx={{ fontSize: 16, color: "text.secondary" }} />
+                            <Typography
+                                sx={{
+                                    fontSize: "0.8rem",
+                                    color: "text.secondary",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                {`${t("events.labels.capacity")}: ${event.capacity}`}
+                            </Typography>
+                        </Box>
+                    )}
+
+                    {event.attachments?.length > 0 && (
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
+                            <AttachFile sx={{ fontSize: 16, color: "text.secondary" }} />
+                            <Typography
+                                sx={{
+                                    fontSize: "0.8rem",
+                                    color: "text.secondary",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                {`${t("events.fields.attachments")}: ${event.attachments.length}`}
+                            </Typography>
+                        </Box>
+                    )}
+                </Stack>
             </CardContent>
 
             {actions && (
                 <CardActions
                     sx={{
-                        px: 2,
+                        px: 2.2,
                         pb: 2,
-                        pt: 0,
+                        pt: 0.5,
+                        display: "flex",
                         justifyContent: "flex-end",
-                        gap: 0.5,
-                        flexWrap: "wrap",
+                        gap: 1,
                     }}
                 >
                     {actions}
