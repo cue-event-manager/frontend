@@ -17,7 +17,11 @@
             "select": "Seleccionar",
             "next": "Siguiente",
             "back": "Atrás",
-            "exit": "Salir"
+            "exit": "Salir",
+            "register": "Inscribirse",
+            "viewDetails": "Ver Detalles",
+            "reload": "Recargar",
+            "retry": "Reintentar"
         },
         "noOptions": "No hay opciones disponbiles",
         "fields": {
@@ -39,7 +43,11 @@
         "confirmExit": {
             "title": "¿Salir del formulario?",
             "message": "Tienes cambios sin guardar. Si sales ahora, se perderán los datos ingresados."
-        }
+        },
+        "loading": "Cargando...",
+        "error": "Ocurrió un error",
+        "errorGeneric": "No fue posible cargar los datos.",
+        "noResults": "No hay resultados para mostrar."
     },
     "auth": {
         "login": {
@@ -460,7 +468,7 @@
             "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint"
         },
         "messages": {
-            "created":"Evento creado exitosamente.",
+            "created": "Evento creado exitosamente.",
             "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados.",
             "uploadSuccess": "Archivo subido correctamente.",
             "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
@@ -695,6 +703,8 @@
         "hint": "Arrastra o haz clic para seleccionar un archivo",
         "uploading": "Subiendo...",
         "success": "Imagen subida correctamente",
+        "error": "No se pudo subir el archivo. Inténtalo de nuevo.",
+        "remove": "Eliminar archivo",
         "previewAlt": "Vista previa de la imagen"
     },
     "organizer": {
