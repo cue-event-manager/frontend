@@ -1,4 +1,5 @@
 export enum RoleConstant {
     ADMIN = 'ADMIN',
-    ORGANIZER = 'ORGANIZER'
+    ORGANIZER = 'ORGANIZER',
+    ATTENDEE = 'ATTENDEE'
 }
