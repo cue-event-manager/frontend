@@ -1,10 +1,11 @@
-import { Button } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
+import CreateEventFormModal from "@/features/event/components/CreateEventForm/CreateEventFormModal";
+import { EventList } from "@/features/event/components/EventsList";
+import { EventsTableFilter } from "@/features/event/components/EventsTableFilter";
 import { OrganizerSection } from "@/features/organizer/components/OrganizerSection";
 import { useModalState } from "@/features/user/hooks/useModalState";
-import { OrganizerEventsTable } from "@/features/event/components/OrganizerEventsTable";
-import CreateEventFormModal from "@/features/event/components/CreateEventForm/CreateEventFormModal";
+import { Add } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function OrganizerEventsPage() {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ export default function OrganizerEventsPage() {
 
     return (
         <>
-            <OrganizerSection.Root>
+            <OrganizerSection.Root withPaper={false}>
                 <OrganizerSection.Header
                     title="organizer.events.title"
                     description="organizer.events.description"
@@ -27,7 +28,8 @@ export default function OrganizerEventsPage() {
                     }
                 />
                 <OrganizerSection.Body>
-                    <OrganizerEventsTable />
+                    <EventsTableFilter />
+                    <EventList />
                 </OrganizerSection.Body>
             </OrganizerSection.Root>
 

@@ -82,12 +82,12 @@ export function EventsTable() {
             {
                 key: "categoryName",
                 label: t("admin.events.fields.category"),
-                render: (row: Event) => row.categoryName || "-"
+                render: (row: Event) => row.category.name || "-"
             },
             {
                 key: "modalityName",
                 label: t("admin.events.fields.modality"),
-                render: (row: Event) => row.modalityName || "-"
+                render: (row: Event) => row.modality.name || "-"
             },
             {
                 key: "date",
@@ -154,7 +154,7 @@ export function EventsTable() {
 
             <UpdateEventFormModal
                 open={eventModal.isOpen}
-                event={eventModal.data}
+                event={eventModal.data ?? null}
                 onClose={eventModal.closeModal}
                 onSuccess={handleModalSuccess}
             />

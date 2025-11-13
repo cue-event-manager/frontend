@@ -193,13 +193,10 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
                 JSON.stringify(data, (_k, v) => (v === null ? undefined : v))
             );
 
-            // Check if this is a recurrent event
             if (isRecurrentEvent) {
-                // Show dialog to ask user what to update
                 setPendingData(cleanedData);
                 setShowRecurrentDialog(true);
             } else {
-                // Directly update single event
                 handleUpdateSingleEvent(cleanedData);
             }
         } catch (error) {
@@ -275,7 +272,6 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
                     )}
                 </Box>
 
-                {/* Recurrent Event Update Dialog */}
                 <Dialog
                     open={showRecurrentDialog}
                     onClose={() => setShowRecurrentDialog(false)}

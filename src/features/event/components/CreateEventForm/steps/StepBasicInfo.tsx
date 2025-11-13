@@ -49,13 +49,14 @@ export default function StepBasicInfo() {
             <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
                 {t("events.sections.banner")}
             </Typography>
-            <Grid container spacing={2}>
-                <Grid size={{ xs: 12 }}>
+            <Grid container spacing={2} justifyContent="center">
+                <Grid size={{ xs: 12, md: 10, lg: 8 }}>
                     <Controller
                         name="imagePath"
                         control={control}
                         render={() => (
-                            <Box sx={{ width: '100%' }}>
+                            <Box
+                            >
                                 <FileUpload
                                     label={t("events.fields.bannerUpload")}
                                     onUploadSuccess={handleUploadSuccess}

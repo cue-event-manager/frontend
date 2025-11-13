@@ -29,6 +29,7 @@ export default function StepAttachments() {
         control,
         setValue,
         register,
+        watch,
         formState: { errors },
     } = useFormContext<EventFormData>();
 
@@ -40,7 +41,6 @@ export default function StepAttachments() {
         fields: attachments,
         append: appendAttachment,
         remove: removeAttachment,
-        update: updateAttachment,
     } = useFieldArray({
         control,
         name: "attachments",
@@ -55,14 +55,19 @@ export default function StepAttachments() {
         name: "extraContacts",
     });
 
+    const attachmentsValues = watch("attachments") ?? [];
+
     const handleDropFiles = async (files: File[]) => {
-        for (const file of files) {
-            const newIndex = attachments.length;
+        if (!files.length) return;
+        const startIndex = attachments.length;
+        for (const [offset, file] of files.entries()) {
+            const newIndex = startIndex + offset;
             appendAttachment({
                 name: file.name,
                 filePath: "",
                 contentType: file.type,
             });
+            // Upload sequentially to keep progress indicator consistent
             await handleFileUpload(file, newIndex);
         }
     };
@@ -82,6 +87,16 @@ export default function StepAttachments() {
         }
     };
 
+    const handleRename = (index: number, newName: string) => {
+        const current = attachmentsValues[index]?.name;
+        const normalized = newName.trim();
+        if (!normalized || normalized === current) return;
+        setValue(`attachments.${index}.name`, normalized, {
+            shouldDirty: true,
+            shouldValidate: true,
+        });
+    };
+
     const handleAddContact = () => appendContact({ name: "", email: "", phone: "" });
 
     return (
@@ -94,11 +109,14 @@ export default function StepAttachments() {
                 onFilesDrop={handleDropFiles}
                 label={t("events.labels.dropzoneLabel")}
                 hint={t("events.labels.dropzoneHint")}
+                actionLabel={t("events.actions.addAttachment")}
             />
 
             {attachments.length > 0 && (
                 <Stack spacing={2.5} sx={{ mt: 3 }}>
-                    {attachments.map((field, index) => (
+                    {attachments.map((field, index) => {
+                        const attachmentValue = attachmentsValues[index] ?? field;
+                        return (
                         <Paper
                             key={field.id}
                             elevation={1}
@@ -124,13 +142,11 @@ export default function StepAttachments() {
                                 <Divider sx={{ mb: 2 }} />
 
                                 <FileCard
-                                    name={field.name}
-                                    contentType={field.contentType}
+                                    name={attachmentValue?.name ?? field.name}
+                                    contentType={attachmentValue?.contentType ?? field.contentType}
                                     uploading={uploadingIndex === index}
                                     uploaded={uploadedIndexes.has(index)}
-                                    onRename={(newName) =>
-                                        updateAttachment(index, { ...field, name: newName })
-                                    }
+                                    onRename={(newName) => handleRename(index, newName)}
                                     onDelete={() => removeAttachment(index)}
                                 />
 
@@ -139,7 +155,8 @@ export default function StepAttachments() {
                                 )}
                             </Box>
                         </Paper>
-                    ))}
+                        );
+                    })}
                 </Stack>
             )}
 
