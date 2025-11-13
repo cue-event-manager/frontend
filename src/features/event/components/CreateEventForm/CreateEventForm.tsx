@@ -27,11 +27,11 @@ import StepSummary from "./steps/StepSummary";
 
 
 interface CreateEventFormProps {
-        onSuccess?: () => void;
+    onSuccess?: () => void;
 }
 
 
-export default function CreateEventForm({onSuccess}:CreateEventFormProps) {
+export default function CreateEventForm({ onSuccess }: CreateEventFormProps) {
     const { t } = useTranslation();
     const [activeStep, setActiveStep] = useState(0);
     const createEventMutation = useCreateEvent();
@@ -90,17 +90,17 @@ export default function CreateEventForm({onSuccess}:CreateEventFormProps) {
     const {
         handleSubmit,
         trigger,
+        reset,
         formState: { isSubmitting, errors },
     } = form;
 
-   const handleNext = async (e?: React.MouseEvent)=> {
+    const handleNext = async (e?: React.MouseEvent) => {
         e?.preventDefault();
         const stepSchema = getStepSchema(activeStep);
         const stepFields = Object.keys(stepSchema.fields);
         const isValid = await trigger(stepFields as any, { shouldFocus: true });
 
         if (isValid) {
-            console.log("Moving from step:", activeStep);
             setActiveStep((prev) => {
                 console.log("Now moving to step:", prev + 1);
                 return Math.min(prev + 1, steps.length - 1);
@@ -122,13 +122,15 @@ export default function CreateEventForm({onSuccess}:CreateEventFormProps) {
                 JSON.stringify(data, (_k, v) => (v === null ? undefined : v))
             );
 
-            console.log("Submitting final data:", cleanedData);
-            createEventMutation.mutate(cleanedData);
+            await createEventMutation.mutateAsync(cleanedData);
             onSuccess?.();
+            reset();
+            setActiveStep(0);
         } catch (error) {
             console.error("Final validation failed:", error);
         }
     });
+
 
     return (
         <FormProvider {...form}>
