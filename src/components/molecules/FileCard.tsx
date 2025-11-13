@@ -9,13 +9,16 @@ import {
     Fade,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import ImageIcon from "@mui/icons-material/Image";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useState } from "react";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
+import FolderZipIcon from "@mui/icons-material/FolderZip";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { useEffect, useState } from "react";
 
 export interface FileCardProps {
     name: string;
@@ -39,11 +42,42 @@ export default function FileCard({
     const [isEditing, setIsEditing] = useState(false);
     const [tempName, setTempName] = useState(name);
 
+    useEffect(() => {
+        setTempName(name);
+    }, [name]);
+
     const getFileIcon = (type?: string) => {
-        if (!type) return <UploadFileIcon color="disabled" />;
-        if (type.includes("pdf")) return <PictureAsPdfIcon color="error" />;
-        if (type.includes("image")) return <ImageIcon color="primary" />;
-        return <DescriptionIcon color="action" />;
+        const normalizedType = type?.toLowerCase() ?? "";
+        const extension = name?.split(".").pop()?.toLowerCase() ?? "";
+        const matches = (patterns: string[]) =>
+            patterns.some(
+                (pattern) =>
+                    normalizedType.includes(pattern) || extension === pattern.toLowerCase(),
+            );
+
+        if (matches(["pdf"])) return <PictureAsPdfIcon color="error" sx={{ fontSize: 28 }} />;
+        if (matches(["image", "png", "jpg", "jpeg", "gif", "webp", "bmp"]))
+            return <ImageIcon color="primary" sx={{ fontSize: 28 }} />;
+        if (matches(["ppt", "pptx", "presentation"]))
+            return <SlideshowIcon color="warning" sx={{ fontSize: 28 }} />;
+        if (matches(["xls", "xlsx", "csv", "spreadsheet"]))
+            return <TableChartIcon color="success" sx={{ fontSize: 28 }} />;
+        if (matches(["doc", "docx", "word"]))
+            return <DescriptionIcon color="info" sx={{ fontSize: 28 }} />;
+        if (matches(["zip", "rar", "7z", "gzip", "tar"]))
+            return <FolderZipIcon color="secondary" sx={{ fontSize: 28 }} />;
+
+        return <InsertDriveFileIcon color="action" sx={{ fontSize: 28 }} />;
+    };
+
+    const commitRename = () => {
+        const trimmed = tempName.trim();
+        const finalValue = trimmed || name;
+        setIsEditing(false);
+        setTempName(finalValue);
+        if (finalValue !== name) {
+            onRename?.(finalValue);
+        }
     };
 
     return (
@@ -95,9 +129,17 @@ export default function FileCard({
                                 size="small"
                                 value={tempName}
                                 onChange={(e) => setTempName(e.target.value)}
-                                onBlur={() => {
-                                    setIsEditing(false);
-                                    onRename?.(tempName);
+                                onBlur={commitRename}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        commitRename();
+                                    }
+                                    if (e.key === "Escape") {
+                                        e.preventDefault();
+                                        setTempName(name);
+                                        setIsEditing(false);
+                                    }
                                 }}
                                 autoFocus
                             />
