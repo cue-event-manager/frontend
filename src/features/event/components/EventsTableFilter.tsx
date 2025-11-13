@@ -1,37 +1,44 @@
-import { Box, TextField, MenuItem } from "@mui/material";
+import { useEffect } from "react";
+import { TextField, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import SearchSelect from "@/components/molecules/SearchSelect";
+import { DataTableFilterBar } from "@/components/molecules/DataTableFilterBar";
+import { useFilterForm } from "@/shared/hooks/useFilterForm";
+import { usePaginatedFilters } from "@/shared/hooks/usePaginatedFilters";
+import { SearchSelect } from "@/components/molecules/SearchSelect";
 import { useAllEventCategories } from "@/features/eventcategory/hooks/useAllEventCategories";
 import { useAllEventModalities } from "@/features/eventmodality/hooks/useAllEventModalities";
+import type { EventPaginationRequestDto } from "@/domain/event/EventPaginationRequestDto";
 
-interface EventsTableFilterProps {
-    onFilterChange: (filters: {
-        name?: string;
-        categoryId?: number;
-        modalityId?: number;
-        status?: string;
-    }) => void;
-}
-
-export function EventsTableFilter({ onFilterChange }: EventsTableFilterProps) {
+export function EventsTableFilter() {
     const { t } = useTranslation();
-    const { data: categories = [], isLoading: loadingCategories } = useAllEventCategories();
-    const { data: modalities = [], isLoading: loadingModalities } = useAllEventModalities();
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onFilterChange({ name: event.target.value || undefined });
-    };
+    const categories = useAllEventCategories();
+    const modalities = useAllEventModalities();
 
-    const handleCategoryChange = (categoryId: number | null) => {
-        onFilterChange({ categoryId: categoryId || undefined });
-    };
+    const { query, updateQuery, resetQuery } =
+        usePaginatedFilters<EventPaginationRequestDto>();
 
-    const handleModalityChange = (modalityId: number | null) => {
-        onFilterChange({ modalityId: modalityId || undefined });
-    };
+    const { filters, handleChange, setFilters, resetFilters } =
+        useFilterForm<EventPaginationRequestDto>({
+            name: query.name ?? "",
+            categoryId: query.categoryId ?? undefined,
+            modalityId: query.modalityId ?? undefined,
+            status: query.status ?? "",
+        });
 
-    const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onFilterChange({ status: event.target.value || undefined });
+    useEffect(() => {
+        setFilters({
+            name: query.name ?? "",
+            categoryId: query.categoryId ? Number(query.categoryId) : undefined,
+            modalityId: query.modalityId ? Number(query.modalityId) : undefined,
+            status: query.status ?? "",
+        });
+    }, [query, setFilters]);
+
+    const handleSearch = () => updateQuery({ ...filters, page: 0 });
+    const handleClear = () => {
+        resetFilters();
+        resetQuery();
     };
 
     const eventStatuses = [
@@ -43,33 +50,36 @@ export function EventsTableFilter({ onFilterChange }: EventsTableFilterProps) {
     ];
 
     return (
-        <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
+        <DataTableFilterBar onSearch={handleSearch} onClear={handleClear}>
             <TextField
                 label={t("admin.events.filters.name")}
                 variant="outlined"
                 size="small"
-                onChange={handleNameChange}
-                sx={{ flex: "1 1 200px" }}
+                value={filters.name ?? ""}
+                onChange={(e) => handleChange("name", e.target.value)}
+                sx={{ minWidth: 220 }}
             />
 
             <SearchSelect
                 label={t("admin.events.filters.category")}
-                options={categories}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                onChange={handleCategoryChange}
-                loading={loadingCategories}
-                sx={{ flex: "1 1 200px" }}
+                value={filters.categoryId ?? null}
+                onChange={(value) => handleChange("categoryId", value ?? undefined)}
+                options={categories.data?.map((c) => ({ label: c.name, value: c.id })) ?? []}
+                loading={categories.isLoading}
+                placeholder={t("common.actions.select")}
+                reserveHelperTextSpace={false}
+                sx={{ minWidth: 200 }}
             />
 
             <SearchSelect
                 label={t("admin.events.filters.modality")}
-                options={modalities}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                onChange={handleModalityChange}
-                loading={loadingModalities}
-                sx={{ flex: "1 1 200px" }}
+                value={filters.modalityId ?? null}
+                onChange={(value) => handleChange("modalityId", value ?? undefined)}
+                options={modalities.data?.map((m) => ({ label: m.name, value: m.id })) ?? []}
+                loading={modalities.isLoading}
+                placeholder={t("common.actions.select")}
+                reserveHelperTextSpace={false}
+                sx={{ minWidth: 200 }}
             />
 
             <TextField
@@ -77,9 +87,9 @@ export function EventsTableFilter({ onFilterChange }: EventsTableFilterProps) {
                 label={t("admin.events.filters.status")}
                 variant="outlined"
                 size="small"
-                defaultValue=""
-                onChange={handleStatusChange}
-                sx={{ flex: "1 1 200px" }}
+                value={filters.status ?? ""}
+                onChange={(e) => handleChange("status", e.target.value)}
+                sx={{ minWidth: 200 }}
             >
                 {eventStatuses.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -87,6 +97,6 @@ export function EventsTableFilter({ onFilterChange }: EventsTableFilterProps) {
                     </MenuItem>
                 ))}
             </TextField>
-        </Box>
+        </DataTableFilterBar>
     );
 }
