@@ -25,7 +25,6 @@ export interface Event {
     recurrenceId?: string;
     parentId?: number;
     recurrenceType?: RecurrenceType;
-    categoryName: string;
     modality: EventModality;
     category: EventCategory;
     organizer: EventOrganizer;

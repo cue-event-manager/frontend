@@ -1,5 +1,5 @@
 export enum RecurrenceType {
-    DAILY,
-    WEEKLY,
-    MONTHLY
+    DAILY = "DAILY",
+    WEEKLY = "WEEKLY",
+    MONTHLY = "MONTHLY",
 }
