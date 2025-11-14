@@ -1,15 +1,26 @@
 import CreateEventFormModal from "@/features/event/components/CreateEventForm/CreateEventFormModal";
-import { EventList } from "@/features/event/components/EventsList";
 import { EventsTableFilter } from "@/features/event/components/EventsTableFilter";
+import { EventCard } from "@/features/event/components/EventCard";
 import { OrganizerSection } from "@/features/organizer/components/OrganizerSection";
+import { BaseEntityList } from "@/components/molecules/List";
 import { useModalState } from "@/features/user/hooks/useModalState";
+import { useEntityTable } from "@/features/user/hooks/useEntityTable";
+import { useMyEvents } from "@/features/event/hooks/useMyEvents";
+import type { PaginationQuery } from "@/domain/common/PaginationQuery";
+import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithAvailabilityResponseDto";
 import { Add } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function OrganizerEventsPage() {
     const { t } = useTranslation();
     const createModal = useModalState();
+    const {
+        updateQuery,
+        data: events,
+        isLoading,
+        refetch,
+    } = useEntityTable<PaginationQuery, EventWithAvailabilityResponseDto>(useMyEvents);
 
     return (
         <>
@@ -29,7 +40,17 @@ export default function OrganizerEventsPage() {
                 />
                 <OrganizerSection.Body>
                     <EventsTableFilter />
-                    <EventList />
+                    <BaseEntityList<EventWithAvailabilityResponseDto>
+                        data={events}
+                        loading={isLoading}
+                        onReload={refetch}
+                        onQueryChange={updateQuery}
+                        renderItem={(item) => (
+                            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                                <EventCard data={item} />
+                            </Grid>
+                        )}
+                    />
                 </OrganizerSection.Body>
             </OrganizerSection.Root>
 

@@ -1,4 +1,4 @@
 export enum EventOrganizerType{
-    INTERNAL,
-    EXTERNAL
+    INTERNAL = "INTERNAL",
+    EXTERNAL = "EXTERNAL"
 }

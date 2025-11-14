@@ -12,6 +12,7 @@ import type { EventPaginationRequestDto } from "@/domain/event/EventPaginationRe
 import type { PaginationQuery } from "@/domain/common/PaginationQuery";
 import type { Page } from "@/domain/common/Page";
 import { buildQueryParams } from "@/utils/buildQueryParams";
+import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithAvailabilityResponseDto";
 
 const EVENT_ENDPOINT_PREFIX = `${EVENT_SERVICE}/api/events`;
 
@@ -51,11 +52,18 @@ export const updateRecurrentEvent = async (updateRecurrentEventRequest: UpdateRe
     return data;
 };
 
-export const getEvents = async (query: EventPaginationRequestDto & PaginationQuery): Promise<Page<Event>> => {
+export const getEvents = async (query: EventPaginationRequestDto & PaginationQuery): Promise<Page<EventWithAvailabilityResponseDto>> => {
     const params = buildQueryParams(query);
-    const { data } = await axiosInstance.get<Page<Event>>(`${EVENT_ENDPOINT_PREFIX}?${params}`);
+    const { data } = await axiosInstance.get<Page<EventWithAvailabilityResponseDto>>(`${EVENT_ENDPOINT_PREFIX}?${params}`);
     return data;
 };
+
+export const getMyEvents = async (query: EventPaginationRequestDto & PaginationQuery): Promise<Page<EventWithAvailabilityResponseDto>> => {
+    const params = buildQueryParams(query);
+    const { data } = await axiosInstance.get<Page<EventWithAvailabilityResponseDto>>(`${EVENT_ENDPOINT_PREFIX}/my?${params}`);
+    return data;
+};
+
 
 export const getAllEvents = async (): Promise<Event[]> => {
     const { data } = await axiosInstance.get<Event[]>(`${EVENT_ENDPOINT_PREFIX}/all`);

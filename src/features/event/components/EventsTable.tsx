@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { Edit, Delete } from "@mui/icons-material";
 import { Chip } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -12,13 +12,14 @@ import { useEntityTable } from "@/features/user/hooks/useEntityTable";
 import { useEvents } from "../hooks/useEvents";
 import { useDeleteEvent } from "../hooks/useDeleteEvent";
 import type { Event } from "@/domain/event/Event";
+import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithAvailabilityResponseDto";
 import UpdateEventFormModal from "./UpdateEventForm/UpdateEventFormModal";
 
 export function EventsTable() {
     const { t } = useTranslation();
 
     const { updateQuery, data: events, isLoading, refetch } =
-        useEntityTable<PaginationQuery, Event>(useEvents);
+        useEntityTable<PaginationQuery, EventWithAvailabilityResponseDto>(useEvents);
 
     const eventModal = useModalState<Event>();
     const confirmDialog = useConfirmDialog<number>();
@@ -31,8 +32,8 @@ export function EventsTable() {
         eventModal.closeModal();
     };
 
-    const handleEdit = (event: Event) => eventModal.openModal(event);
-    const handleDelete = (id: number) => confirmDialog.openDialog(id);
+    const handleEdit = useCallback((event: Event) => eventModal.openModal(event), [eventModal]);
+    const handleDelete = useCallback((id: number) => confirmDialog.openDialog(id), [confirmDialog]);
 
     const handleConfirmDelete = () => {
         const id = confirmDialog.data;
@@ -78,38 +79,38 @@ export function EventsTable() {
 
     const columns = useMemo(
         () => [
-            { key: "name", label: t("admin.events.fields.name"), sortable: true },
+            { key: "name", label: t("admin.events.fields.name"), sortable: true, render: (row: EventWithAvailabilityResponseDto) => row.event.name },
             {
                 key: "categoryName",
                 label: t("admin.events.fields.category"),
-                render: (row: Event) => row.category.name || "-"
+                render: (row: EventWithAvailabilityResponseDto) => row.event.category.name || "-"
             },
             {
                 key: "modalityName",
                 label: t("admin.events.fields.modality"),
-                render: (row: Event) => row.modality.name || "-"
+                render: (row: EventWithAvailabilityResponseDto) => row.event.modality.name || "-"
             },
             {
                 key: "date",
                 label: t("admin.events.fields.date"),
-                render: (row: Event) =>
-                    row.date ? new Date(row.date).toLocaleDateString("es-CO") : "-",
+                render: (row: EventWithAvailabilityResponseDto) =>
+                    row.event.date ? new Date(row.event.date).toLocaleDateString("es-CO") : "-",
             },
             {
                 key: "startTime",
                 label: t("admin.events.fields.time"),
-                render: (row: Event) =>
-                    row.startTime && row.endTime
-                        ? `${row.startTime} - ${row.endTime}`
+                render: (row: EventWithAvailabilityResponseDto) =>
+                    row.event.startTime && row.event.endTime
+                        ? `${row.event.startTime} - ${row.event.endTime}`
                         : "-",
             },
             {
                 key: "status",
                 label: t("admin.events.fields.status"),
-                render: (row: Event) => (
+                render: (row: EventWithAvailabilityResponseDto) => (
                     <Chip
-                        label={getStatusLabel(row.status)}
-                        color={getStatusColor(row.status) as any}
+                        label={getStatusLabel(row.event.status)}
+                        color={getStatusColor(row.event.status) as any}
                         size="small"
                     />
                 ),
@@ -117,26 +118,26 @@ export function EventsTable() {
             {
                 key: "createdAt",
                 label: t("common.fields.createdAt"),
-                render: (row: Event) =>
-                    new Date(row.createdAt).toLocaleDateString("es-CO"),
+                render: (row: EventWithAvailabilityResponseDto) =>
+                    new Date(row.event.createdAt).toLocaleDateString("es-CO"),
             },
         ],
         [t]
     );
 
-    const actions = useMemo<TableAction<Event>[]>(
+    const actions = useMemo<TableAction<EventWithAvailabilityResponseDto>[]>(
         () => [
             {
                 label: t("common.actions.edit"),
                 icon: <Edit fontSize="small" />,
                 color: "primary",
-                onClick: handleEdit,
+                onClick: (row) => handleEdit(row.event),
             },
             {
                 label: t("common.actions.delete"),
                 icon: <Delete fontSize="small" />,
                 color: "error",
-                onClick: (row: Event) => handleDelete(row.id),
+                onClick: (row) => handleDelete(row.event.id),
             },
         ],
         [t, handleEdit, handleDelete]

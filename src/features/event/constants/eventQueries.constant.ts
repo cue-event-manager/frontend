@@ -3,5 +3,6 @@ export const EVENT_QUERY_KEYS = {
         ROOT: "events",
         ALL: "events/all",
         DETAIL: "events/detail",
+        MY: "events/my",
     },
 }

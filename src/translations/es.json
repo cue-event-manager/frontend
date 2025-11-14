@@ -2,6 +2,7 @@
     "common": {
         "filters": "Filtros",
         "profile": "Perfil",
+        "all":"Todos",
         "actions": {
             "create": "Crear",
             "edit": "Editar",
@@ -492,6 +493,15 @@
             "recurrentSpaceDescription": "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente.",
             "requireFullAvailabilityDescription": "Solo mostrar espacios disponibles en todas las fechas del evento",
             "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles"
+        },
+        "card": {
+            "capacitySummary": "{{available}} de {{total}} cupos disponibles",
+            "capacityHelper": "Ocupación del evento",
+            "spotsAvailable": "{{count}} cupos libres",
+            "noCapacity": "Sin cupos",
+            "registered": "Inscrito",
+            "conflict": "Conflicto con {{event}}",
+            "otherEvent": "otro evento"
         },
         "filters": {
             "name": "Buscar por nombre del evento",

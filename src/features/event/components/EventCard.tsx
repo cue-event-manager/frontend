@@ -6,193 +6,315 @@ import {
     Box,
     Stack,
     useTheme,
+    Chip,
+    Button,
 } from "@mui/material";
-import { CalendarToday, VideoCall, AttachFile, People } from "@mui/icons-material";
+import { alpha } from "@mui/material/styles";
+import { CalendarToday, VideoCall, People } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import type { Event } from "@/domain/event/Event";
+import type { EventAvailability } from "@/domain/event/EventAvailability";
+import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithAvailabilityResponseDto";
 import { formatEventDate } from "@/features/event/utils/date";
+import { useAuth } from "@/contexts/authContext";
+import { RoleConstant } from "@/domain/role/RoleConstant";
 
 const CLOUDFRONT_BASE_URL = "https://d1z2jagk4z4o7g.cloudfront.net/";
 const DEFAULT_IMAGE = "/common/no-image.png";
 
-interface EventCardProps {
+interface EventCardActionContext {
     event: Event;
-    actions?: ReactNode;
+    availability: EventAvailability;
 }
 
-export function EventCard({ event, actions }: EventCardProps) {
+type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
+
+interface EventCardProps {
+    data: EventWithAvailabilityResponseDto;
+    renderActions?: EventCardActionRenderer;
+}
+
+const defaultActionRenderer: EventCardActionRenderer = (context) => (
+    <RoleBasedEventActions {...context} />
+);
+
+
+
+export function EventCard({ data, renderActions = defaultActionRenderer }: EventCardProps) {
+    const { event, availability } = data;
     const theme = useTheme();
-    const { t } = useTranslation();
-
-    const imageUrl = event.imagePath
-        ? `${CLOUDFRONT_BASE_URL}${event.imagePath}`
-        : DEFAULT_IMAGE;
-
-    const formattedDate = formatEventDate(event.date, event.startTime);
-
-    const isVirtual = Boolean(event.virtualMeetingLink);
+    const isDarkMode = theme.palette.mode === "dark";
 
     return (
         <Card
             elevation={0}
             sx={{
+                display: "flex",
+                flexDirection: "column",
                 borderRadius: 4,
                 overflow: "hidden",
                 border: "1px solid",
-                borderColor: "divider",
+                borderColor: isDarkMode
+                    ? alpha(theme.palette.common.white, 0.08)
+                    : theme.palette.divider,
                 transition: "0.25s ease",
                 "&:hover": {
-                    boxShadow: "0 4px 22px rgba(0,0,0,0.08)",
+                    boxShadow: isDarkMode
+                        ? "0 18px 35px rgba(0,0,0,0.65)"
+                        : "0 4px 22px rgba(0,0,0,0.08)",
                     transform: "translateY(-3px)",
                 },
-                bgcolor: "white",
+                bgcolor: theme.palette.background.paper,
                 width: 330,
+                minHeight: 440,
+                height: "100%",
             }}
         >
-            <Box sx={{ position: "relative", height: 160 }}>
-                <Box
-                    component="img"
-                    src={imageUrl}
-                    alt={event.name}
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        userSelect:"none"
-                    }}
-                />
+            <EventCardImage event={event} />
 
+            <CardContent
+                sx={{
+                    p: 2.4,
+                    pb: 1.6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
+                    flexGrow: 1,
+                }}
+            >
+                <EventCardHeader event={event} />
+                <EventCardDescription description={event.description} />
+                <EventCardMetaInfo event={event} availability={availability} />
+            </CardContent>
+
+            <EventCardFooter actions={renderActions({ event, availability })} />
+        </Card>
+    );
+}
+
+
+function EventCardImage({ event }: { event: Event }) {
+    const theme = useTheme();
+    const isDark = theme.palette.mode === "dark";
+
+    const imageUrl = event.imagePath
+        ? `${CLOUDFRONT_BASE_URL}${event.imagePath}`
+        : DEFAULT_IMAGE;
+
+    return (
+        <Box sx={{ position: "relative", height: 160 }}>
+            <Box
+                component="img"
+                src={imageUrl}
+                alt={event.name}
+                sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                }}
+            />
+
+            <ModalityChip modality={event.modality} />
+
+            {event.virtualMeetingLink && (
                 <Box
                     sx={{
                         position: "absolute",
-                        top: 12,
-                        left: 12,
-                        px: 1.2,
-                        py: 0.5,
-                        bgcolor: "rgba(0, 190, 160, 1)",
-                        color: "white",
-                        fontWeight: 700,
-                        fontSize: "0.7rem",
-                        borderRadius: 2,
-                        textTransform: "uppercase",
-                        letterSpacing: 0.5,
-                    }}
-                >
-                    {event.modality.name}
-                </Box>
-
-                {isVirtual && (
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            bottom: 12,
-                            right: 12,
-                            width: 34,
-                            height: 34,
-                            borderRadius: "50%",
-                            bgcolor: "white",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: 1,
-                        }}
-                    >
-                        <VideoCall sx={{ fontSize: 20, color: "primary.main" }} />
-                    </Box>
-                )}
-            </Box>
-
-            <CardContent sx={{ p: 2.4, pb: 1.6 }}>
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    sx={{
-                        fontSize: "1.1rem",         
-                        lineHeight: 1.35,
-                        mb: 0.4,
-                        overflow: "hidden",
-                    }}
-                >
-                    {event.name}
-                </Typography>
-
-                <Typography
-                    sx={{
-                        fontSize: "0.95rem",
-                        color: theme.palette.primary.main,
-                        mb: 0.6,
-                    }}
-                >
-                    {formattedDate}
-                </Typography>
-
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    alignItems="center"
-                    sx={{ mb: 1.4 }}
-                >
-                    <CalendarToday sx={{ fontSize: 15, color: "text.secondary" }} />
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            fontSize: "0.82rem",
-                            fontWeight: 500,
-                        }}
-                    >
-                        {event.category?.name}
-                    </Typography>
-                </Stack>
-
-                <Stack direction="row" spacing={2} alignItems="center">
-                    {event.capacity > 0 && (
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
-                            <People sx={{ fontSize: 16, color: "text.secondary" }} />
-                            <Typography
-                                sx={{
-                                    fontSize: "0.8rem",
-                                    color: "text.secondary",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {`${t("events.labels.capacity")}: ${event.capacity}`}
-                            </Typography>
-                        </Box>
-                    )}
-
-                    {event.attachments?.length > 0 && (
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
-                            <AttachFile sx={{ fontSize: 16, color: "text.secondary" }} />
-                            <Typography
-                                sx={{
-                                    fontSize: "0.8rem",
-                                    color: "text.secondary",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {`${t("events.fields.attachments")}: ${event.attachments.length}`}
-                            </Typography>
-                        </Box>
-                    )}
-                </Stack>
-            </CardContent>
-
-            {actions && (
-                <CardActions
-                    sx={{
-                        px: 2.2,
-                        pb: 2,
-                        pt: 0.5,
+                        bottom: 12,
+                        right: 12,
+                        width: 34,
+                        height: 34,
+                        borderRadius: "50%",
+                        bgcolor: isDark ? alpha(theme.palette.background.paper, 0.9) : "white",
                         display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: isDark ? "0 8px 18px rgba(0,0,0,0.5)" : 1,
                     }}
                 >
-                    {actions}
-                </CardActions>
+                    <VideoCall sx={{ fontSize: 20, color: "primary.main" }} />
+                </Box>
             )}
-        </Card>
+        </Box>
+    );
+}
+
+function ModalityChip({ modality }: { modality: Event["modality"] }) {
+    return (
+        <Box
+            sx={{
+                position: "absolute",
+                top: 12,
+                left: 12,
+                px: 1.2,
+                py: 0.5,
+                bgcolor: "rgba(0, 190, 160, 1)",
+                color: "white",
+                borderRadius: 2,
+                fontWeight: 700,
+                fontSize: "0.7rem",
+            }}
+        >
+            {modality.name}
+        </Box>
+    );
+}
+
+function EventCardHeader({ event }: { event: Event }) {
+
+    return (
+        <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={1}>
+            <Typography
+                variant="h6"
+                fontWeight={700}
+                sx={{
+                    fontSize: "1.1rem",
+                    lineHeight: 1.35,
+                    wordBreak: "break-word",
+                }}
+            >
+                {event.name}
+            </Typography>
+        </Box>
+    );
+}
+
+function EventCardDescription({ description }: { description?: string }) {
+    const trimmed = description?.trim() ?? "";
+    if (!trimmed) return null;
+
+    return (
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+                fontSize: "0.84rem",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                overflow: "hidden",
+            }}
+        >
+            {trimmed}
+        </Typography>
+    );
+}
+
+
+function EventCardMetaInfo({
+    event,
+    availability,
+}: {
+    event: Event;
+    availability: EventAvailability;
+}) {
+    const { t } = useTranslation();
+    const formattedDate = formatEventDate(event.date, event.startTime);
+
+    const total = availability.totalCapacity ?? event.capacity ?? 0;
+    const available = Math.max(availability.availableSpots ?? 0, 0);
+
+    const capacityLabel =
+        total > 0
+            ? t("events.card.capacitySummary", { available, total })
+            : t("events.card.spotsAvailable", { count: available });
+
+    return (
+        <Box display="flex" flexDirection="column" gap={1}>
+            <Typography sx={{ color: "primary.main", fontSize: "0.95rem" }}>
+                {formattedDate}
+            </Typography>
+
+            <Stack direction="row" alignItems="center" spacing={1}>
+                <People sx={{ fontSize: 18, color: "text.secondary" }} />
+                <Typography variant="caption" color="text.secondary">
+                    {capacityLabel}
+                </Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+                <CalendarToday sx={{ fontSize: 15, color: "text.secondary" }} />
+                <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                    {event.category?.name}
+                </Typography>
+            </Stack>
+        </Box>
+    );
+}
+
+
+
+function EventCardFooter({ actions }: { actions?: ReactNode }) {
+    if (!actions) return null;
+
+    return (
+        <CardActions
+            sx={{
+                px: 2.2,
+                pb: 2,
+                pt: 0.5,
+                justifyContent: "flex-end",
+                gap: 1,
+                mt: "auto",
+                borderTop: "1px solid",
+                borderColor: "divider",
+            }}
+        >
+            {actions}
+        </CardActions>
+    );
+
+}
+
+function RoleBasedEventActions({ event, availability }: EventCardActionContext) {
+    const { user } = useAuth();
+    const { t } = useTranslation();
+
+    const baseHandlers = {
+        view: () => console.log("View", event.id),
+        edit: () => console.log("Edit", event.id),
+        delete: () => console.log("Delete", event.id),
+        register: () => console.log("Register", event.id),
+    };
+
+    const actionByRole: Record<string, ReactNode> = {
+        [RoleConstant.ORGANIZER]: (
+            <>
+                <Button size="small" color="primary" onClick={baseHandlers.edit}>
+                    {t("common.actions.edit")}
+                </Button>
+                <Button size="small" color="error" onClick={baseHandlers.delete}>
+                    {t("common.actions.delete")}
+                </Button>
+            </>
+        ),
+        [RoleConstant.ATTENDEE]: availability.canRegister ? (
+            <Button
+                size="small"
+                variant="contained"
+                color="success"
+                onClick={baseHandlers.register}
+            >
+                {t("common.actions.register")}
+            </Button>
+        ) : (
+            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+                {t("common.actions.viewDetails")}
+            </Button>
+        ),
+        [RoleConstant.ADMIN]: (
+            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+                {t("common.actions.view")}
+            </Button>
+        ),
+    };
+
+    return (
+        actionByRole[user?.role.name ?? ""] ?? (
+            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+                {t("common.actions.view")}
+            </Button>
+        )
     );
 }
