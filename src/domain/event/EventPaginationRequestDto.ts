@@ -3,4 +3,7 @@ export interface EventPaginationRequestDto {
     categoryId?: number;
     modalityId?: number;
     status?: string;
+    recurrenceMode?: string;
+    fromDate?: string;
+    toDate?: string;
 }

@@ -1,6 +1,6 @@
 import CreateEventFormModal from "@/features/event/components/CreateEventForm/CreateEventFormModal";
 import { EventsTableFilter } from "@/features/event/components/EventsTableFilter";
-import { EventCard } from "@/features/event/components/EventCard";
+import { EventCard, EventCardSkeleton } from "@/features/event/components/EventCard";
 import { OrganizerSection } from "@/features/organizer/components/OrganizerSection";
 import { BaseEntityList } from "@/components/molecules/List";
 import { useModalState } from "@/features/user/hooks/useModalState";
@@ -19,6 +19,7 @@ export default function OrganizerEventsPage() {
         updateQuery,
         data: events,
         isLoading,
+        isFetching,
         refetch,
     } = useEntityTable<PaginationQuery, EventWithAvailabilityResponseDto>(useMyEvents);
 
@@ -42,9 +43,11 @@ export default function OrganizerEventsPage() {
                     <EventsTableFilter />
                     <BaseEntityList<EventWithAvailabilityResponseDto>
                         data={events}
-                        loading={isLoading}
+                        loading={isLoading || isFetching}
                         onReload={refetch}
                         onQueryChange={updateQuery}
+                        skeleton={(idx) => <EventCardSkeleton key={idx} />}
+                        skeletonCount={6}
                         renderItem={(item) => (
                             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                                 <EventCard data={item} />

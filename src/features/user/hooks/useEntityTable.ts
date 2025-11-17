@@ -11,8 +11,8 @@ export function useEntityTable<
     query: PaginationQuery & TQuery
   ) => UseQueryResult<Page<TEntity>, Error>
 ) {
-  const { query, updateQuery } = usePaginatedFilters<PaginationQuery & TQuery>();
-  const { data, isLoading, refetch } = fetchHook(query);
+  const { query, updateQuery, resetQuery } = usePaginatedFilters<PaginationQuery & TQuery>();
+  const { data, isLoading, isFetching, refetch } = fetchHook(query);
 
-  return { query, updateQuery, data, isLoading, refetch };
+  return { query, updateQuery, resetQuery, data, isLoading, isFetching, refetch };
 }

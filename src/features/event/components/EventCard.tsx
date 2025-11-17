@@ -7,6 +7,8 @@ import {
     Stack,
     useTheme,
     Button,
+    Skeleton,
+    Chip,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
@@ -54,6 +56,7 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === "dark";
     const { handlers, dialogs } = useEventActionManager(event);
+    const isRecent = isEventRecent(event.createdAt);
 
     return (
         <>
@@ -77,11 +80,11 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                     },
                     bgcolor: theme.palette.background.paper,
                     width: 330,
-                    minHeight: 440,
+                    minHeight: 460,
                     height: "100%",
                 }}
             >
-                <EventCardImage event={event} />
+                <EventCardImage event={event} isRecent={isRecent} />
 
                 <CardContent
                     sx={{
@@ -102,6 +105,39 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
             </Card>
             {dialogs}
         </>
+    );
+}
+
+export function EventCardSkeleton() {
+    return (
+        <Card
+            elevation={0}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                borderRadius: 4,
+                overflow: "hidden",
+                border: "1px solid",
+                borderColor: "divider",
+                width: 330,
+                minHeight: 440,
+                height: "100%",
+            }}
+        >
+            <Skeleton variant="rectangular" height={180} width="100%" />
+            <CardContent sx={{ p: 2.4, pb: 1.6, display: "flex", flexDirection: "column", gap: 1 }}>
+                <Skeleton variant="text" width="70%" height={28} />
+                <Skeleton variant="text" width="45%" />
+                <Skeleton variant="rectangular" height={54} sx={{ borderRadius: 2 }} />
+                <Stack direction="row" spacing={2} mt={1}>
+                    <Skeleton variant="text" width="30%" />
+                    <Skeleton variant="text" width="30%" />
+                </Stack>
+            </CardContent>
+            <CardActions sx={{ px: 2.4, pb: 2.4 }}>
+                <Skeleton variant="rounded" width="100%" height={40} />
+            </CardActions>
+        </Card>
     );
 }
 
@@ -130,7 +166,7 @@ function useEventActionManager(event: Event) {
     return { handlers, dialogs };
 }
 
-function EventCardImage({ event }: { event: Event }) {
+function EventCardImage({ event, isRecent }: { event: Event; isRecent: boolean }) {
     const theme = useTheme();
     const isDark = theme.palette.mode === "dark";
 
@@ -150,6 +186,7 @@ function EventCardImage({ event }: { event: Event }) {
             />
 
             <ModalityChip modality={event.modality} />
+            {isRecent && <RecentBadge />}
 
             {event.virtualMeetingLink && (
                 <Box
@@ -193,6 +230,35 @@ function ModalityChip({ modality }: { modality: Event["modality"] }) {
             {modality.name}
         </Box>
     );
+}
+
+function RecentBadge() {
+    const { t } = useTranslation();
+    return (
+        <Chip
+            size="small"
+            color="primary"
+            label={t("events.card.recent", "Nuevo")}
+            sx={{
+                position: "absolute",
+                top: 12,
+                right: 12,
+                fontWeight: 700,
+                borderRadius: 2,
+                backdropFilter: "blur(6px)",
+            }}
+        />
+    );
+}
+
+function isEventRecent(createdAt?: string) {
+    if (!createdAt) return false;
+    const created = new Date(createdAt);
+    if (Number.isNaN(created.getTime())) return false;
+    const now = new Date();
+    const diffMs = now.getTime() - created.getTime();
+    const days = diffMs / (1000 * 60 * 60 * 24);
+    return days <= 7;
 }
 
 function EventCardHeader({ event }: { event: Event }) {
