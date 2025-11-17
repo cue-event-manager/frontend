@@ -18,6 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { useState } from "react";
 import Logo from "../atoms/Logo";
 import { useScrollPosition } from "../../shared/hooks/useScrollPosition";
@@ -69,6 +70,18 @@ export default function Navbar() {
                                 gap: 2,
                             }}
                         >
+                            <Button
+                                component={RouterLink}
+                                to={ROUTES.EVENTS}
+                                color="inherit"
+                                sx={{
+                                    textTransform: "none",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {t("navbar.events")}
+                            </Button>
+
                             {isAuthenticated && user ? (
                                 <Box display="flex" alignItems="center" gap={2}>
                                     <AvatarUserMenu />
@@ -117,6 +130,26 @@ export default function Navbar() {
                 </Box>
 
                 <List>
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            component={RouterLink}
+                            to={ROUTES.EVENTS}
+                            onClick={onClose}
+                            sx={{
+                                borderRadius: 2,
+                                px: 2,
+                                py: 1.5,
+                                mb: 1,
+                                "&:hover": { backgroundColor: "action.hover" },
+                            }}
+                        >
+                            <ListItemIcon>
+                                <EventAvailableIcon color="primary" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("navbar.events")} />
+                        </ListItemButton>
+                    </ListItem>
+
                     {isAuthenticated && user ? (
                         <>
                             <ListItem disablePadding>

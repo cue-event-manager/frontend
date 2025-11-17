@@ -58,6 +58,7 @@ export function SearchSelect(props: SearchSelectProps) {
         placeholder,
         margin = "none",
         size = "small",
+        reserveHelperTextSpace = true,
         sx,
     } = props;
 
@@ -101,6 +102,8 @@ export function SearchSelect(props: SearchSelectProps) {
                         if (externalOnChange) externalOnChange(newVal);
                     };
 
+                    const helperTextValue = error?.message ?? "";
+
                     return (
                         <Autocomplete
                             sx={sx}
@@ -120,7 +123,11 @@ export function SearchSelect(props: SearchSelectProps) {
                                     label={label}
                                     placeholder={placeholder}
                                     error={!!error}
-                                    helperText={String(error?.message ?? " ")}
+                                    helperText={
+                                        reserveHelperTextSpace
+                                            ? helperTextValue || " "
+                                            : helperTextValue || undefined
+                                    }
                                     margin={margin}
                                     size={size}
                                     onBlur={field.onBlur}
@@ -144,7 +151,7 @@ export function SearchSelect(props: SearchSelectProps) {
         );
     }
 
-    const { value, onChange } = props;
+    const { value, onChange, helperText } = props;
 
     const currentValue = multiple
         ? options.filter((opt) =>
@@ -177,7 +184,11 @@ export function SearchSelect(props: SearchSelectProps) {
                     placeholder={placeholder}
                     margin={margin}
                     size={size}
-                    helperText={props.helperText ?? " "}
+                    helperText={
+                        reserveHelperTextSpace
+                            ? helperText || " "
+                            : helperText || undefined
+                    }
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

@@ -9,7 +9,22 @@ import { useAllEventCategories } from "@/features/eventcategory/hooks/useAllEven
 import { useAllEventModalities } from "@/features/eventmodality/hooks/useAllEventModalities";
 import type { EventPaginationRequestDto } from "@/domain/event/EventPaginationRequestDto";
 
-export function EventsTableFilter() {
+interface EventsTableFilterLabels {
+    name?: string;
+    category?: string;
+    modality?: string;
+    status?: string;
+}
+
+interface EventsTableFilterProps {
+    labels?: EventsTableFilterLabels;
+    showStatusFilter?: boolean;
+}
+
+export function EventsTableFilter({
+    labels,
+    showStatusFilter = true,
+}: EventsTableFilterProps = {}) {
     const { t } = useTranslation();
 
     const categories = useAllEventCategories();
@@ -49,10 +64,15 @@ export function EventsTableFilter() {
         { value: "CANCELLED", label: t("admin.events.status.cancelled") },
     ];
 
+    const nameLabel = labels?.name ?? t("admin.events.filters.name");
+    const categoryLabel = labels?.category ?? t("admin.events.filters.category");
+    const modalityLabel = labels?.modality ?? t("admin.events.filters.modality");
+    const statusLabel = labels?.status ?? t("admin.events.filters.status");
+
     return (
         <DataTableFilterBar onSearch={handleSearch} onClear={handleClear}>
             <TextField
-                label={t("admin.events.filters.name")}
+                label={nameLabel}
                 variant="outlined"
                 size="small"
                 value={filters.name ?? ""}
@@ -61,7 +81,7 @@ export function EventsTableFilter() {
             />
 
             <SearchSelect
-                label={t("admin.events.filters.category")}
+                label={categoryLabel}
                 value={filters.categoryId ?? null}
                 onChange={(value) => handleChange("categoryId", value ?? undefined)}
                 options={categories.data?.map((c) => ({ label: c.name, value: c.id })) ?? []}
@@ -72,31 +92,33 @@ export function EventsTableFilter() {
             />
 
             <SearchSelect
-                label={t("admin.events.filters.modality")}
+                label={modalityLabel}
                 value={filters.modalityId ?? null}
                 onChange={(value) => handleChange("modalityId", value ?? undefined)}
                 options={modalities.data?.map((m) => ({ label: m.name, value: m.id })) ?? []}
                 loading={modalities.isLoading}
                 placeholder={t("common.actions.select")}
                 reserveHelperTextSpace={false}
-                sx={{ minWidth: 200 }}
+                sx={{ minWidth: 210 }}
             />
 
-            <TextField
-                select
-                label={t("admin.events.filters.status")}
-                variant="outlined"
-                size="small"
-                value={filters.status ?? ""}
-                onChange={(e) => handleChange("status", e.target.value)}
-                sx={{ minWidth: 200 }}
-            >
-                {eventStatuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
+            {showStatusFilter && (
+                <TextField
+                    select
+                    label={statusLabel}
+                    variant="outlined"
+                    size="small"
+                    value={filters.status ?? ""}
+                    onChange={(e) => handleChange("status", e.target.value)}
+                    sx={{ minWidth: 210 }}
+                >
+                    {eventStatuses.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            )}
         </DataTableFilterBar>
     );
 }
