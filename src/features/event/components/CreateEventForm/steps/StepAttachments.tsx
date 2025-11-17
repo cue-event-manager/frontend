@@ -3,7 +3,6 @@ import {
     Box,
     Typography,
     Stack,
-    Divider,
     Grid,
     TextField,
     Button,
@@ -12,6 +11,7 @@ import {
     Tooltip,
     Fade,
     LinearProgress,
+    Divider,
 } from "@mui/material";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -22,6 +22,7 @@ import type { EventFormData } from "@/shared/validation/eventSchema";
 import DropzoneArea from "@/components/molecules/DropzoneArea";
 import FileCard from "@/components/molecules/FileCard";
 import { useUploadFile } from "@/features/file/hooks/useUploadFile";
+import { FormSection } from "../components/FormSection";
 
 export default function StepAttachments() {
     const { t } = useTranslation();
@@ -41,19 +42,13 @@ export default function StepAttachments() {
         fields: attachments,
         append: appendAttachment,
         remove: removeAttachment,
-    } = useFieldArray({
-        control,
-        name: "attachments",
-    });
+    } = useFieldArray({ control, name: "attachments" });
 
     const {
         fields: contacts,
         append: appendContact,
         remove: removeContact,
-    } = useFieldArray({
-        control,
-        name: "extraContacts",
-    });
+    } = useFieldArray({ control, name: "extraContacts" });
 
     const attachmentsValues = watch("attachments") ?? [];
 
@@ -62,12 +57,7 @@ export default function StepAttachments() {
         const startIndex = attachments.length;
         for (const [offset, file] of files.entries()) {
             const newIndex = startIndex + offset;
-            appendAttachment({
-                name: file.name,
-                filePath: "",
-                contentType: file.type,
-            });
-            // Upload sequentially to keep progress indicator consistent
+            appendAttachment({ name: file.name, filePath: "", contentType: file.type });
             await handleFileUpload(file, newIndex);
         }
     };
@@ -101,145 +91,93 @@ export default function StepAttachments() {
 
     return (
         <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                {t("events.sections.attachments")}
-            </Typography>
-
-            <DropzoneArea
-                onFilesDrop={handleDropFiles}
-                label={t("events.labels.dropzoneLabel")}
-                hint={t("events.labels.dropzoneHint")}
-                actionLabel={t("events.actions.addAttachment")}
-            />
-
-            {attachments.length > 0 && (
-                <Stack spacing={2.5} sx={{ mt: 3 }}>
-                    {attachments.map((field, index) => {
-                        const attachmentValue = attachmentsValues[index] ?? field;
-                        return (
-                        <Paper
-                            key={field.id}
-                            elevation={1}
-                            sx={(theme) => ({
-                                borderRadius: 2.5,
-                                border: "1px solid",
-                                borderColor: alpha(theme.palette.divider, 0.2),
-                                backgroundColor: alpha(theme.palette.background.paper, 0.9),
-                                transition: "all 0.25s ease",
-                            })}
-                        >
-                            <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
-                                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{ fontWeight: 700, color: "text.primary" }}
-                                    >
-                                        {t("events.labels.attachment")} {index + 1}
-                                    </Typography>
-
-                                </Stack>
-
-                                <Divider sx={{ mb: 2 }} />
-
-                                <FileCard
-                                    name={attachmentValue?.name ?? field.name}
-                                    contentType={attachmentValue?.contentType ?? field.contentType}
-                                    uploading={uploadingIndex === index}
-                                    uploaded={uploadedIndexes.has(index)}
-                                    onRename={(newName) => handleRename(index, newName)}
-                                    onDelete={() => removeAttachment(index)}
-                                />
-
-                                {uploadingIndex === index && (
-                                    <LinearProgress sx={{ mt: 2 }} color="primary" />
-                                )}
-                            </Box>
-                        </Paper>
-                        );
-                    })}
-                </Stack>
-            )}
-
-            <Divider sx={{ my: 4 }} />
-
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: { xs: "flex-start", sm: "center" },
-                    flexDirection: { xs: "column", sm: "row" },
-                    gap: 2,
-                    mb: 2.5,
-                }}
+            <FormSection
+                title={t("events.sections.attachments")}
+                subtitle={t("events.labels.dropzoneHint")}
             >
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                    {t("events.sections.extraContacts")}
-                </Typography>
+                <DropzoneArea
+                    onFilesDrop={handleDropFiles}
+                    label={t("events.labels.dropzoneLabel")}
+                    hint={t("events.labels.dropzoneHint")}
+                    actionLabel={t("events.actions.addAttachment")}
+                />
 
-                <Button
-                    variant="contained"
-                    startIcon={<ContactMailIcon />}
-                    onClick={handleAddContact}
-                    sx={{
-                        textTransform: "none",
-                        fontWeight: 600,
-                        borderRadius: 2,
-                        px: 3,
-                        py: 1,
-                    }}
-                >
-                    {t("events.actions.addContact")}
-                </Button>
-            </Box>
-
-            {contacts.length === 0 ? (
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ textAlign: "center", mt: 2 }}
-                >
-                    {t("events.labels.noContacts")}
-                </Typography>
-            ) : (
-                <Fade in timeout={250}>
-                    <Stack spacing={2}>
-                        {contacts.map((field, index) => (
-                            <Paper
-                                key={field.id}
-                                elevation={1}
-                                sx={(theme) => ({
-                                    borderRadius: 2,
-                                    border: "1px solid",
-                                    borderColor: alpha(theme.palette.divider, 0.2),
-                                    backgroundColor: alpha(theme.palette.background.paper, 0.9),
-                                })}
-                            >
-                                <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
-                                    <Stack direction="row" justifyContent="space-between" mb={1.5}>
-                                        <Typography
-                                            variant="subtitle2"
-                                            sx={{ fontWeight: 700, color: "text.primary" }}
-                                        >
-                                            {t("events.labels.contact")} {index + 1}
+                {attachments.length > 0 && (
+                    <Stack spacing={2.5} sx={{ mt: 3 }}>
+                        {attachments.map((field, index) => {
+                            const attachmentValue = attachmentsValues[index] ?? field;
+                            return (
+                                <Paper
+                                    key={field.id}
+                                    elevation={1}
+                                    sx={(theme) => ({
+                                        borderRadius: 2.5,
+                                        border: "1px solid",
+                                        borderColor: alpha(theme.palette.divider, 0.2),
+                                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                                        transition: "all 0.25s ease",
+                                    })}
+                                >
+                                    <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
+                                        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>
+                                            {t("events.labels.attachment")} {index + 1}
                                         </Typography>
-                                        <Tooltip title={t("common.actions.delete") ?? ""}>
-                                            <IconButton
-                                                color="error"
-                                                size="small"
-                                                onClick={() => removeContact(index)}
-                                            >
-                                                <DeleteIcon fontSize="small" />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Stack>
+                                        <Divider sx={{ mb: 2 }} />
+                                        <FileCard
+                                            name={attachmentValue?.name ?? field.name}
+                                            contentType={attachmentValue?.contentType ?? field.contentType}
+                                            uploading={uploadingIndex === index}
+                                            uploaded={uploadedIndexes.has(index)}
+                                            onRename={(newName) => handleRename(index, newName)}
+                                            onDelete={() => removeAttachment(index)}
+                                        />
+                                        {uploadingIndex === index && (
+                                            <LinearProgress sx={{ mt: 2 }} color="primary" />
+                                        )}
+                                    </Box>
+                                </Paper>
+                            );
+                        })}
+                    </Stack>
+                )}
+            </FormSection>
 
-                                    <Divider sx={{ mb: 2 }} />
-
-                                    <Grid container spacing={2.5}>
-                                        <Grid size={{ xs: 12, sm: 4 }}>
+            <FormSection
+                title={t("events.sections.extraContacts")}
+                subtitle={t("events.hints.extraContacts", "Agrega personas de contacto adicionales")}
+                actions={
+                    <Button
+                        variant="contained"
+                        startIcon={<ContactMailIcon />}
+                        onClick={handleAddContact}
+                        sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2, px: 3, py: 1 }}
+                    >
+                        {t("events.actions.addContact")}
+                    </Button>
+                }
+            >
+                {contacts.length === 0 ? (
+                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 1 }}>
+                        {t("events.labels.noContacts")}
+                    </Typography>
+                ) : (
+                    <Fade in timeout={200}>
+                        <Stack spacing={2.5}>
+                            {contacts.map((field, index) => (
+                                <Paper
+                                    key={field.id}
+                                    variant="outlined"
+                                    sx={{
+                                        borderRadius: 2,
+                                        p: { xs: 2, sm: 2.5 },
+                                        borderColor: "divider",
+                                        backgroundColor: "background.paper",
+                                    }}
+                                >
+                                    <Grid container spacing={2}>
+                                        <Grid size={{ xs: 12, md: 4 }}>
                                             <TextField
                                                 fullWidth
-                                                size="small"
                                                 label={t("events.fields.contactName")}
                                                 {...register(`extraContacts.${index}.name`)}
                                                 error={!!errors.extraContacts?.[index]?.name}
@@ -248,11 +186,9 @@ export default function StepAttachments() {
                                                 )}
                                             />
                                         </Grid>
-
-                                        <Grid size={{ xs: 12, sm: 4 }}>
+                                        <Grid size={{ xs: 12, md: 4 }}>
                                             <TextField
                                                 fullWidth
-                                                size="small"
                                                 type="email"
                                                 label={t("events.fields.contactEmail")}
                                                 {...register(`extraContacts.${index}.email`)}
@@ -262,11 +198,9 @@ export default function StepAttachments() {
                                                 )}
                                             />
                                         </Grid>
-
-                                        <Grid size={{ xs: 12, sm: 4 }}>
+                                        <Grid size={{ xs: 12, md: 4 }}>
                                             <TextField
                                                 fullWidth
-                                                size="small"
                                                 label={t("events.fields.contactPhone")}
                                                 {...register(`extraContacts.${index}.phone`)}
                                                 error={!!errors.extraContacts?.[index]?.phone}
@@ -276,12 +210,20 @@ export default function StepAttachments() {
                                             />
                                         </Grid>
                                     </Grid>
-                                </Box>
-                            </Paper>
-                        ))}
-                    </Stack>
-                </Fade>
-            )}
+                                    <Divider sx={{ my: 2 }} />
+                                    <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                                        <Tooltip title={t("common.actions.delete") ?? ""}>
+                                            <IconButton color="error" onClick={() => removeContact(index)}>
+                                                <DeleteIcon fontSize="small" />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Stack>
+                                </Paper>
+                            ))}
+                        </Stack>
+                    </Fade>
+                )}
+            </FormSection>
         </Box>
     );
 }

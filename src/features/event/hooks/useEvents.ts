@@ -8,7 +8,7 @@ import { EVENT_QUERY_KEYS } from "../constants/eventQueries.constant";
 
 export function useEvents(query: PaginationQuery & EventPaginationRequestDto) {
     return useQuery<Page<EventWithAvailabilityResponseDto>, Error>({
-        queryKey: [EVENT_QUERY_KEYS.EVENTS.ROOT, query],
+        queryKey: [EVENT_QUERY_KEYS.EVENTS.ROOT],
         queryFn: () => getEvents(query),
     });
 }

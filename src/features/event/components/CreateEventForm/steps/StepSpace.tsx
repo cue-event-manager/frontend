@@ -32,6 +32,7 @@ import type { EventFormData } from "@/shared/validation/eventSchema";
 import { useMemo, useState } from "react";
 import type { GetAvailableSpacesRequestDto } from "@/domain/space/GetAvailableSpacesRequestDto";
 import type { RecurrenceType } from "@/domain/event/enums/RecurrenceType";
+import { FormSection, FormSectionAlert } from "../components/FormSection";
 
 export default function StepSpace() {
     const { setValue, watch, register } = useFormContext<EventFormData>();
@@ -54,21 +55,19 @@ function VirtualSpaceSection({ register }: { register: any }) {
     const { t } = useTranslation();
 
     return (
-        <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-                {t("events.sections.space")}
-            </Typography>
-
-            <Alert
+        <FormSection
+            title={t("events.sections.space")}
+            subtitle={t("events.sections.spaceSelection", "Define cómo participarás")}
+        >
+            <FormSectionAlert
                 severity="info"
-                icon={<InfoOutlinedIcon />}
-                sx={{ borderRadius: 2, mb: 3 }}
-            >
-                {t(
+                icon={<InfoOutlinedIcon fontSize="small" />}
+                description={t(
                     "events.hints.noPhysicalSpaceRequired",
                     "Esta modalidad no requiere espacio físico. Puedes ingresar un enlace de reunión o ubicación virtual."
                 )}
-            </Alert>
+                sx={{ mb: 3 }}
+            />
 
             <TextField
                 fullWidth
@@ -76,7 +75,7 @@ function VirtualSpaceSection({ register }: { register: any }) {
                 placeholder="https://meet.google.com/..."
                 {...register("virtualMeetingLink")}
             />
-        </Box>
+        </FormSection>
     );
 }
 
@@ -134,22 +133,20 @@ function RecurrentSpaceSection({ setValue, watch }: { setValue: any; watch: any 
     };
 
     return (
-        <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-                {t("events.sections.space")}
-            </Typography>
-
-            <Alert severity="warning" icon={<WarningAmberIcon />} sx={{ borderRadius: 2, mb: 3 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                    {t("events.hints.recurrentSpaceTitle", "Evento Recurrente")}
-                </Typography>
-                <Typography variant="body2">
-                    {t(
-                        "events.hints.recurrentSpaceDescription",
-                        "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente."
-                    )}
-                </Typography>
-            </Alert>
+        <FormSection
+            title={t("events.sections.space")}
+            subtitle={t("events.sections.spaceSelection")}
+        >
+            <FormSectionAlert
+                severity="warning"
+                icon={<WarningAmberIcon fontSize="small" />}
+                title={t("events.hints.recurrentSpaceTitle", "Evento Recurrente")}
+                description={t(
+                    "events.hints.recurrentSpaceDescription",
+                    "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente."
+                )}
+                sx={{ mb: 3 }}
+            />
 
             <Paper
                 elevation={2}
@@ -238,7 +235,7 @@ function RecurrentSpaceSection({ setValue, watch }: { setValue: any; watch: any 
                 )}
             </Paper>
 
-        </Box>
+        </FormSection>
     );
 }
 
@@ -287,11 +284,10 @@ function SingleSpaceSection({ setValue, watch }: { setValue: any; watch: any }) 
 
 
     return (
-        <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-                {t("events.sections.space")}
-            </Typography>
-
+        <FormSection
+            title={t("events.sections.space")}
+            subtitle={t("events.sections.spaceSelection")}
+        >
             <Paper
                 elevation={2}
                 sx={{
@@ -336,7 +332,7 @@ function SingleSpaceSection({ setValue, watch }: { setValue: any; watch: any }) 
                     requireFullAvailability={false}
                 />
             </Paper>
-        </Box>
+        </FormSection>
     );
 }
 

@@ -356,6 +356,7 @@
         "description": "Administra todos los eventos registrados en la plataforma, incluyendo su información básica, agenda y organizadores.",
         "created": "Evento creado exitosamente.",
         "updated": "Evento actualizado correctamente.",
+        "recurrentUpdated": "Se actualizaron {{count}} eventos de la serie.",
         "deleted": "Evento eliminado correctamente.",
         "createTitle": "Crear nuevo evento",
         "editTitle": "Actualizar evento",
@@ -421,7 +422,13 @@
             "title": "Actualizar evento recurrente",
             "message": "Este evento pertenece a una serie recurrente. ¿Qué deseas actualizar?",
             "onlyThis": "Solo este evento",
-            "allSeries": "Toda la serie"
+            "allSeries": "Toda la serie",
+            "alertTitle": "Este evento forma parte de una serie recurrente",
+            "alertDescription": "Los cambios que realices pueden aplicarse únicamente a esta sesión o a toda la serie. Revisa los datos antes de continuar.",
+            "alertRange": "Rango programado: {{start}} → {{end}}",
+            "alertType": "Frecuencia base: {{type}}",
+            "alertTime": "Horario de referencia: {{start}} - {{end}}",
+            "alertInstruction": "Podrás elegir si impactas una sola sesión o todas cuando confirmes la actualización."
         },
         "sections": {
             "banner": "Banner del evento",
@@ -458,6 +465,10 @@
             "unknownType": "Tipo no especificado",
             "resources": "Recursos",
             "activity": "Actividad",
+            "recurrenceRange": "Rango de recurrencia",
+            "recurrenceTypeLabel": "Frecuencia",
+            "recurrenceTime": "Horario",
+            "bannerSubtitle": "Presenta tu evento con un banner atractivo",
             "noAgendaItems": "No hay actividades en la agenda",
             "addFirstItem": "Agregue la primera actividad para comenzar",
             "noAttachments": "No hay archivos adjuntos",
@@ -492,7 +503,9 @@
             "recurrentSpaceTitle": "Evento Recurrente",
             "recurrentSpaceDescription": "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente.",
             "requireFullAvailabilityDescription": "Solo mostrar espacios disponibles en todas las fechas del evento",
-            "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles"
+            "recurrentScheduleLocked": "Las fechas de un evento recurrente no pueden modificarse desde aquí. Ajusta cada sesión de forma individual para actualizar su programación.",
+            "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles",
+            "contactDetails": "Estos datos se compartirán con los asistentes"
         },
         "card": {
             "capacitySummary": "{{available}} de {{total}} cupos disponibles",
@@ -728,7 +741,6 @@
             "description": "Administra los eventos que has creado.",
             "created": "Evento creado exitosamente.",
             "updated": "Evento actualizado correctamente.",
-            "recurrentUpdated": "Se actualizaron {{count}} eventos de la serie.",
             "deleted": "Evento eliminado correctamente.",
             "create": "Crear Evento",
             "createTitle": "Crear nuevo evento",

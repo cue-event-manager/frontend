@@ -1,20 +1,16 @@
 import { useFormContext, Controller } from "react-hook-form";
-import {
-    Box,
-    Grid,
-    TextField,
-    Typography,
-    Divider,
-    FormControlLabel,
-    Checkbox,
-    MenuItem,
-    Alert,
-} from "@mui/material";
+import { Box, Grid, TextField, Typography, FormControlLabel, Checkbox, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { EventFormData } from "@/shared/validation/eventSchema";
 import { useEffect } from "react";
+import { FormSection, FormSectionAlert } from "../components/FormSection";
 
-export default function StepSchedule() {
+interface StepScheduleProps {
+    lockRecurrentDates?: boolean;
+    lockMessage?: string;
+}
+
+export default function StepSchedule({ lockRecurrentDates = false, lockMessage }: StepScheduleProps = {}) {
     const { t } = useTranslation();
 
     const {
@@ -27,9 +23,10 @@ export default function StepSchedule() {
     } = useFormContext<EventFormData>();
 
     const isRecurrent = watch("isRecurrent");
-
+    const lockHint = lockMessage ?? t("events.hints.recurrentScheduleLocked", " ");
 
     useEffect(() => {
+        if (lockRecurrentDates) return;
         if (isRecurrent) {
             clearErrors(["date"]);
             resetField("date", { defaultValue: undefined });
@@ -39,196 +36,251 @@ export default function StepSchedule() {
             resetField("endDate", { defaultValue: undefined });
             resetField("recurrenceType", { defaultValue: undefined });
         }
-    }, [isRecurrent, clearErrors, resetField]);
+    }, [isRecurrent, clearErrors, resetField, lockRecurrentDates]);
 
     return (
         <Box sx={{ mt: 1 }}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-                {t("events.sections.schedule")}
-            </Typography>
+            <FormSection
+                title={t("events.sections.schedule")}
+                subtitle={t("events.sections.dates")}
+            >
+                {lockRecurrentDates && (
+                    <FormSectionAlert severity="warning" description={lockHint} sx={{ mb: 2 }} />
+                )}
 
-            <Grid container spacing={2}>
-                <Grid size={{ xs: 12 }}>
-                    <FormControlLabel
-                        control={
-                            <Controller
-                                name="isRecurrent"
-                                control={control}
-                                render={({ field }) => (
-                                    <Checkbox
-                                        checked={!!field.value}
-                                        onChange={(e) => field.onChange(e.target.checked)}
-                                    />
-                                )}
-                            />
-                        }
-                        label={t("events.fields.isRecurrent")}
-                    />
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12 }}>
+                        <FormControlLabel
+                            control={
+                                <Controller
+                                    name="isRecurrent"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Checkbox
+                                            checked={!!field.value}
+                                            onChange={(e) => field.onChange(e.target.checked)}
+                                            disabled={lockRecurrentDates}
+                                        />
+                                    )}
+                                />
+                            }
+                            label={t("events.fields.isRecurrent")}
+                            disabled={lockRecurrentDates}
+                        />
 
-                    {errors.isRecurrent && (
-                        <Typography color="error" variant="caption">
-                            {String(errors.isRecurrent.message)}
-                        </Typography>
-                    )}
+                        {errors.isRecurrent && (
+                            <Typography color="error" variant="caption">
+                                {String(errors.isRecurrent.message)}
+                            </Typography>
+                        )}
 
-                    {isRecurrent && (
-                        <Alert
-                            severity="info"
-                            sx={{
-                                mt: 1,
-                                borderRadius: 2,
-                                fontSize: "0.9rem",
-                                transition: "all 0.2s ease",
-                            }}
-                        >
-                            {t("events.hints.recurrentMode")}
-                        </Alert>
-                    )}
+                        {!lockRecurrentDates && isRecurrent && (
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                {t("events.hints.recurrentMode")}
+                            </Typography>
+                        )}
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            <Divider sx={{ my: 3 }} />
+                {isRecurrent ? (
+                    <RecurrentFields
+                        t={t}
+                        errors={errors}
+                        control={control}
+                        register={register}
+                        lockRecurrentDates={lockRecurrentDates}
+                    />
+                ) : (
+                    <SingleFields t={t} errors={errors} control={control} register={register} />
+                )}
+            </FormSection>
+        </Box>
+    );
+}
 
-            <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-                {t("events.sections.dates")}
+function SingleFields({
+    t,
+    errors,
+    control,
+    register,
+}: {
+    t: any;
+    errors: any;
+    control: any;
+    register: any;
+}) {
+    return (
+        <>
+            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
+                {t("events.labels.singleEventHint", "Evento con una única fecha")}
             </Typography>
-
-            {!isRecurrent ? (
-                <>
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                        sx={{ mb: 2 }}
-                    >
-                        {t("events.labels.singleEventHint", "Evento con una única fecha")}
-                    </Typography>
-
-                    <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, md: 4 }}>
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <Controller
+                        name="date"
+                        control={control}
+                        render={({ field }) => (
                             <TextField
+                                {...field}
                                 fullWidth
                                 type="date"
                                 label={t("events.fields.date")}
                                 InputLabelProps={{ shrink: true }}
-                                {...register("date")}
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) =>
+                                    field.onChange(e.target.value ? new Date(e.target.value) : null)
+                                }
                                 error={!!errors.date}
                                 helperText={String(errors.date?.message ?? " ")}
                             />
-                        </Grid>
+                        )}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                        fullWidth
+                        type="time"
+                        label={t("events.fields.startTime")}
+                        InputLabelProps={{ shrink: true }}
+                        {...register("startTime")}
+                        error={!!errors.startTime}
+                        helperText={String(errors.startTime?.message ?? " ")}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                        fullWidth
+                        type="time"
+                        label={t("events.fields.endTime")}
+                        InputLabelProps={{ shrink: true }}
+                        {...register("endTime")}
+                        error={!!errors.endTime}
+                        helperText={String(errors.endTime?.message ?? " ")}
+                    />
+                </Grid>
+            </Grid>
+        </>
+    );
+}
 
-                        <Grid size={{ xs: 12, md: 4 }}>
+function RecurrentFields({
+    t,
+    errors,
+    control,
+    register,
+    lockRecurrentDates,
+}: {
+    t: any;
+    errors: any;
+    control: any;
+    register: any;
+    lockRecurrentDates: boolean;
+}) {
+    return (
+        <>
+            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
+                {t("events.labels.recurrentEventHint", "Evento con recurrencia")}
+            </Typography>
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <Controller
+                        name="startDate"
+                        control={control}
+                        render={({ field }) => (
                             <TextField
-                                fullWidth
-                                type="time"
-                                label={t("events.fields.startTime")}
-                                InputLabelProps={{ shrink: true }}
-                                {...register("startTime")}
-                                error={!!errors.startTime}
-                                helperText={String(errors.startTime?.message ?? " ")}
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <TextField
-                                fullWidth
-                                type="time"
-                                label={t("events.fields.endTime")}
-                                InputLabelProps={{ shrink: true }}
-                                {...register("endTime")}
-                                error={!!errors.endTime}
-                                helperText={String(errors.endTime?.message ?? " ")}
-                            />
-                        </Grid>
-                    </Grid>
-                </>
-            ) : (
-                <>
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                        sx={{ mb: 2 }}
-                    >
-                        {t("events.labels.recurrentEventHint", "Evento con recurrencia")}
-                    </Typography>
-
-                    <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <TextField
+                                {...field}
                                 fullWidth
                                 type="date"
                                 label={t("events.fields.startDate")}
                                 InputLabelProps={{ shrink: true }}
-                                {...register("startDate")}
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) =>
+                                    field.onChange(e.target.value ? new Date(e.target.value) : null)
+                                }
                                 error={!!errors.startDate}
                                 helperText={String(errors.startDate?.message ?? " ")}
+                                disabled={lockRecurrentDates}
                             />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
+                        )}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <Controller
+                        name="endDate"
+                        control={control}
+                        render={({ field }) => (
                             <TextField
+                                {...field}
                                 fullWidth
                                 type="date"
                                 label={t("events.fields.endDate")}
                                 InputLabelProps={{ shrink: true }}
-                                {...register("endDate")}
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) =>
+                                    field.onChange(e.target.value ? new Date(e.target.value) : null)
+                                }
                                 error={!!errors.endDate}
                                 helperText={String(errors.endDate?.message ?? " ")}
+                                disabled={lockRecurrentDates}
                             />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Controller
-                                name="recurrenceType"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        select
-                                        fullWidth
-                                        label={t("events.fields.recurrenceType")}
-                                        {...field}
-                                        error={!!errors.recurrenceType}
-                                        helperText={String(errors.recurrenceType?.message ?? " ")}
-                                    >
-                                        <MenuItem value="DAILY">
-                                            {t("events.recurrence.daily")}
-                                        </MenuItem>
-                                        <MenuItem value="WEEKLY">
-                                            {t("events.recurrence.weekly")}
-                                        </MenuItem>
-                                        <MenuItem value="MONTHLY">
-                                            {t("events.recurrence.monthly")}
-                                        </MenuItem>
-                                    </TextField>
-                                )}
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
+                        )}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <Controller
+                        name="recurrenceType"
+                        control={control}
+                        render={({ field }) => (
                             <TextField
+                                select
                                 fullWidth
-                                type="time"
-                                label={t("events.fields.startTime")}
-                                InputLabelProps={{ shrink: true }}
-                                {...register("startTime")}
-                                error={!!errors.startTime}
-                                helperText={String(errors.startTime?.message ?? " ")}
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <TextField
-                                fullWidth
-                                type="time"
-                                label={t("events.fields.endTime")}
-                                InputLabelProps={{ shrink: true }}
-                                {...register("endTime")}
-                                error={!!errors.endTime}
-                                helperText={String(errors.endTime?.message ?? " ")}
-                            />
-                        </Grid>
-                    </Grid>
-                </>
-            )}
-        </Box>
+                                label={t("events.fields.recurrenceType")}
+                                {...field}
+                                error={!!errors.recurrenceType}
+                                helperText={String(errors.recurrenceType?.message ?? " ")}
+                                disabled={lockRecurrentDates}
+                            >
+                                <MenuItem value="DAILY">{t("events.recurrence.daily")}</MenuItem>
+                                <MenuItem value="WEEKLY">{t("events.recurrence.weekly")}</MenuItem>
+                                <MenuItem value="MONTHLY">{t("events.recurrence.monthly")}</MenuItem>
+                            </TextField>
+                        )}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                        fullWidth
+                        type="time"
+                        label={t("events.fields.startTime")}
+                        InputLabelProps={{ shrink: true }}
+                        {...register("startTime")}
+                        error={!!errors.startTime}
+                        helperText={String(errors.startTime?.message ?? " ")}
+                    />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                        fullWidth
+                        type="time"
+                        label={t("events.fields.endTime")}
+                        InputLabelProps={{ shrink: true }}
+                        {...register("endTime")}
+                        error={!!errors.endTime}
+                        helperText={String(errors.endTime?.message ?? " ")}
+                    />
+                </Grid>
+            </Grid>
+        </>
     );
+}
+
+function formatDateForInput(value: unknown) {
+    if (!value) return "";
+    if (value instanceof Date && !Number.isNaN(value.getTime())) {
+        return value.toISOString().split("T")[0];
+    }
+    if (typeof value === "string" && value.length > 0) {
+        return value.split("T")[0];
+    }
+    return "";
 }

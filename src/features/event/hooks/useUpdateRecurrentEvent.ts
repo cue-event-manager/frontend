@@ -12,7 +12,7 @@ export function useUpdateRecurrentEvent() {
     return useMutation({
         mutationFn: (payload: UpdateRecurrentEventRequestDto) => updateRecurrentEvent(payload),
         onSuccess: async (data) => {
-            toast.success(t("admin.events.recurrentUpdated", { count: data.updatedCount }));
+            toast.success(t("events.recurrentUpdated", { count: data.updatedCount }));
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: [EVENT_QUERY_KEYS.EVENTS.ROOT] }),
                 queryClient.invalidateQueries({ queryKey: [EVENT_QUERY_KEYS.EVENTS.ALL] }),
