@@ -1,12 +1,15 @@
+import { useMemo } from "react";
 import {
+    Alert,
+    AlertTitle,
+    Avatar,
     Box,
-    Typography,
-    Paper,
+    Chip,
     Divider,
     Grid,
+    Paper,
     Stack,
-    Chip,
-    Avatar,
+    Typography,
 } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -22,9 +25,21 @@ import { alpha } from "@mui/material/styles";
 
 export default function StepSummary() {
     const { getValues } = useFormContext<EventFormData>();
-    const {t} = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const data = getValues();
+    const dateFormatter = useMemo(
+        () => new Intl.DateTimeFormat(i18n.language, { dateStyle: "medium" }),
+        [i18n.language]
+    );
+
+    const singleEventDateLabel = formatDateValue(data.date, dateFormatter);
+    const recurrenceStartLabel = formatDateValue(data.startDate, dateFormatter);
+    const recurrenceEndLabel =
+        formatDateValue(data.endDate, dateFormatter) ?? recurrenceStartLabel ?? singleEventDateLabel;
+    const recurrenceTypeLabel = data.recurrenceType
+        ? t(`events.recurrence.${data.recurrenceType.toLowerCase()}`)
+        : t("events.labels.unknownType");
 
     return (
         <Box sx={{ mt: 2 }}>
@@ -32,8 +47,102 @@ export default function StepSummary() {
                 {t("events.sections.summary")}
             </Typography>
 
+            {data.isRecurrent && (
+                <Alert
+                    severity="warning"
+                    variant="outlined"
+                    sx={{
+                        borderWidth: 2,
+                        borderRadius: 3,
+                        mb: 3,
+                        p: 2.5,
+                        "& .MuiAlert-message": { width: "100%" },
+                    }}
+                >
+                    <AlertTitle sx={{ fontWeight: 700 }}>
+                        {t("events.updateRecurrent.alertTitle")}
+                    </AlertTitle>
+                    <Stack spacing={2}>
+                        <Typography variant="body2">
+                            {t("events.updateRecurrent.alertDescription")}
+                        </Typography>
+
+                        <Stack spacing={2}>
+                            <Divider />
+                            {recurrenceStartLabel && recurrenceEndLabel && (
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: "block", mb: 0.5 }}
+                                    >
+                                        {t("events.labels.recurrenceRange")}
+                                    </Typography>
+                                    <Chip
+                                        color="warning"
+                                        label={t("events.updateRecurrent.alertRange", {
+                                            start: recurrenceStartLabel,
+                                            end: recurrenceEndLabel,
+                                        })}
+                                    />
+                                </Box>
+                            )}
+
+                            <Box>
+                                <Divider />
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    sx={{ display: "block", mb: 0.5 }}
+                                >
+                                    {t("events.labels.recurrenceTypeLabel")}
+                                </Typography>
+                                <Chip
+                                    color="warning"
+                                    variant="outlined"
+                                    label={t("events.updateRecurrent.alertType", {
+                                        type: recurrenceTypeLabel,
+                                    })}
+                                />
+                            </Box>
+
+                            <Box>
+                                <Divider />
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    sx={{ display: "block", mb: 0.5 }}
+                                >
+                                    {t("events.labels.recurrenceTime")}
+                                </Typography>
+                                <Chip
+                                    color="warning"
+                                    variant="outlined"
+                                    label={t("events.updateRecurrent.alertTime", {
+                                        start: data.startTime || "--:--",
+                                        end: data.endTime || "--:--",
+                                    })}
+                                />
+                            </Box>
+                        </Stack>
+
+                        <Typography variant="body2" color="text.secondary">
+                            {t("events.updateRecurrent.alertInstruction")}
+                        </Typography>
+                    </Stack>
+                </Alert>
+            )}
+
             <BasicInfoSection data={data} />
-            <ScheduleSection data={data} />
+            <ScheduleSection
+                data={data}
+                labels={{
+                    singleDate: singleEventDateLabel,
+                    startDate: recurrenceStartLabel,
+                    endDate: recurrenceEndLabel,
+                    recurrenceType: recurrenceTypeLabel,
+                }}
+            />
             <OrganizerSection data={data} />
             <AttachmentsSection data={data} />
         </Box>
@@ -103,7 +212,14 @@ function BasicInfoSection({ data }: { data: EventFormData }) {
 }
 
 /* -------- Schedule Section -------- */
-function ScheduleSection({ data }: { data: EventFormData }) {
+interface ScheduleLabels {
+    singleDate?: string;
+    startDate?: string;
+    endDate?: string;
+    recurrenceType?: string;
+}
+
+function ScheduleSection({ data, labels }: { data: EventFormData; labels: ScheduleLabels }) {
     const { t } = useTranslation();
 
     return (
@@ -113,8 +229,8 @@ function ScheduleSection({ data }: { data: EventFormData }) {
                     icon={<CalendarMonthIcon />}
                     label={
                         data.isRecurrent
-                            ? `${t("events.fields.startDate")}: ${data.startDate} → ${data.endDate}`
-                            : `${t("events.fields.date")}: ${data.date}`
+                            ? `${t("events.fields.startDate")}: ${labels.startDate ?? t("common.labels.unknown")} → ${labels.endDate ?? t("common.labels.unknown")}`
+                            : `${t("events.fields.date")}: ${labels.singleDate ?? t("common.labels.unknown")}`
                     }
                     variant="outlined"
                 />
@@ -123,8 +239,8 @@ function ScheduleSection({ data }: { data: EventFormData }) {
                     label={`${data.startTime} - ${data.endTime}`}
                     variant="outlined"
                 />
-                {data.isRecurrent && data.recurrenceType && (
-                    <Chip label={t(`events.recurrence.${data.recurrenceType.toLowerCase()}`)} />
+                {data.isRecurrent && (
+                    <Chip label={labels.recurrenceType ?? t("events.labels.unknownType")} />
                 )}
             </Stack>
         </SectionContainer>
@@ -243,4 +359,19 @@ function AttachmentsSection({ data }: { data: EventFormData }) {
             </Stack>
         </SectionContainer>
     );
+}
+
+function formatDateValue(
+    value?: Date | string | null,
+    formatter?: Intl.DateTimeFormat
+): string | undefined {
+    if (!value) return undefined;
+    const date =
+        value instanceof Date
+            ? value
+            : typeof value === "string"
+                ? new Date(value)
+                : undefined;
+    if (!date || Number.isNaN(date.getTime())) return undefined;
+    return formatter ? formatter.format(date) : date.toLocaleDateString();
 }
