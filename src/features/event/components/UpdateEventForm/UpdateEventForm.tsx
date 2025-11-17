@@ -2,15 +2,15 @@ import { useState, useMemo } from "react";
 import {
     Box,
     Button,
-    Stepper,
-    Step,
-    StepLabel,
-    Divider,
     Dialog,
-    DialogTitle,
+    DialogActions,
     DialogContent,
     DialogContentText,
-    DialogActions,
+    DialogTitle,
+    Divider,
+    Step,
+    StepLabel,
+    Stepper,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { FormProvider } from "react-hook-form";
@@ -47,7 +47,10 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
     const updateEventMutation = useUpdateEvent();
     const updateRecurrentEventMutation = useUpdateRecurrentEvent();
 
-    const isRecurrentEvent = event.recurrenceMode === "RECURRING" && event.recurrenceId;
+    const isRecurrentEvent = event.recurrenceMode === "RECURRING" && Boolean(event.recurrenceId);
+    const singleEventDate = parseDateValue(event.date);
+    const recurrentStartDate = parseDateValue(event.startDate);
+    const recurrentEndDate = parseDateValue(event.endDate);
 
     const steps = useMemo(
         () => [
@@ -75,13 +78,13 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
             spaceId: event.spaceId ?? undefined,
             virtualMeetingLink: event.virtualMeetingLink ?? undefined,
             capacity: event.capacity ?? undefined,
-            date: event.date ? new Date(event.date) : undefined,
-            startDate: undefined,
-            endDate: undefined,
+            date: singleEventDate,
+            startDate: isRecurrentEvent ? recurrentStartDate ?? singleEventDate : undefined,
+            endDate: isRecurrentEvent ? recurrentEndDate ?? singleEventDate : undefined,
             startTime: event.startTime ?? "",
             endTime: event.endTime ?? "",
             recurrenceType: event.recurrenceType ?? undefined,
-            isRecurrent: event.recurrenceMode === "RECURRING",
+            isRecurrent: Boolean(isRecurrentEvent),
             requiresSpace: event.spaceId ? true : false,
             imagePath: event.imagePath ?? undefined,
             organizer: {
@@ -185,12 +188,20 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
         });
     };
 
-    const onSubmit = handleSubmit(async (data) => {
+    const onSubmit = handleSubmit(async (rawData) => {
         try {
-            await eventFormSchema.validate(data, { abortEarly: false });
+            const normalizedData = {
+                ...rawData,
+                isRecurrent:
+                    typeof rawData.isRecurrent === "boolean"
+                        ? rawData.isRecurrent
+                        : Boolean(isRecurrentEvent),
+            };
+
+            await eventFormSchema.validate(normalizedData, { abortEarly: false });
 
             const cleanedData = JSON.parse(
-                JSON.stringify(data, (_k, v) => (v === null ? undefined : v))
+                JSON.stringify(normalizedData, (_k, v) => (v === null ? undefined : v))
             );
 
             if (isRecurrentEvent) {
@@ -218,7 +229,12 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
                 <Box sx={{ minHeight: 400 }}>
                     <Box sx={{ minHeight: 400 }}>
                         {activeStep === 0 && <StepBasicInfo />}
-                        {activeStep === 1 && <StepSchedule />}
+                        {activeStep === 1 && (
+                            <StepSchedule
+                                lockRecurrentDates={isRecurrentEvent}
+                                lockMessage={t("events.hints.recurrentScheduleLocked")}
+                            />
+                        )}
                         {activeStep === 2 && <StepSpace />}
                         {activeStep === 3 && <StepOrganizer />}
                         {activeStep === 4 && <StepAgenda />}
@@ -312,4 +328,10 @@ export default function UpdateEventForm({ event, onSuccess }: UpdateEventFormPro
             </Box>
         </FormProvider>
     );
+}
+
+function parseDateValue(value?: string | null) {
+    if (!value) return undefined;
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
