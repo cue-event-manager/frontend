@@ -15,6 +15,8 @@ export interface Event {
     cost: number;
     imagePath: string;
     date: string;
+    startDate?: string | null;
+    endDate?: string | null;
     startTime: string;
     endTime: string;
     spaceId: number;
