@@ -6,12 +6,12 @@ import {
     Box,
     Stack,
     useTheme,
-    Chip,
     Button,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { useCallback } from "react";
 import type { ReactNode } from "react";
 import type { Event } from "@/domain/event/Event";
 import type { EventAvailability } from "@/domain/event/EventAvailability";
@@ -19,13 +19,21 @@ import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithA
 import { formatEventDate } from "@/features/event/utils/date";
 import { useAuth } from "@/contexts/authContext";
 import { RoleConstant } from "@/domain/role/RoleConstant";
-
-const CLOUDFRONT_BASE_URL = "https://d1z2jagk4z4o7g.cloudfront.net/";
-const DEFAULT_IMAGE = "/common/no-image.png";
+import { useModalState } from "@/features/user/hooks/useModalState";
+import UpdateEventFormModal from "./UpdateEventForm/UpdateEventFormModal";
+import { getEventImageUrl } from "@/features/event/constants/media.constant";
 
 interface EventCardActionContext {
     event: Event;
     availability: EventAvailability;
+    actions: EventCardActionHandlers;
+}
+
+interface EventCardActionHandlers {
+    view: () => void;
+    edit: () => void;
+    delete: () => void;
+    register: () => void;
 }
 
 type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
@@ -45,62 +53,88 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
     const { event, availability } = data;
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === "dark";
+    const { handlers, dialogs } = useEventActionManager(event);
 
     return (
-        <Card
-            elevation={0}
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                borderRadius: 4,
-                overflow: "hidden",
-                border: "1px solid",
-                borderColor: isDarkMode
-                    ? alpha(theme.palette.common.white, 0.08)
-                    : theme.palette.divider,
-                transition: "0.25s ease",
-                "&:hover": {
-                    boxShadow: isDarkMode
-                        ? "0 18px 35px rgba(0,0,0,0.65)"
-                        : "0 4px 22px rgba(0,0,0,0.08)",
-                    transform: "translateY(-3px)",
-                },
-                bgcolor: theme.palette.background.paper,
-                width: 330,
-                minHeight: 440,
-                height: "100%",
-            }}
-        >
-            <EventCardImage event={event} />
-
-            <CardContent
+        <>
+            <Card
+                elevation={0}
                 sx={{
-                    p: 2.4,
-                    pb: 1.6,
                     display: "flex",
                     flexDirection: "column",
-                    gap: 1,
-                    flexGrow: 1,
+                    borderRadius: 4,
+                    overflow: "hidden",
+                    border: "1px solid",
+                    borderColor: isDarkMode
+                        ? alpha(theme.palette.common.white, 0.08)
+                        : theme.palette.divider,
+                    transition: "0.25s ease",
+                    "&:hover": {
+                        boxShadow: isDarkMode
+                            ? "0 18px 35px rgba(0,0,0,0.65)"
+                            : "0 4px 22px rgba(0,0,0,0.08)",
+                        transform: "translateY(-3px)",
+                    },
+                    bgcolor: theme.palette.background.paper,
+                    width: 330,
+                    minHeight: 440,
+                    height: "100%",
                 }}
             >
-                <EventCardHeader event={event} />
-                <EventCardDescription description={event.description} />
-                <EventCardMetaInfo event={event} availability={availability} />
-            </CardContent>
+                <EventCardImage event={event} />
 
-            <EventCardFooter actions={renderActions({ event, availability })} />
-        </Card>
+                <CardContent
+                    sx={{
+                        p: 2.4,
+                        pb: 1.6,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                        flexGrow: 1,
+                    }}
+                >
+                    <EventCardHeader event={event} />
+                    <EventCardDescription description={event.description} />
+                    <EventCardMetaInfo event={event} availability={availability} />
+                </CardContent>
+
+                <EventCardFooter actions={renderActions({ event, availability, actions: handlers })} />
+            </Card>
+            {dialogs}
+        </>
     );
 }
 
+function useEventActionManager(event: Event) {
+    const updateModal = useModalState<Event>();
+
+    const handleEdit = useCallback(() => {
+        updateModal.openModal(event);
+    }, [event, updateModal]);
+
+    const handlers: EventCardActionHandlers = {
+        view: () => console.log("View", event.id),
+        edit: handleEdit,
+        delete: () => console.log("Delete", event.id),
+        register: () => console.log("Register", event.id),
+    };
+
+    const dialogs = (
+        <UpdateEventFormModal
+            open={updateModal.isOpen}
+            event={updateModal.data ?? null}
+            onClose={updateModal.closeModal}
+        />
+    );
+
+    return { handlers, dialogs };
+}
 
 function EventCardImage({ event }: { event: Event }) {
     const theme = useTheme();
     const isDark = theme.palette.mode === "dark";
 
-    const imageUrl = event.imagePath
-        ? `${CLOUDFRONT_BASE_URL}${event.imagePath}`
-        : DEFAULT_IMAGE;
+    const imageUrl = getEventImageUrl(event.imagePath);
 
     return (
         <Box sx={{ position: "relative", height: 160 }}>
@@ -267,24 +301,17 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
 
 }
 
-function RoleBasedEventActions({ event, availability }: EventCardActionContext) {
+function RoleBasedEventActions({ availability, actions }: EventCardActionContext) {
     const { user } = useAuth();
     const { t } = useTranslation();
-
-    const baseHandlers = {
-        view: () => console.log("View", event.id),
-        edit: () => console.log("Edit", event.id),
-        delete: () => console.log("Delete", event.id),
-        register: () => console.log("Register", event.id),
-    };
 
     const actionByRole: Record<string, ReactNode> = {
         [RoleConstant.ORGANIZER]: (
             <>
-                <Button size="small" color="primary" onClick={baseHandlers.edit}>
+                <Button size="small" color="primary" onClick={actions.edit}>
                     {t("common.actions.edit")}
                 </Button>
-                <Button size="small" color="error" onClick={baseHandlers.delete}>
+                <Button size="small" color="error" onClick={actions.delete}>
                     {t("common.actions.delete")}
                 </Button>
             </>
@@ -294,17 +321,17 @@ function RoleBasedEventActions({ event, availability }: EventCardActionContext) 
                 size="small"
                 variant="contained"
                 color="success"
-                onClick={baseHandlers.register}
+                onClick={actions.register}
             >
                 {t("common.actions.register")}
             </Button>
         ) : (
-            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+            <Button size="small" variant="outlined" onClick={actions.view}>
                 {t("common.actions.viewDetails")}
             </Button>
         ),
         [RoleConstant.ADMIN]: (
-            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+            <Button size="small" variant="outlined" onClick={actions.view}>
                 {t("common.actions.view")}
             </Button>
         ),
@@ -312,7 +339,7 @@ function RoleBasedEventActions({ event, availability }: EventCardActionContext) 
 
     return (
         actionByRole[user?.role.name ?? ""] ?? (
-            <Button size="small" variant="outlined" onClick={baseHandlers.view}>
+            <Button size="small" variant="outlined" onClick={actions.view}>
                 {t("common.actions.view")}
             </Button>
         )
