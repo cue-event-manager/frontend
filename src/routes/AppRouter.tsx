@@ -28,12 +28,14 @@ import AdminEventsPage from "@/pages/AdminEventsPage";
 import OrganizerLayout from "@/components/layouts/OrganizerLayout";
 import OrganizerHomePage from "@/pages/OrganizerHomePage";
 import OrganizerEventsPage from "@/pages/OrganizerEventsPage";
+import EventsPage from "@/pages/EventsPage";
 
 export default function AppRouter() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path={ROUTES.HOME} element={<HomePage />} />
+        <Route path={ROUTES.EVENTS} element={<EventsPage />} />
         <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditionsPage />} />
 
         <Route element={<AuthGuard />} >

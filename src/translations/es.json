@@ -2,7 +2,7 @@
     "common": {
         "filters": "Filtros",
         "profile": "Perfil",
-        "all":"Todos",
+        "all": "Todos",
         "actions": {
             "create": "Crear",
             "edit": "Editar",
@@ -39,6 +39,8 @@
         },
         "yes": "Sí",
         "no": "No",
+        "none": "Ninguno",
+        "noResultsFound": "No se encontraron resultados.",
         "darkMode": "Modo Oscuro",
         "lightMode": "Modo Claro",
         "confirmExit": {
@@ -514,7 +516,8 @@
             "noCapacity": "Sin cupos",
             "registered": "Inscrito",
             "conflict": "Conflicto con {{event}}",
-            "otherEvent": "otro evento"
+            "otherEvent": "otro evento",
+            "recent": "Nuevo"
         },
         "filters": {
             "name": "Buscar por nombre del evento",
@@ -615,6 +618,30 @@
         "subtitle": "Una solución moderna, rápida y confiable para la Corporación Empresarial Universitaria Alexander von Humboldt.",
         "cta": "Comienza ahora",
         "badge": "✨ La mejor solución"
+    },
+    "navbar": {
+        "events": "Eventos"
+    },
+    "publicEvents": {
+        "title": "Explora los eventos disponibles",
+        "subtitle": "Descubre actividades académicas, culturales y comunitarias abiertas para toda la comunidad.",
+        "filters": {
+            "title": "Filtra los eventos",
+            "subtitle": "Aplica filtros para encontrar el evento perfecto para ti.",
+            "name": "Buscar por nombre del evento",
+            "namePlaceholder": "Buscar por nombre",
+            "category": "Categoría",
+            "modality": "Modalidad",
+            "status": "Estado",
+            "selectedFilters": "Filtros Seleccionados",
+            "dateRange": "Filtrar por fecha",
+            "fromDate": "Desde",
+            "toDate": "Hasta",
+            "clearAll": "Limpiar filtros"
+        },
+        "list": {
+            "title": "Eventos destacados"
+        }
     },
     "features": {
         "title": "Características principales",
