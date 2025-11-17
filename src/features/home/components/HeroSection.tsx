@@ -1,32 +1,20 @@
 import useNavbarHeight from "@/shared/hooks/useNavbarHeight";
-import { Container, Typography, Button, Box, Stack, useTheme, alpha } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Stack,
+  useTheme,
+  alpha,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useAuth } from "@/contexts/authContext";
-import { RoleConstant } from "@/domain/role/RoleConstant";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/routes/routes";
+import { HeroEventsFilterCTA } from "./HeroEventsFilterCTA";
+
 
 export default function HeroSection() {
   const { t } = useTranslation();
   const theme = useTheme();
   const navbarHeight = useNavbarHeight();
-
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-
-  const handleCta = () => {
-
-    if (!user) {
-      navigate(ROUTES.AUTH.LOGIN);
-    }
-
-    if (user?.role.name == RoleConstant.ADMIN) {
-      navigate(ROUTES.ADMIN.USERS);
-    }
-
-  }
 
   return (
     <Box
@@ -150,32 +138,7 @@ export default function HeroSection() {
             >
               {t("hero.subtitle")}
             </Typography>
-
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleCta}
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  px: 4,
-                  py: 1.75,
-                  fontSize: "1.05rem",
-                  fontWeight: 600,
-                  borderRadius: "50px",
-                  textTransform: "none",
-                  background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-                  boxShadow: `0 8px 24px ${alpha(theme.palette.primary.main, 0.35)}`,
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                  "&:hover": {
-                    transform: "translateY(-3px)",
-                    boxShadow: `0 12px 32px ${alpha(theme.palette.primary.main, 0.45)}`,
-                  },
-                }}
-              >
-                {t("hero.cta")}
-              </Button>
-            </Stack>
+            <HeroEventsFilterCTA />
           </Box>
 
           <Box

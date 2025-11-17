@@ -35,6 +35,8 @@ interface BaseEntityListProps<T> {
     onReload?: () => void;
     onCreate?: () => void;
     title?: string;
+    skeleton?: React.ReactNode | ((index: number) => React.ReactNode);
+    skeletonCount?: number;
 }
 
 
@@ -48,6 +50,8 @@ export function BaseEntityList<T>({
     onReload,
     onCreate,
     title,
+    skeleton,
+    skeletonCount = 6,
 }: BaseEntityListProps<T>) {
     const { t } = useTranslation();
 
@@ -83,6 +87,26 @@ export function BaseEntityList<T>({
     const totalElements = data?.totalElements ?? 0;
     const currentPage = data?.page ?? DEFAULT_PAGE_INDEX;
     const pageSize = data?.size ?? DEFAULT_PAGE_SIZE;
+
+    if (loading && skeleton) {
+        return (
+            <Box>
+                {title && (
+                    <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
+                        {t(title)}
+                    </Typography>
+                )}
+
+                {filters && <Box sx={{ mb: 3 }}>{filters}</Box>}
+
+                <Stack spacing={6} direction="row" flexWrap="wrap" useFlexGap>
+                    {Array.from({ length: skeletonCount }).map((_, idx) => (
+                        <Box key={idx}>{typeof skeleton === "function" ? skeleton(idx) : skeleton}</Box>
+                    ))}
+                </Stack>
+            </Box>
+        );
+    }
 
     if (loading) {
         return (
@@ -143,9 +167,26 @@ export function BaseEntityList<T>({
 
             {filters && <Box sx={{ mb: 3 }}>{filters}</Box>}
 
-            <Stack spacing={6} direction={'row'} flexWrap={'wrap'}  useFlexGap>
+            <Stack
+                spacing={4}
+                direction="row"
+                flexWrap="wrap"
+                useFlexGap
+                alignItems="stretch"
+                justifyContent="flex-start"
+            >
                 {items.map((item, idx) => (
-                    <Box key={idx}>{renderItem(item)}</Box>
+                    <Box
+                        key={idx}
+                        sx={{
+                            flex: "1 1 320px",
+                            maxWidth: 360,
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                    >
+                        {renderItem(item)}
+                    </Box>
                 ))}
             </Stack>
 
