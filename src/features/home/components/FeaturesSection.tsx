@@ -104,8 +104,7 @@ export default function FeaturesSection() {
                             fontSize: "1.125rem",
                         }}
                     >
-                        {t("features.description") ||
-                            "Herramientas poderosas diseñadas para optimizar tu gestión"}
+                        {t("features.description")}
                     </Typography>
                 </Box>
 
