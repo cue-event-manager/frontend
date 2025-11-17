@@ -20,27 +20,32 @@ import { useTranslation } from "react-i18next";
 interface FileUploadProps {
     label?: string;
     onUploadSuccess?: (file: UploadedFile) => void;
+    onRemove?: () => void;
     accept?: string;
     disabled?: boolean;
     shape?: "circle" | "square";
     size?: number;
     aspectRatio?: number | string;
     sx?: SxProps<Theme>;
+    initialPreviewUrl?: string;
 }
 
 export function FileUpload({
     label,
     onUploadSuccess,
+    onRemove,
     accept = "image/*",
     disabled = false,
     shape = "square",
     size = 260,
     aspectRatio = "16 / 9",
     sx,
+    initialPreviewUrl,
 }: FileUploadProps) {
     const { t } = useTranslation();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [isObjectPreview, setIsObjectPreview] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const uploadMutation = useUploadImage();
@@ -49,11 +54,12 @@ export function FileUpload({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const file = event.target.files?.[0];
             if (!file) return;
-            if (previewUrl) {
+            if (previewUrl && isObjectPreview) {
                 URL.revokeObjectURL(previewUrl);
             }
             setSelectedFile(file);
             setPreviewUrl(URL.createObjectURL(file));
+            setIsObjectPreview(true);
 
             uploadMutation.mutate(
                 { file },
@@ -64,18 +70,20 @@ export function FileUpload({
                 }
             );
         },
-        [uploadMutation, onUploadSuccess, previewUrl]
+        [uploadMutation, onUploadSuccess, previewUrl, isObjectPreview]
     );
 
     const handleRemoveFile = (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (previewUrl) {
+        if (previewUrl && isObjectPreview) {
             URL.revokeObjectURL(previewUrl);
         }
         setSelectedFile(null);
         setPreviewUrl(null);
+        setIsObjectPreview(false);
         uploadMutation.reset();
         if (inputRef.current) inputRef.current.value = "";
+        onRemove?.();
     };
     const handleClick = () => {
         if (!disabled && inputRef.current) {
@@ -83,13 +91,25 @@ export function FileUpload({
         }
     };
 
+    useEffect(() => {
+        if (selectedFile) return;
+
+        if (initialPreviewUrl) {
+            setPreviewUrl(initialPreviewUrl);
+            setIsObjectPreview(false);
+            return;
+        }
+
+        setPreviewUrl(null);
+    }, [initialPreviewUrl, selectedFile]);
+
     useEffect(
         () => () => {
-            if (previewUrl) {
+            if (previewUrl && isObjectPreview) {
                 URL.revokeObjectURL(previewUrl);
             }
         },
-        [previewUrl],
+        [previewUrl, isObjectPreview],
     );
 
     const isUploading = uploadMutation.isPending;
