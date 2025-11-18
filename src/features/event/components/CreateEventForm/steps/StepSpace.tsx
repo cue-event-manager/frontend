@@ -33,6 +33,7 @@ import { useMemo, useState } from "react";
 import type { GetAvailableSpacesRequestDto } from "@/domain/space/GetAvailableSpacesRequestDto";
 import type { RecurrenceType } from "@/domain/event/enums/RecurrenceType";
 import { FormSection, FormSectionAlert } from "../components/FormSection";
+import type { Space } from "@/domain/space/Space";
 
 export default function StepSpace() {
     const { setValue, watch, register } = useFormContext<EventFormData>();
@@ -143,7 +144,6 @@ function RecurrentSpaceSection({ setValue, watch }: { setValue: any; watch: any 
                 title={t("events.hints.recurrentSpaceTitle", "Evento Recurrente")}
                 description={t(
                     "events.hints.recurrentSpaceDescription",
-                    "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente."
                 )}
                 sx={{ mb: 3 }}
             />
@@ -231,6 +231,12 @@ function RecurrentSpaceSection({ setValue, watch }: { setValue: any; watch: any 
                         onSelectSpace={handleSelectSpace}
                         isRecurrent
                         requireFullAvailability={requireFullAvailability}
+                        startDate={startDate ? new Date(startDate) : null}
+                        endDate={endDate ? new Date(endDate) : null}
+                        startTime={startTime}
+                        endTime={endTime}
+                        recurrenceType={(recurrenceType as string) ?? null}
+                        capacity={minCapacity ? Number(minCapacity) : null}
                     />
                 )}
             </Paper>
@@ -330,6 +336,10 @@ function SingleSpaceSection({ setValue, watch }: { setValue: any; watch: any }) 
                     onSelectSpace={handleSelectSpace}
                     isRecurrent={false}
                     requireFullAvailability={false}
+                    date={date ? new Date(date) : null}
+                    startTime={startTime}
+                    endTime={endTime}
+                    capacity={minCapacity ? Number(minCapacity) : null}
                 />
             </Paper>
         </FormSection>
@@ -344,6 +354,13 @@ function SpacesList({
     onSelectSpace,
     isRecurrent,
     requireFullAvailability,
+    date,
+    startTime,
+    endTime,
+    capacity,
+    startDate,
+    endDate,
+    recurrenceType,
 }: {
     spaces: any[] | undefined;
     isLoading: boolean;
@@ -351,8 +368,30 @@ function SpacesList({
     onSelectSpace: (id: number) => void;
     isRecurrent: boolean;
     requireFullAvailability: boolean;
+    date?: Date | null;
+    startTime?: string | null;
+    endTime?: string | null;
+    capacity?: number | null;
+    startDate?: Date | null;
+    endDate?: Date | null;
+    recurrenceType?: string | null;
 }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const dateFormatter = useMemo(
+        () => new Intl.DateTimeFormat(i18n.language, { dateStyle: "medium" }),
+        [i18n.language]
+    );
+
+    const singleDateLabel = formatDateLabel(date, dateFormatter);
+    const recurrenceStartLabel = formatDateLabel(startDate, dateFormatter);
+    const recurrenceEndLabel = formatDateLabel(endDate, dateFormatter);
+    const recurrenceTypeLabel = recurrenceType
+        ? t(`events.recurrence.${recurrenceType.toLowerCase()}`, recurrenceType)
+        : null;
+    const capacityLabel = capacity ?? t("events.labels.capacity").toLowerCase();
+    const startTimeLabel = startTime || "--:--";
+    const endTimeLabel = endTime || "--:--";
 
     return (
         <Box>
@@ -387,24 +426,52 @@ function SpacesList({
                     severity={isRecurrent && !requireFullAvailability ? "info" : "warning"}
                     sx={{ borderRadius: 2, py: 2 }}
                 >
-                    {isRecurrent && !requireFullAvailability
+                    {isRecurrent && requireFullAvailability
                         ? t(
-                            "events.messages.noSpacesGeneral",
-                            "No se encontraron espacios. Ajusta los filtros o intenta más tarde."
+                            "events.messages.noSpacesFullyAvailableForSchedule",
+                            "No hay espacios con disponibilidad total del {{startDate}} al {{endDate}} en el horario {{startTime}}-{{endTime}} con capacidad para {{capacity}} personas. Desactiva 'Disponibilidad Total' para ver opciones parciales y ajustarlas luego.",
+                            {
+                                startDate: recurrenceStartLabel ?? "N/D",
+                                endDate: recurrenceEndLabel ?? "N/D",
+                                startTime: startTimeLabel,
+                                endTime: endTimeLabel,
+                                capacity: capacityLabel,
+                            }
                         )
-                        : isRecurrent && requireFullAvailability
+                        : isRecurrent
                             ? t(
-                                "events.messages.noSpacesFullyAvailable",
-                                "No hay espacios con disponibilidad total para todas las fechas. Desactiva 'Disponibilidad Total' para ver todos los espacios y ajustar manualmente después."
+                                "events.messages.noSpacesForRecurrentDates",
+                                "No hay espacios disponibles del {{startDate}} al {{endDate}} ({{recurrenceType}}) en el horario {{startTime}}-{{endTime}} con capacidad para {{capacity}} personas.",
+                                {
+                                    startDate: recurrenceStartLabel ?? "N/D",
+                                    endDate: recurrenceEndLabel ?? "N/D",
+                                    startTime: startTimeLabel,
+                                    endTime: endTimeLabel,
+                                    capacity: capacityLabel,
+                                    recurrenceType: recurrenceTypeLabel ?? t("events.labels.unknownType"),
+                                }
                             )
                             : t(
-                                "events.messages.noSpacesFound",
-                                "No se encontraron espacios disponibles. Intenta con otros filtros."
+                                "events.messages.noSpacesForSelectedDate",
+                                "No hay espacios disponibles el {{date}} de {{startTime}} a {{endTime}} con capacidad para {{capacity}} personas.",
+                                {
+                                    date: singleDateLabel ?? "N/D",
+                                    startTime: startTimeLabel,
+                                    endTime: endTimeLabel,
+                                    capacity: capacityLabel,
+                                }
                             )}
                 </Alert>
             )}
         </Box>
     );
+}
+
+function formatDateLabel(value: Date | string | null | undefined, formatter: Intl.DateTimeFormat) {
+    if (!value) return null;
+    const parsed = value instanceof Date ? value : new Date(value);
+    if (isNaN(parsed.getTime())) return null;
+    return formatter.format(parsed);
 }
 
 function SpaceCard({
@@ -483,7 +550,9 @@ function SpaceCard({
                                     mb: 0.3,
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
                                 }}
                             >
                                 {space.name}

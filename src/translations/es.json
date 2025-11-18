@@ -483,11 +483,11 @@
         },
         "messages": {
             "created": "Evento creado exitosamente.",
-            "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados.",
             "uploadSuccess": "Archivo subido correctamente.",
             "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
-            "noSpacesGeneral": "No se encontraron espacios. Ajusta los filtros o intenta más tarde.",
-            "noSpacesFullyAvailable": "No hay espacios con disponibilidad total para todas las fechas. Desactiva 'Disponibilidad Total' para ver todos los espacios y ajustar manualmente después."
+            "noSpacesForSelectedDate": "No hay espacios disponibles el {{date}} de {{startTime}} a {{endTime}} con capacidad para {{capacity}} personas.",
+            "noSpacesForRecurrentDates": "No hay espacios disponibles del {{startDate}} al {{endDate}} ({{recurrenceType}}) en el horario {{startTime}}-{{endTime}} con capacidad para {{capacity}} personas.",
+            "noSpacesFullyAvailableForSchedule": "No hay espacios con disponibilidad total del {{startDate}} al {{endDate}} en el horario {{startTime}}-{{endTime}} con capacidad para {{capacity}} personas. Desactiva 'Disponibilidad Total' para ver opciones parciales y ajustarlas luego."
         },
         "hints": {
             "recurrentMode": "Los eventos recurrentes permiten definir un rango de fechas y un tipo de recurrencia (diaria, semanal o mensual).",
