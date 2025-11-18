@@ -6,6 +6,15 @@ import {
     Step,
     StepLabel,
     Divider,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Typography,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { FormProvider } from "react-hook-form";
@@ -24,6 +33,8 @@ import StepOrganizer from "./steps/StepOrganizer";
 import StepAgenda from "./steps/StepAgenda";
 import StepAttachments from "./steps/StepAttachments";
 import StepSummary from "./steps/StepSummary";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import type { CreateEventResponseDto } from "@/domain/event/CreateEventResponseDto";
 
 
 interface CreateEventFormProps {
@@ -32,9 +43,10 @@ interface CreateEventFormProps {
 
 
 export default function CreateEventForm({ onSuccess }: CreateEventFormProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [activeStep, setActiveStep] = useState(0);
     const createEventMutation = useCreateEvent();
+    const [recurrentWarning, setRecurrentWarning] = useState<CreateEventResponseDto | null>(null);
 
     const steps = useMemo(
         () => [
@@ -87,6 +99,11 @@ export default function CreateEventForm({ onSuccess }: CreateEventFormProps) {
         },
     });
 
+    const dateFormatter = useMemo(
+        () => new Intl.DateTimeFormat(i18n.language, { dateStyle: "medium" }),
+        [i18n.language]
+    );
+
     const {
         handleSubmit,
         trigger,
@@ -122,14 +139,29 @@ export default function CreateEventForm({ onSuccess }: CreateEventFormProps) {
                 JSON.stringify(data, (_k, v) => (v === null ? undefined : v))
             );
 
-            await createEventMutation.mutateAsync(cleanedData);
-            onSuccess?.();
-            reset();
-            setActiveStep(0);
+            const response = await createEventMutation.mutateAsync(cleanedData);
+
+            if (response?.failedDates && response.failedDates.length > 0) {
+                setRecurrentWarning(response);
+                return;
+            }
+
+            handleFinalizeSuccess();
         } catch (error) {
             console.error("Final validation failed:", error);
         }
     });
+
+    const handleFinalizeSuccess = () => {
+        onSuccess?.();
+        reset();
+        setActiveStep(0);
+    };
+
+    const handleCloseWarning = () => {
+        setRecurrentWarning(null);
+        handleFinalizeSuccess();
+    };
 
 
     return (
@@ -200,6 +232,73 @@ export default function CreateEventForm({ onSuccess }: CreateEventFormProps) {
                     )}
                 </Box>
             </Box>
+
+            <RecurrentWarningDialog
+                open={!!recurrentWarning}
+                onClose={handleCloseWarning}
+                data={recurrentWarning}
+                formatDate={(date) => dateFormatter.format(new Date(date))}
+            />
         </FormProvider>
+    );
+}
+
+function RecurrentWarningDialog({
+    open,
+    onClose,
+    data,
+    formatDate,
+}: {
+    open: boolean;
+    onClose: () => void;
+    data: CreateEventResponseDto | null;
+    formatDate: (date: Date | string) => string;
+}) {
+    const { t } = useTranslation();
+
+    if (!data) return null;
+    const failed = data.failedCount;
+
+    return (
+        <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+            <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <WarningAmberIcon color="warning" />
+                <Typography variant="h6" component="span" fontWeight={700}>
+                    {t("events.warnings.recurrentPartialTitle")}
+                </Typography>
+            </DialogTitle>
+
+            <DialogContent dividers>
+                <Typography sx={{ mb: 2 }}>
+                    {t("events.warnings.recurrentPartialDescription", {
+                        failed
+                    })}
+                </Typography>
+
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
+                    {t("events.warnings.recurrentPartialList")}
+                </Typography>
+                <List dense>
+                    {data.failedDates.map(({ date, reason }, idx) => (
+                        <ListItem key={idx} sx={{ py: 0.5 }}>
+                            <ListItemIcon sx={{ minWidth: 32 }}>
+                                <WarningAmberIcon color="warning" fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={formatDate(date)}
+                                secondary={reason}
+                                primaryTypographyProps={{ fontWeight: 600 }}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+            </DialogContent>
+
+            <DialogActions>
+                <Button onClick={onClose} variant="contained">
+                    {t("common.actions.close")}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }

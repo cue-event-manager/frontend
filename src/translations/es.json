@@ -509,6 +509,11 @@
             "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles",
             "contactDetails": "Estos datos se compartirán con los asistentes"
         },
+        "warnings": {
+            "recurrentPartialTitle": "Algunas fechas no pudieron crearse",
+            "recurrentPartialDescription": "Han fallado {{failed}} fechas del evento. Revisa las siguientes fechas que fallaron:",
+            "recurrentPartialList": "Fechas con error"
+        },
         "card": {
             "capacitySummary": "{{available}} de {{total}} cupos disponibles",
             "capacityHelper": "Ocupación del evento",

@@ -9,7 +9,7 @@ import { EVENT_QUERY_KEYS } from "../constants/eventQueries.constant";
 
 
 export default function useCreateEvent() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -27,12 +27,16 @@ export default function useCreateEvent() {
 
         onSuccess: async (response) => {
             toast.success(t("events.messages.created"));
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: [EVENT_QUERY_KEYS.EVENTS.ROOT] }),
-            ]);
+
+            await queryClient.invalidateQueries({
+                predicate: ({ queryKey }) => {
+                    const [key] = queryKey;
+                    return typeof key === "string" && key.startsWith(EVENT_QUERY_KEYS.EVENTS.ROOT);
+                },
+            });
             return response;
         },
 
-        onError: () => { }, // TODO: Handle this error according to the response.
+        onError: () => { },
     });
 }

@@ -5,7 +5,8 @@ export interface CreateEventResponseDto {
     recurrenceId: string;
     recurrenceType: RecurrenceType;
     totalDays: number;
-    createdCount: string;
+    createdCount: number;
+    failedCount: number;
     failedDates: FailedDatesResponse[];
     message: string;
 }
