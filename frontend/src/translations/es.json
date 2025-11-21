@@ -1,0 +1,58 @@
+{
+  "common": {
+    "actions": {
+      "create": "Crear",
+      "edit": "Editar",
+      "update": "Actualizar",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "save": "Guardar",
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "reset": "Restablecer",
+      "close": "Cerrar"
+    },
+    "fields": {
+      "createdAt": "Fecha de creación",
+      "updatedAt": "Fecha de actualización",
+      "actions": "Acciones"
+    },
+    "confirm": {
+      "title": "Confirmar acción"
+    },
+    "messages": {
+      "loading": "Cargando...",
+      "noData": "No hay datos disponibles",
+      "error": "Ocurrió un error"
+    }
+  },
+  "admin": {
+    "eventCategories": {
+      "fields": {
+        "name": "Nombre",
+        "description": "Descripción"
+      },
+      "filters": {
+        "name": "Buscar por nombre"
+      },
+      "deleted": "Categoría eliminada exitosamente",
+      "delete": {
+        "title": "Eliminar categoría",
+        "message": "¿Está seguro que desea eliminar esta categoría?"
+      }
+    }
+  },
+  "eventRegistration": {
+    "cancelButton": "Cancelar inscripción",
+    "cannotCancel": "Ya no es posible cancelar la inscripción (debe ser al menos 1 minuto antes del inicio)",
+    "cancelSuccess": "Inscripción cancelada exitosamente",
+    "cancelError": "Error al cancelar la inscripción",
+    "cancelConfirm": {
+      "title": "Cancelar inscripción",
+      "message": "¿Está seguro que desea cancelar su inscripción a este evento?",
+      "confirm": "Sí, cancelar",
+      "reregisterInfo": "Podrás volver a inscribirte si hay cupo disponible"
+    }
+  }
+}
