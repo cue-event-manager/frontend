@@ -2,6 +2,7 @@ import {
     Card,
     CardContent,
     CardActions,
+    CardActionArea,
     Typography,
     Box,
     Stack,
@@ -14,6 +15,7 @@ import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import type { Event } from "@/domain/event/Event";
 import type { EventAvailability } from "@/domain/event/EventAvailability";
@@ -24,6 +26,7 @@ import { RoleConstant } from "@/domain/role/RoleConstant";
 import { useModalState } from "@/features/user/hooks/useModalState";
 import UpdateEventFormModal from "./UpdateEventForm/UpdateEventFormModal";
 import { getEventImageUrl } from "@/features/event/constants/media.constant";
+import { ROUTES } from "@/routes/routes";
 
 interface EventCardActionContext {
     event: Event;
@@ -84,23 +87,33 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                     height: "100%",
                 }}
             >
-                <EventCardImage event={event} isRecent={isRecent} />
-
-                <CardContent
+                <CardActionArea
+                    onClick={handlers.view}
                     sx={{
-                        p: 2.4,
-                        pb: 1.6,
                         display: "flex",
                         flexDirection: "column",
-                        gap: 1,
+                        alignItems: "stretch",
                         flexGrow: 1,
                     }}
                 >
-                    <EventCardHeader event={event} />
-                    <EventCardDescription description={event.description} />
-                    <EventCardMetaInfo event={event} availability={availability} />
-                </CardContent>
+                    <EventCardImage event={event} isRecent={isRecent} />
 
+                    <CardContent
+                        sx={{
+                            p: 2.4,
+                            pb: 1.6,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 1,
+                            flexGrow: 1,
+                            width: "100%",
+                        }}
+                    >
+                        <EventCardHeader event={event} />
+                        <EventCardDescription description={event.description} />
+                        <EventCardMetaInfo event={event} availability={availability} />
+                    </CardContent>
+                </CardActionArea>
                 <EventCardFooter actions={renderActions({ event, availability, actions: handlers })} />
             </Card>
             {dialogs}
@@ -143,13 +156,18 @@ export function EventCardSkeleton() {
 
 function useEventActionManager(event: Event) {
     const updateModal = useModalState<Event>();
+    const navigate = useNavigate();
 
     const handleEdit = useCallback(() => {
         updateModal.openModal(event);
     }, [event, updateModal]);
 
+    const handleView = useCallback(() => {
+        navigate(ROUTES.EVENT_DETAIL(event.id));
+    }, [event.id, navigate]);
+
     const handlers: EventCardActionHandlers = {
-        view: () => console.log("View", event.id),
+        view: handleView,
         edit: handleEdit,
         delete: () => console.log("Delete", event.id),
         register: () => console.log("Register", event.id),
@@ -367,12 +385,14 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
 
 }
 
-function RoleBasedEventActions({ availability, actions }: EventCardActionContext) {
+function RoleBasedEventActions({ availability, actions, event }: EventCardActionContext) {
     const { user } = useAuth();
     const { t } = useTranslation();
+    const role = user?.role.name as RoleConstant | undefined;
+    const isOwner = user?.id === event.createdBy;
 
-    const actionByRole: Record<string, ReactNode> = {
-        [RoleConstant.ORGANIZER]: (
+    if (role === RoleConstant.ORGANIZER && isOwner) {
+        return (
             <>
                 <Button size="small" color="primary" onClick={actions.edit}>
                     {t("common.actions.edit")}
@@ -381,8 +401,11 @@ function RoleBasedEventActions({ availability, actions }: EventCardActionContext
                     {t("common.actions.delete")}
                 </Button>
             </>
-        ),
-        [RoleConstant.ATTENDEE]: availability.canRegister ? (
+        );
+    }
+
+    if (role === RoleConstant.ATTENDEE) {
+        return availability.canRegister ? (
             <Button
                 size="small"
                 variant="contained"
@@ -395,19 +418,20 @@ function RoleBasedEventActions({ availability, actions }: EventCardActionContext
             <Button size="small" variant="outlined" onClick={actions.view}>
                 {t("common.actions.viewDetails")}
             </Button>
-        ),
-        [RoleConstant.ADMIN]: (
+        );
+    }
+
+    if (role === RoleConstant.ADMIN) {
+        return (
             <Button size="small" variant="outlined" onClick={actions.view}>
                 {t("common.actions.view")}
             </Button>
-        ),
-    };
+        );
+    }
 
     return (
-        actionByRole[user?.role.name ?? ""] ?? (
-            <Button size="small" variant="outlined" onClick={actions.view}>
-                {t("common.actions.view")}
-            </Button>
-        )
+        <Button size="small" variant="outlined" onClick={actions.view}>
+            {t("common.actions.view")}
+        </Button>
     );
 }
