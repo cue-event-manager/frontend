@@ -1,0 +1,29 @@
+import type { EventRegistration } from "@/domain/eventregistration/EventRegistration";
+import type { RegisterEventRequestDto } from "@/domain/eventregistration/RegisterEventRequestDto";
+import type { EventAvailabilityResponseDto } from "@/domain/eventregistration/EventAvailabilityResponseDto";
+import { EVENT_SERVICE } from "./constants";
+import axiosInstance from "@/config/axiosConfig";
+
+const EVENT_REGISTRATION_ENDPOINT_PREFIX = `${EVENT_SERVICE}/api/event-registrations`;
+
+export const registerToEvent = async (request: RegisterEventRequestDto): Promise<EventRegistration> => {
+    const { data } = await axiosInstance.post<EventRegistration>(
+        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/register`,
+        request
+    );
+    return data;
+};
+
+export const getMyEventRegistrations = async (): Promise<EventRegistration[]> => {
+    const { data } = await axiosInstance.get<EventRegistration[]>(
+        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/my-registrations`
+    );
+    return data;
+};
+
+export const checkEventAvailability = async (eventId: number): Promise<EventAvailabilityResponseDto> => {
+    const { data } = await axiosInstance.get<EventAvailabilityResponseDto>(
+        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/check-availability/${eventId}`
+    );
+    return data;
+};

@@ -1,0 +1,775 @@
+{
+    "common": {
+        "filters": "Filtros",
+        "profile": "Perfil",
+        "actions": {
+            "create": "Crear",
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "view": "Ver",
+            "confirm": "Confirmar",
+            "cancel": "Cancelar",
+            "save": "Guardar",
+            "close": "Cerrar",
+            "search": "Buscar",
+            "clear": "Limpiar",
+            "update": "Actualizar",
+            "select": "Seleccionar",
+            "next": "Siguiente",
+            "back": "Atrás",
+            "exit": "Salir"
+        },
+        "noOptions": "No hay opciones disponbiles",
+        "fields": {
+            "createdAt": "Fecha de creación"
+        },
+        "status": {
+            "loading": "Cargando...",
+            "success": "Completado con éxito",
+            "error": "Ha ocurrido un error"
+        },
+        "messages": {
+            "loading": "Cargando...",
+            "error": "Ocurrió un error"
+        },
+        "yes": "Sí",
+        "no": "No",
+        "darkMode": "Modo Oscuro",
+        "lightMode": "Modo Claro",
+        "confirmExit": {
+            "title": "¿Salir del formulario?",
+            "message": "Tienes cambios sin guardar. Si sales ahora, se perderán los datos ingresados."
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Iniciar sesión",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "submit": "Entrar",
+            "forgotPassword": "¿Olvidaste tu contraseña?"
+        },
+        "recover": {
+            "title": "Recuperar contraseña",
+            "subtitle": "Ingresa tu correo electrónico para recibir un código de recuperación.",
+            "email": "Correo electrónico",
+            "submit": "Enviar código",
+            "sent": "Se ha enviado un código de recuperación a tu correo.",
+            "error": "No se pudo enviar el correo de recuperación."
+        },
+        "reset": {
+            "title": "Restablecer contraseña",
+            "subtitle": "Ingresa el código recibido y tu nueva contraseña.",
+            "email": "Correo electrónico",
+            "code": "Código de verificación",
+            "newPassword": "Nueva contraseña",
+            "submit": "Restablecer contraseña",
+            "success": "Tu contraseña ha sido restablecida correctamente.",
+            "error": "No se pudo restablecer la contraseña. Intenta nuevamente."
+        },
+        "terms": {
+            "title": "Términos y Condiciones",
+            "message": "Debes aceptar los términos y condiciones antes de continuar.",
+            "version": "Versión actual:",
+            "view": "Ver términos y condiciones completos",
+            "accept": "Acepto los términos y condiciones",
+            "preview": "Al aceptar, confirmas que has leído y comprendido los términos del servicio y las políticas de privacidad."
+        },
+        "logout": "Cerrar sesión",
+        "loggingOut": "Cerrando sesión"
+    },
+    "admin": {
+        "nav": {
+            "title": "Panel Administrativo"
+        },
+        "users": {
+            "title": "Gestión de Usuarios",
+            "description": "Administra los usuarios registrados en la plataforma.",
+            "created": "Usuario creado exitosamente.",
+            "updated": "Usuario actualizado correctamente.",
+            "deleted": "Usuario eliminado correctamente.",
+            "createTitle": "Crear usuario",
+            "editTitle": "Actualizar usuario"
+        },
+        "spaces": {
+            "title": "Gestión de Espacios",
+            "description": "Administra los espacios registrados en la plataforma.",
+            "created": "Espacio creado exitosamente.",
+            "updated": "Espacio actualizado correctamente.",
+            "deleted": "Espacio eliminado correctamente.",
+            "createTitle": "Crear espacio",
+            "editTitle": "Actualizar espacio",
+            "fields": {
+                "name": "Nombre",
+                "campus": "Sede",
+                "type": "Tipo",
+                "status": "Estado",
+                "capacity": "Capacidad",
+                "resources": "Recursos"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de estado de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de estado de espacio? Esta acción no se puede deshacer."
+            },
+            "sections": {
+                "basicInfo": "Información Básica",
+                "classification": "Clasificación",
+                "resources": "Recursos"
+            }
+        },
+        "spaceTypes": {
+            "title": "Gestión de Tipos de Espacio",
+            "description": "Administra los tipos de espacios registrados en la plataforma.",
+            "created": "Tipo de espacio creado exitosamente.",
+            "updated": "Tipo de espacio actualizado correctamente.",
+            "deleted": "Tipo de espacio eliminado correctamente.",
+            "createTitle": "Crear tipo de espacio",
+            "editTitle": "Actualizar tipo de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "spaceResources": {
+            "title": "Gestión de Tipos de Recursos de Espacio",
+            "description": "Administra los recursos de espacios registrados en la plataforma.",
+            "created": "Recurso de espacio creado exitosamente.",
+            "updated": "Recurso de espacio actualizado correctamente.",
+            "deleted": "Recurso de espacio eliminado correctamente.",
+            "createTitle": "Crear recurso de espacio",
+            "editTitle": "Actualizar recurso de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de recurso de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de recurso de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "spaceStatuses": {
+            "title": "Gestión de Tipos de Estato de Espacio",
+            "description": "Administra los estados de espacios registrados en la plataforma.",
+            "created": "Estado de espacio creado exitosamente.",
+            "updated": "Estado de espacio actualizado correctamente.",
+            "deleted": "Estado de espacio eliminado correctamente.",
+            "createTitle": "Crear estado de espacio",
+            "editTitle": "Actualizar estado de espacio",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "canBeReserved": "¿Puede ser reservado?"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar tipo de estado de espacio",
+                "message": "¿Estás seguro de que deseas eliminar este tipo de estado de espacio? Esta acción no se puede deshacer."
+            }
+        },
+        "campuses": {
+            "title": "Gestión de Sedes",
+            "description": "Administra las sedes registrados en la plataforma.",
+            "created": "Sede creada exitosamente.",
+            "updated": "Sede actualizada correctamente.",
+            "deleted": "Sede eliminada correctamente.",
+            "createTitle": "Crear Sede",
+            "editTitle": "Actualizar Sede",
+            "fields": {
+                "name": "Nombre",
+                "address": "Dirección"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar Sede",
+                "message": "¿Estás seguro de que deseas eliminar esta sede? Esta acción no se puede deshacer."
+            }
+        },
+        "academicAreas": {
+            "title": "Gestión de Áreas académicas",
+            "description": "Administra las áreas académicas registradas en la plataforma.",
+            "created": "Áreas académica creada exitosamente.",
+            "updated": "Áreas académica actualizada correctamente.",
+            "deleted": "Áreas académica eliminada correctamente.",
+            "createTitle": "Crear área académica",
+            "editTitle": "Actualizar área académica",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar  área académica",
+                "message": "¿Estás seguro de que deseas eliminar esta área académica? Esta acción no se puede deshacer."
+            }
+        },
+        "academicPrograms": {
+            "title": "Gestión de Programas académicos",
+            "description": "Administra las áreas académicos registradas en la plataforma.",
+            "created": "Programa académico creada exitosamente.",
+            "updated": "Programa académico actualizada correctamente.",
+            "deleted": "Programa académico eliminada correctamente.",
+            "createTitle": "Crear programa académico",
+            "editTitle": "Actualizar programa académico",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "faculty": "Facultad"
+            },
+            "filters": {
+                "name": "Buscar por nombre",
+                "faculty": "Buscar por facultad"
+            },
+            "delete": {
+                "title": "Eliminar programa académico",
+                "message": "¿Estás seguro de que deseas eliminar esta programa académico? Esta acción no se puede deshacer."
+            }
+        },
+        "faculties": {
+            "title": "Gestión de Facultades",
+            "description": "Administra las facultades registradas en la plataforma.",
+            "created": "Facultad creada exitosamente.",
+            "updated": "Facultad actualizada correctamente.",
+            "deleted": "Facultad eliminada correctamente.",
+            "createTitle": "Crear facultad",
+            "editTitle": "Actualizar facultad",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar facultad",
+                "message": "¿Estás seguro de que deseas eliminar esta facultad? Esta acción no se puede deshacer."
+            }
+        },
+        "eventModalities": {
+            "title": "Gestión de Modalidades de Evento",
+            "description": "Administra las modalidades de eventos registradas en la plataforma.",
+            "created": "Modalidad de evento creada exitosamente.",
+            "updated": "Modalidad de evento actualizada correctamente.",
+            "deleted": "Modalidad de evento eliminada correctamente.",
+            "createTitle": "Crear modalidad de evento",
+            "editTitle": "Actualizar modalidad de evento",
+            "create": "Crear Modalidad",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "requiresSpace": "Requiere espacio"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar modalidad de evento",
+                "message": "¿Estás seguro de que deseas eliminar esta modalidad de evento? Esta acción no se puede deshacer."
+            }
+        },
+        "eventCategories": {
+            "title": "Gestión de Categorías de Evento",
+            "description": "Administra las categorías de eventos registradas en la plataforma.",
+            "created": "Categoría de evento creada exitosamente.",
+            "updated": "Categoría de evento actualizada correctamente.",
+            "deleted": "Categoría de evento eliminada correctamente.",
+            "createTitle": "Crear categoría de evento",
+            "editTitle": "Actualizar categoría de evento",
+            "create": "Crear Categoría",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción"
+            },
+            "filters": {
+                "name": "Buscar por nombre"
+            },
+            "delete": {
+                "title": "Eliminar categoría de evento",
+                "message": "¿Estás seguro de que deseas eliminar esta categoría de evento? Esta acción no se puede deshacer."
+            }
+        },
+        "events": {
+            "title": "Gestión de Eventos",
+            "description": "Administra los eventos registrados en la plataforma.",
+            "created": "Evento creado exitosamente.",
+            "updated": "Evento actualizado correctamente.",
+            "deleted": "Evento eliminado correctamente.",
+            "createTitle": "Crear evento",
+            "editTitle": "Actualizar evento",
+            "create": "Crear Evento",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "category": "Categoría",
+                "modality": "Modalidad",
+                "date": "Fecha",
+                "time": "Horario",
+                "status": "Estado"
+            },
+            "filters": {
+                "name": "Buscar por nombre",
+                "category": "Filtrar por categoría",
+                "modality": "Filtrar por modalidad",
+                "status": "Filtrar por estado"
+            },
+            "status": {
+                "published": "Publicado",
+                "inProgress": "En Progreso",
+                "finished": "Finalizado",
+                "cancelled": "Cancelado"
+            },
+            "delete": {
+                "title": "Eliminar evento",
+                "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+            }
+        }
+    },
+    "events": {
+        "title": "Gestión de Eventos",
+        "description": "Administra todos los eventos registrados en la plataforma, incluyendo su información básica, agenda y organizadores.",
+        "created": "Evento creado exitosamente.",
+        "updated": "Evento actualizado correctamente.",
+        "deleted": "Evento eliminado correctamente.",
+        "createTitle": "Crear nuevo evento",
+        "editTitle": "Actualizar evento",
+        "create": "Crear Evento",
+        "fields": {
+            "name": "Nombre del evento",
+            "description": "Descripción",
+            "category": "Categoría",
+            "modality": "Modalidad",
+            "space": "Espacio",
+            "campus": "Sede",
+            "cost": "Costo",
+            "capacity": "Capacidad",
+            "bannerUpload": "Subir banner del evento",
+            "startDate": "Fecha de inicio",
+            "endDate": "Fecha de finalización",
+            "date": "Fecha del evento",
+            "startTime": "Hora de inicio",
+            "endTime": "Hora de finalización",
+            "recurrenceType": "Tipo de recurrencia",
+            "isRecurrent": "Evento recurrente",
+            "requiresSpace": "Requiere espacio",
+            "requireFullAvailability": "Requiere disponibilidad total",
+            "organizerType": "Tipo de organizador",
+            "organizer": "Organizador",
+            "attachments": "Archivos adjuntos",
+            "agenda": "Agenda",
+            "extraContacts": "Contactos adicionales",
+            "faculty": "Facultad",
+            "program": "Programa académico",
+            "organizerName": "Nombre del organizador",
+            "organizerEmail": "Correo electrónico del organizador",
+            "organizerPhone": "Teléfono del organizador",
+            "academicArea": "Área académica",
+            "organizationName": "Nombre de la organización",
+            "organizationWebsite": "Sitio web de la organización",
+            "activityTitle": "Título de la actividad",
+            "activityDescription": "Descripción de la actividad",
+            "fileName": "Nombre del archivo",
+            "contactName": "Nombre del contacto",
+            "contactEmail": "Correo electrónico del contacto",
+            "contactPhone": "Teléfono del contacto",
+            "virtualMeetingLink": "Enlace de reunión virtual"
+        },
+        "organizerType": {
+            "internal": "Organizador interno",
+            "external": "Organizador externo"
+        },
+        "recurrence": {
+            "daily": "Diario",
+            "weekly": "Semanal",
+            "monthly": "Mensual"
+        },
+        "actions": {
+            "addAgendaItem": "Agregar ítem en la agenda",
+            "addAnotherItem": "Agregar otro ítem",
+            "addAttachment": "Agregar archivo",
+            "addContact": "Agregar contacto",
+            "uploadFile": "Subir archivo",
+            "uploading": "Subiendo archivo..."
+        },
+        "updateRecurrent": {
+            "title": "Actualizar evento recurrente",
+            "message": "Este evento pertenece a una serie recurrente. ¿Qué deseas actualizar?",
+            "onlyThis": "Solo este evento",
+            "allSeries": "Toda la serie"
+        },
+        "sections": {
+            "banner": "Banner del evento",
+            "basicInfo": "Información básica",
+            "type": "Tipo de evento",
+            "organizer": "Organizador",
+            "agenda": "Agenda del evento",
+            "attachments": "Archivos y contactos",
+            "summary": "Resumen del evento",
+            "schedule": "Programación del evento",
+            "dates": "Fechas y horarios",
+            "space": "Espacio",
+            "spaceSelection": "Selección de espacio",
+            "contactInfo": "Información de contacto",
+            "internalInfo": "Información interna",
+            "externalInfo": "Información externa",
+            "extraContacts": "Contactos adicionales"
+        },
+        "steps": {
+            "basicInfo": "Información básica",
+            "schedule": "Programación",
+            "space": "Espacio",
+            "organizer": "Organizador",
+            "agenda": "Agenda",
+            "attachments": "Archivos y contactos",
+            "summary": "Resumen"
+        },
+        "labels": {
+            "singleEventHint": "Define la fecha y horario de un evento único.",
+            "recurrentEventHint": "Selecciona el rango de fechas y tipo de recurrencia.",
+            "requiresSpace": "Este evento requiere asignar un espacio físico.",
+            "availableSpaces": "Espacios disponibles",
+            "capacity": "Capacidad",
+            "unknownType": "Tipo no especificado",
+            "resources": "Recursos",
+            "activity": "Actividad",
+            "noAgendaItems": "No hay actividades en la agenda",
+            "addFirstItem": "Agregue la primera actividad para comenzar",
+            "noAttachments": "No hay archivos adjuntos",
+            "addFirstAttachment": "Agregue el primer archivo para comenzar",
+            "noContacts": "No hay contactos adicionales agregados",
+            "attachment": "Archivo",
+            "contact": "Contacto",
+            "dropzoneLabel": "Arrastra tus archivos o haz clic para subirlos",
+            "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint"
+        },
+        "messages": {
+            "created":"Evento creado exitosamente.",
+            "noSpacesFound": "No se encontraron espacios disponibles para los filtros seleccionados.",
+            "uploadSuccess": "Archivo subido correctamente.",
+            "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
+            "noSpacesGeneral": "No se encontraron espacios. Ajusta los filtros o intenta más tarde.",
+            "noSpacesFullyAvailable": "No hay espacios con disponibilidad total para todas las fechas. Desactiva 'Disponibilidad Total' para ver todos los espacios y ajustar manualmente después."
+        },
+        "hints": {
+            "recurrentMode": "Los eventos recurrentes permiten definir un rango de fechas y un tipo de recurrencia (diaria, semanal o mensual).",
+            "banner": "Sube una imagen de portada para representar tu evento.",
+            "partialAvailabilityWarning": "Si desactivas esta opción, tendrás que asignar manualmente los espacios para las fechas sin disponibilidad completa.",
+            "agenda": "La agenda es opcional. Puede agregar múltiples actividades con su horario correspondiente.",
+            "attachments": "Puedes adjuntar archivos relevantes al evento (documentos, presentaciones, imágenes, etc.).",
+            "extraContacts": "Agrega contactos adicionales que puedan brindar soporte o información sobre el evento.",
+            "dropzoneLabel": "Arrastra tus archivos o haz clic para subirlos",
+            "dropzoneHint": "Archivos permitidos: imágenes, PDF, Word, Excel, PowerPoint",
+            "noContacts": "No hay contactos adicionales agregados",
+            "contact": "Contacto",
+            "attachment": "Archivo adjunto",
+            "noPhysicalSpaceRequired": "Esta modalidad no requiere espacio físico. Puedes ingresar un enlace de reunión o ubicación virtual.",
+            "recurrentSpaceTitle": "Evento Recurrente",
+            "recurrentSpaceDescription": "Para eventos recurrentes es difícil encontrar espacios con disponibilidad total. Puedes seleccionar cualquier espacio y ajustar las reservas individuales posteriormente.",
+            "requireFullAvailabilityDescription": "Solo mostrar espacios disponibles en todas las fechas del evento",
+            "completeScheduleFirst": "Completa primero la información de horarios para ver espacios disponibles"
+        },
+        "filters": {
+            "name": "Buscar por nombre del evento",
+            "category": "Filtrar por categoría",
+            "modality": "Filtrar por modalidad",
+            "date": "Filtrar por fecha"
+        },
+        "delete": {
+            "title": "Eliminar evento",
+            "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+        }
+    },
+    "users": {
+        "filters": {
+            "name": "Nombre",
+            "identification": "Identificación",
+            "role": "Rol",
+            "allRoles": "Todos los roles"
+        },
+        "fields": {
+            "firstName": "Nombre",
+            "email": "Correo electrónico",
+            "identification": "Identificación",
+            "role": "Rol"
+        },
+        "form": {
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "role": "Rol",
+            "identification": "Identificación",
+            "birthDate": "Fecha de nacimiento",
+            "togglePassword": "Ver contraseña",
+            "generatePassword": "Generar contraseña",
+            "sections": {
+                "personalInfo": "Información personal",
+                "accountInfo": "Información de la cuenta"
+            }
+        },
+        "noRole": "Sin rol asignado",
+        "delete": {
+            "title": "Eliminar usuario",
+            "message": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer."
+        }
+    },
+    "validation": {
+        "min": "El valor debe ser mayor o igual a {{min}}.",
+        "max": "El valor no puede superar {{max}} caracteres.",
+        "required": "Este campo es obligatorio",
+        "email": "Debe ser un correo válido",
+        "minPassword": "La contraseña debe tener al menos {{count}} caracteres",
+        "phoneFormat": "Formato de número no válido.",
+        "phoneMax": "El número de teléfono es demasiado largo.",
+        "codeLength": "Código no válido.",
+        "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
+        "invalidDate": "La fecha no es válida.",
+        "timeRange": "La hora de finalización debe ser posterior a la hora de inicio.",
+        "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
+        "positive": "El valor debe ser positivo.",
+        "url": "Formato de la URL no válida",
+        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}."
+    },
+    "errors": {
+        "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
+        "badRequest": "La solicitud no pudo completarse. Verifica los datos e inténtalo de nuevo.",
+        "forbidden": "No tienes permisos para acceder a este recurso.",
+        "serverError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
+        "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
+    },
+    "profile": {
+        "title": "Actualizar Perfil",
+        "subtitle": "Actualiza tu información personal y de seguridad.",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "email": "Correo electrónico",
+        "phoneNumber": "Teléfono",
+        "currentPassword": "Contraseña actual",
+        "newPassword": "Nueva contraseña",
+        "saveChanges": "Guardar cambios",
+        "sections": {
+            "general": "Información General",
+            "contact": "Información de Contacto",
+            "security": "Seguridad"
+        },
+        "messages": {
+            "success": "Tu perfil se ha actualizado correctamente.",
+            "error": "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente."
+        }
+    },
+    "home": {
+        "title": "Bienvenido a la página principal",
+        "button": "Haz clic aquí"
+    },
+    "hero": {
+        "title": "Impulsa tus eventos con nuestra plataforma",
+        "subtitle": "Una solución moderna, rápida y confiable para la Corporación Empresarial Universitaria Alexander von Humboldt.",
+        "cta": "Comienza ahora",
+        "badge": "✨ La mejor solución"
+    },
+    "features": {
+        "title": "Características principales",
+        "description": "Herramientas poderosas diseñadas para optimizar tu gestión",
+        "events": {
+            "title": "Gestión de eventos",
+            "desc": "Crea, organiza y administra eventos de manera centralizada en un solo lugar."
+        },
+        "reports": {
+            "title": "Reportes inteligentes",
+            "desc": "Obtén estadísticas claras y exporta información para tomar mejores decisiones."
+        },
+        "notifications": {
+            "title": "Notificaciones en tiempo real",
+            "desc": "Mantén a todos informados con recordatorios y actualizaciones inmediatas."
+        }
+    },
+    "about": {
+        "title": "Acerca de nuestra plataforma",
+        "description": "Nuestra misión es ayudarte a organizar eventos de manera sencilla, eficiente y atractiva.",
+        "mission": "Creamos herramientas que conectan organizadores y asistentes para que cada evento sea un éxito."
+    },
+    "stats": {
+        "title": "Nuestros Logros",
+        "subtitle": "Números que hablan por sí mismos",
+        "events": "+100",
+        "eventsLabel": "Eventos organizados",
+        "users": "+5000",
+        "usersLabel": "Usuarios activos",
+        "satisfaction": "98%",
+        "satisfactionLabel": "Satisfacción asistentes"
+    },
+    "footer": {
+        "about": {
+            "title": "Sobre nosotros",
+            "desc": "Plataforma moderna para la gestión de eventos universitarios."
+        },
+        "links": {
+            "title": "Enlaces",
+            "home": "Inicio",
+            "features": "Características",
+            "contact": "Contacto",
+            "termsAndConditions": "Términos y Condiciones"
+        },
+        "contact": {
+            "title": "Contacto",
+            "email": "Correo",
+            "phone": "Teléfono"
+        },
+        "rights": "Todos los derechos reservados."
+    },
+    "termsAndConditions": {
+        "title": "Política de Tratamiento de Datos Personales",
+        "intro": "En cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, la Universidad Alexander von Humboldt informa a los usuarios que los datos personales recolectados a través de esta plataforma de gestión de eventos serán tratados de conformidad con los principios de legalidad, libertad, veracidad, finalidad, transparencia y seguridad establecidos en la normativa colombiana vigente.",
+        "sections": {
+            "purpose": {
+                "title": "1. Finalidad del tratamiento",
+                "description": "Los datos personales serán utilizados para los siguientes propósitos:",
+                "items": [
+                    "Registrar y autenticar usuarios dentro del sistema.",
+                    "Gestionar la inscripción y participación en eventos académicos, investigativos y culturales.",
+                    "Enviar notificaciones, recordatorios y comunicaciones institucionales relacionadas con los eventos.",
+                    "Generar reportes estadísticos e indicadores de asistencia y participación.",
+                    "Cumplir con obligaciones legales, contractuales y académicas derivadas de la relación con la Universidad."
+                ]
+            },
+            "rights": {
+                "title": "2. Derechos de los titulares",
+                "description": "De acuerdo con la Ley 1581 de 2012, los titulares de los datos personales tienen derecho a:",
+                "items": [
+                    "Conocer, actualizar y rectificar sus datos personales.",
+                    "Solicitar prueba de la autorización otorgada para el tratamiento de los datos.",
+                    "Ser informados respecto al uso que se ha dado a sus datos personales.",
+                    "Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la Ley 1581 de 2012.",
+                    "Revocar la autorización y/o solicitar la supresión del dato cuando no se respeten los principios, derechos y garantías legales."
+                ]
+            },
+            "procedures": {
+                "title": "3. Procedimiento para ejercer los derechos",
+                "description": "El titular podrá presentar solicitudes, reclamos o peticiones relacionadas con sus datos personales dirigiendo una comunicación escrita a la Universidad Alexander von Humboldt al correo electrónico protecciondatos@uavh.edu.co o en la dirección física Carrera 9 No. 12-34, Armenia, Quindío, Colombia. El procedimiento de atención seguirá los plazos y reglas establecidas en el Decreto 1377 de 2013."
+            },
+            "security": {
+                "title": "4. Medidas de seguridad",
+                "description": "La Universidad ha implementado medidas técnicas, humanas y administrativas necesarias para garantizar la seguridad de la información, evitando su adulteración, pérdida, consulta, uso o acceso no autorizado. Solo el personal debidamente autorizado podrá acceder a los datos personales para el cumplimiento de sus funciones."
+            },
+            "retention": {
+                "title": "5. Conservación de la información",
+                "description": "Los datos personales serán conservados durante el tiempo necesario para cumplir con las finalidades del tratamiento o mientras exista una relación activa con la Universidad. Posteriormente serán eliminados o anonimizados conforme a la ley."
+            },
+            "changes": {
+                "title": "6. Modificaciones a la política",
+                "description": "La Universidad se reserva el derecho de modificar esta política en cualquier momento para adaptarla a cambios normativos o institucionales. Las actualizaciones serán publicadas en el portal web institucional y en esta plataforma."
+            },
+            "acceptance": {
+                "title": "7. Aceptación de la política",
+                "description": "El usuario manifiesta que ha leído, comprendido y aceptado la presente Política de Tratamiento de Datos Personales al registrarse o usar la plataforma de gestión de eventos. Si no está de acuerdo con su contenido, debe abstenerse de proporcionar información personal o utilizar los servicios ofrecidos."
+            }
+        },
+        "footer": "Todos los derechos reservados."
+    },
+    "table": {
+        "actions": "Acciones",
+        "noData": "No hay datos disponibles",
+        "rowsPerPage": "Filas por página",
+        "of": "de"
+    },
+    "fileUpload": {
+        "label": "Subir imagen",
+        "hint": "Arrastra o haz clic para seleccionar un archivo",
+        "uploading": "Subiendo...",
+        "success": "Imagen subida correctamente",
+        "previewAlt": "Vista previa de la imagen"
+    },
+    "organizer": {
+        "welcome": {
+            "greeting": "¡Hola, {{name}}!",
+            "defaultName": "Organizador",
+            "description": "Bienvenido a tu panel de gestión de eventos. Aquí podrás crear, administrar y hacer seguimiento a tus actividades."
+        },
+        "events": {
+            "title": "Mis Eventos",
+            "description": "Administra los eventos que has creado.",
+            "created": "Evento creado exitosamente.",
+            "updated": "Evento actualizado correctamente.",
+            "recurrentUpdated": "Se actualizaron {{count}} eventos de la serie.",
+            "deleted": "Evento eliminado correctamente.",
+            "create": "Crear Evento",
+            "createTitle": "Crear nuevo evento",
+            "editTitle": "Actualizar evento",
+            "fields": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "category": "Categoría",
+                "modality": "Modalidad",
+                "date": "Fecha",
+                "time": "Horario",
+                "status": "Estado",
+                "recurrence": "Recurrencia"
+            },
+            "status": {
+                "published": "Publicado",
+                "inProgress": "En Progreso",
+                "finished": "Finalizado",
+                "cancelled": "Cancelado"
+            },
+            "recurrence": {
+                "single": "Único",
+                "recurring": "Recurrente"
+            },
+            "delete": {
+                "title": "Eliminar evento",
+                "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+            }
+        }
+    },
+    "eventRegistration": {
+        "registerButton": "Inscribirme",
+        "alreadyRegistered": "Ya inscrito",
+        "myRegistrations": "Mis Inscripciones",
+        "registeredOn": "Inscrito el",
+        "availableSpots": "{{available}} de {{total}} cupos disponibles",
+        "status": {
+            "REGISTERED": "Inscrito",
+            "CANCELLED": "Cancelado",
+            "CHECKED_IN": "Asistió",
+            "NO_SHOW": "No asistió"
+        },
+        "alerts": {
+            "noCapacityTitle": "Sin cupos disponibles",
+            "noCapacityMessage": "El evento ha alcanzado su capacidad máxima. No hay cupos disponibles.",
+            "scheduleConflictTitle": "Conflicto de horario",
+            "scheduleConflictMessage": "Ya estás inscrito a {{eventName}} en este horario. No puedes inscribirte en eventos que se traslapan."
+        },
+        "confirmDialog": {
+            "title": "Confirmar inscripción",
+            "message": "¿Confirmas tu inscripción a {{eventName}}?",
+            "confirm": "Confirmar inscripción"
+        },
+        "messages": {
+            "registrationSuccess": "¡Inscripción exitosa! Recibirás un correo de confirmación.",
+            "registrationError": "No se pudo completar la inscripción. Intenta nuevamente.",
+            "loadRegistrationsError": "No se pudieron cargar tus inscripciones.",
+            "noRegistrations": "No tienes inscripciones activas en este momento."
+        },
+        "eventDetails": {
+            "modality": "Modalidad"
+        }
+    }
+}
