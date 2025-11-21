@@ -1,6 +1,7 @@
 export const ROUTES = {
     HOME: '/',
     EVENTS: '/events',
+    EVENT_DETAIL: (id: string | number = ":eventId") => `/events/${id}`,
     AUTH: {
         BASE: '/auth',
         LOGIN: '/auth/login',

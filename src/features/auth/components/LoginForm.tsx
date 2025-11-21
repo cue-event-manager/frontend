@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginRequestDto } from "@/domain/auth/LoginRequestDto";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ROUTES } from "@/routes/routes";
 
 type LoginFormValues = {
@@ -21,11 +21,16 @@ export default function LoginForm() {
     const [lastLoginData, setLastLoginData] = useState<LoginRequestDto | null>(
         null
     );
+    const location = useLocation();
+    const redirectTo =
+        (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ??
+        ROUTES.HOME;
 
     const loginMutation = useLogin({
         onConsentRequired: (version) => {
             setTermsVersion(version);
         },
+        redirectTo,
     });
 
     const {

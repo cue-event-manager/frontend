@@ -29,6 +29,7 @@ import OrganizerLayout from "@/components/layouts/OrganizerLayout";
 import OrganizerHomePage from "@/pages/OrganizerHomePage";
 import OrganizerEventsPage from "@/pages/OrganizerEventsPage";
 import EventsPage from "@/pages/EventsPage";
+import EventDetailPage from "@/pages/EventDetailPage";
 
 export default function AppRouter() {
   return (
@@ -36,6 +37,7 @@ export default function AppRouter() {
       <Route element={<MainLayout />}>
         <Route path={ROUTES.HOME} element={<HomePage />} />
         <Route path={ROUTES.EVENTS} element={<EventsPage />} />
+        <Route path={ROUTES.EVENT_DETAIL()} element={<EventDetailPage />} />
         <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditionsPage />} />
 
         <Route element={<AuthGuard />} >

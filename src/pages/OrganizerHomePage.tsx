@@ -12,15 +12,10 @@ export default function OrganizerHomePage() {
         p: { xs: 2, md: 4 },
       }}
     >
-      {/* Sección de bienvenida */}
       <OrganizerWelcomeSection />
 
-      {/* Accesos rápidos */}
       <OrganizerQuickActions />
 
-      {/* Espacio para futuras secciones */}
-      {/* <OrganizerStatsOverview /> */}
-      {/* <OrganizerUpcomingEvents /> */}
     </Box>
   );
 }

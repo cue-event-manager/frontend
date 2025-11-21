@@ -70,8 +70,8 @@ export const getAllEvents = async (): Promise<Event[]> => {
     return data;
 };
 
-export const getEventById = async (id: number): Promise<Event> => {
-    const { data } = await axiosInstance.get<Event>(`${EVENT_ENDPOINT_PREFIX}/${id}`);
+export const getEventById = async (id: number): Promise<EventWithAvailabilityResponseDto> => {
+    const { data } = await axiosInstance.get<EventWithAvailabilityResponseDto>(`${EVENT_ENDPOINT_PREFIX}/${id}`);
     return data;
 };
 

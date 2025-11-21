@@ -10,9 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 interface UseLoginOptions {
     onConsentRequired?: (version: string) => void;
+    redirectTo?: string;
 }
 
-export const useLogin = ({ onConsentRequired }: UseLoginOptions = {}) => {
+export const useLogin = ({ onConsentRequired, redirectTo = ROUTES.HOME }: UseLoginOptions = {}) => {
     const navigate = useNavigate();
     const { refetchUser } = useAuth();
 
@@ -24,7 +25,7 @@ export const useLogin = ({ onConsentRequired }: UseLoginOptions = {}) => {
 
             await refetchUser();
 
-            navigate(ROUTES.HOME);
+            navigate(redirectTo);
         },
         onError: (error) => {
             if (isAxiosError(error)) {
