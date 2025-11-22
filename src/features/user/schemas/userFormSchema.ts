@@ -22,6 +22,7 @@ export const createUserSchema = yup.object({
     identification: yup.string().nullable(),
     birthDate: yup
         .date()
+        .max(new Date(), i18n.t("validation.futureDate"))
         .typeError(i18n.t("validation.invalidDate"))
         .required(i18n.t("validation.required")),
 });
@@ -44,6 +45,7 @@ export const updateUserSchema = yup.object({
     identification: yup.string().nullable(),
     birthDate: yup
         .date()
+        .max(new Date(), i18n.t("validation.futureDate"))
         .typeError(i18n.t("validation.invalidDate"))
         .required(i18n.t("validation.required")),
 });

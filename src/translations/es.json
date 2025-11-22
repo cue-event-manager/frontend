@@ -619,7 +619,8 @@
         "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
         "positive": "El valor debe ser positivo.",
         "url": "Formato de la URL no válida",
-        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}."
+        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}.",
+        "futureDate": "La fecha no puede ser en el futuro."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",

@@ -10,7 +10,7 @@ interface BaseLayoutProps {
 }
 
 export default function BaseLayout({
-    drawerWidth = 240,
+    drawerWidth = 280,
     menuItems,
     AppBarComponent,
 }: BaseLayoutProps) {
