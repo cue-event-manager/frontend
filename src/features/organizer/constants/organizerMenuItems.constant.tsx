@@ -2,6 +2,7 @@ import type { AdminMenuItem } from "@/features/admin/constants/adminMenuItems.co
 import { ROUTES } from "@/routes/routes";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from '@mui/icons-material/Event';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 
 export const ORGANIZER_MENU_ITEMS: AdminMenuItem[] = [
@@ -19,6 +20,11 @@ export const ORGANIZER_MENU_ITEMS: AdminMenuItem[] = [
         path: ROUTES.ORGANIZER.EVENTS,
       },
     ],
+  },
+  {
+    text: "Reportes",
+    icon: <AssessmentIcon />,
+    path: ROUTES.ORGANIZER.REPORTS,
   },
 
 ];
