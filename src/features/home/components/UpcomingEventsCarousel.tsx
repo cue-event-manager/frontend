@@ -37,7 +37,7 @@ export function UpcomingEventsCarousel() {
 
     const { data, isLoading, isFetching, error, refetch } = useEvents({
         page: 0,
-        size: 10!
+        size: 10,
     });
 
     const events = useMemo(

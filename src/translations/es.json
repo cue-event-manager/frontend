@@ -634,7 +634,21 @@
         "forbidden": "No tienes permisos para acceder a este recurso.",
         "serverError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
         "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
-        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo.",
+        "notFound": {
+            "title": "Ups, esta página no existe",
+            "subtitle": "No pudimos encontrar la página que buscas. Regresa al inicio o explora los próximos eventos.",
+            "code": "Error 404",
+            "goHome": "Ir al inicio",
+            "exploreEvents": "Explorar eventos",
+            "tips": {
+                "title": "Sugerencias",
+                "checkUrl": "Verifica que la dirección web esté bien escrita.",
+                "backHome": "Regresa al inicio para continuar navegando.",
+                "events": "Explora los próximos eventos disponibles.",
+                "support": "Si necesitas ayuda, contacta al equipo de soporte."
+            }
+        }
     },
     "profile": {
         "title": "Actualizar Perfil",
