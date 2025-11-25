@@ -26,6 +26,8 @@ import { EventDetailOrganizerCard } from "@/features/event/components/EventDetai
 import { EventDetailVirtualInfo } from "@/features/event/components/EventDetail/EventDetailVirtualInfo";
 import { EventDetailParticipationCard } from "@/features/event/components/EventDetail/EventDetailParticipationCard";
 import { ROUTES } from "@/routes/routes";
+import { useRegisterToEvent } from "@/features/eventregistration/hooks/useRegisterToEvent";
+import { useCancelEventRegistration } from "@/features/eventregistration/hooks/useCancelEventRegistration";
 
 export default function EventDetailPage() {
     const { eventId } = useParams<{ eventId?: string }>();
@@ -37,6 +39,8 @@ export default function EventDetailPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
+    const { mutateAsync: registerToEvent, isPending: isRegistering } = useRegisterToEvent();
+    const { mutateAsync: cancelRegistration, isPending: isCancelling } = useCancelEventRegistration();
 
     const dateFormatter = useMemo(
         () => new Intl.DateTimeFormat(i18n.language, { dateStyle: "long" }),
@@ -98,12 +102,21 @@ export default function EventDetailPage() {
     const isOwner = user?.id === event.createdBy;
     const canManage = isOwner || userRole === RoleConstant.ORGANIZER || userRole === RoleConstant.ADMIN;
     const isAttendee = userRole === RoleConstant.ATTENDEE;
+    const isRegistered = availability.isAlreadyRegistered;
 
     const handleManage = () => {
         if (canManage) navigate(ROUTES.ORGANIZER.EVENTS);
     };
     const handleLoginRedirect = () => {
         navigate(ROUTES.AUTH.LOGIN, { state: { from: location } });
+    };
+    const handleRegister = async () => {
+        if (!safeId) return;
+        await registerToEvent({ eventId: safeId });
+    };
+    const handleCancelRegistration = async () => {
+        if (!safeId || !isRegistered) return;
+        await cancelRegistration({ id: safeId });
     };
 
     return (
@@ -137,6 +150,10 @@ export default function EventDetailPage() {
                                     isOwner={isOwner}
                                     onManage={handleManage}
                                     onLogin={handleLoginRedirect}
+                                    onRegister={handleRegister}
+                                    onCancel={handleCancelRegistration}
+                                    isRegistering={isRegistering}
+                                    isCancelling={isCancelling}
                                 />
                                 <EventDetailOrganizerCard event={event} />
                                 <EventDetailVirtualInfo event={event} />

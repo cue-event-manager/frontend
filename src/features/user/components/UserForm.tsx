@@ -25,6 +25,7 @@ import {
     updateUserSchema,
 } from "../schemas/userFormSchema";
 import type { User } from "@/domain/user/User";
+import { ROLES } from "../constants/userRoles.constant";
 
 interface UserFormProps {
     initialData?: User;
@@ -35,11 +36,7 @@ type UserFormFields = Omit<CreateUserRequestDto, "password"> & {
     password?: string;
 };
 
-const ROLES = [
-    { value: "1", label: "Administrador" },
-    { value: "2", label: "Organizador" },
-    { value: "3", label: "Asistente" },
-];
+
 
 const generatePassword = (): string => {
     const length = 12;
