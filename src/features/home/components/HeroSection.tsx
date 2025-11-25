@@ -23,7 +23,7 @@ export default function HeroSection() {
         position: "relative",
         minHeight: `calc(100vh - ${navbarHeight}px)`,
         display: "flex",
-        alignItems: "center",
+        alignItems: { xs: "flex-start", md: "center" },
         overflow: "hidden",
         background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${alpha(theme.palette.primary.main, 0.02)} 100%)`,
         "&::before": {
@@ -74,11 +74,19 @@ export default function HeroSection() {
         }}
       />
 
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
+      <Container
+        maxWidth="xl"
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          pt: { xs: 10, md: 0 },
+          pb: { xs: 6, md: 0 },
+        }}
+      >
         <Stack
           direction={{ xs: "column", md: "row" }}
-          spacing={8}
-          alignItems="center"
+          spacing={{ xs: 6, md: 8 }}
+          alignItems={{ xs: "flex-start", md: "center" }}
           justifyContent="space-between"
         >
           <Box
@@ -105,10 +113,11 @@ export default function HeroSection() {
               gutterBottom
               sx={{
                 fontWeight: 800,
-                fontSize: { xs: "2.5rem", md: "3.75rem" },
-                lineHeight: 1.1,
-                mb: 3,
+                fontSize: { xs: "2.2rem", sm: "2.7rem", md: "3.6rem" },
+                lineHeight: { xs: 1.15, md: 1.1 },
+                mb: { xs: 2.5, md: 3 },
                 letterSpacing: "-0.02em",
+                wordBreak: "break-word",
               }}
             >
               <Box
@@ -128,11 +137,11 @@ export default function HeroSection() {
               variant="h6"
               component="p"
               sx={{
-                mb: 4,
-                maxWidth: "600px",
+                mb: { xs: 3, md: 4 },
+                maxWidth: { xs: "100%", sm: "520px", md: "600px" },
                 color: "text.secondary",
-                lineHeight: 1.7,
-                fontSize: { xs: "1.1rem", md: "1.25rem" },
+                lineHeight: 1.65,
+                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.22rem" },
                 fontWeight: 400,
               }}
             >
@@ -148,6 +157,7 @@ export default function HeroSection() {
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
+              width: "100%",
               animation: "fadeInRight 0.8s ease-out",
               "@keyframes fadeInRight": {
                 from: {
@@ -164,8 +174,8 @@ export default function HeroSection() {
             <Box
               sx={{
                 position: "absolute",
-                width: { xs: "300px", md: "500px" },
-                height: { xs: "300px", md: "500px" },
+                width: { xs: 260, sm: 320, md: 500 },
+                height: { xs: 260, sm: 320, md: 500 },
                 borderRadius: "50%",
                 background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.15)}, ${alpha(theme.palette.secondary.main, 0.05)} 50%, transparent 70%)`,
                 animation: "float 6s ease-in-out infinite",
@@ -183,8 +193,8 @@ export default function HeroSection() {
             <Box
               sx={{
                 position: "absolute",
-                width: { xs: "350px", md: "550px" },
-                height: { xs: "350px", md: "550px" },
+                width: { xs: 300, sm: 360, md: 550 },
+                height: { xs: 300, sm: 360, md: 550 },
                 borderRadius: "50%",
                 border: `2px solid ${alpha(theme.palette.primary.main, 0.1)}`,
                 animation: "rotate 20s linear infinite",
@@ -213,8 +223,8 @@ export default function HeroSection() {
               loading="eager"
               fetchPriority="high"
               sx={{
-                width: { xs: "80%", md: "85%" },
-                maxWidth: { xs: "280px", md: "400px" },
+                width: { xs: "78%", sm: "70%", md: "85%" },
+                maxWidth: { xs: 240, sm: 320, md: 400 },
                 position: "relative",
                 zIndex: 1,
                 filter: "drop-shadow(0 20px 60px rgba(0,0,0,0.15))",

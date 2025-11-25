@@ -63,14 +63,14 @@ const defaultActionRenderer: EventCardActionRenderer = (context) => (
 
 const CARD_SIZE_STYLES = {
     default: {
-        width: 340,
-        minHeight: 440,
-        imageHeight: 150,
-    },
-    small: {
         width: 300,
         minHeight: 400,
         imageHeight: 130,
+    },
+    small: {
+        width: 270,
+        minHeight: 320,
+        imageHeight: 115,
     },
 } as const;
 
@@ -89,7 +89,6 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    borderRadius: 4,
                     overflow: "hidden",
                     border: "1px solid",
                     borderColor: isDarkMode
@@ -100,7 +99,7 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                         boxShadow: isDarkMode
                             ? "0 18px 35px rgba(0,0,0,0.65)"
                             : "0 4px 22px rgba(0,0,0,0.08)",
-                        transform: "translateY(-3px)",
+                        transform: "translateY(-2px)",
                     },
                     bgcolor: theme.palette.background.paper,
                     width: "100%",
