@@ -1,72 +1,89 @@
-import { Box, Card, CardContent, Typography, Grid, Divider } from "@mui/material";
+import { Box, Tab, Tabs, Paper } from "@mui/material";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import MyEventsReportForm from "@/features/report/components/MyEventsReportForm";
-import EventRegistrationsReportForm from "@/features/report/components/EventRegistrationsReportForm";
+import EventRegistrationsReportSection from "@/features/report/components/EventRegistrationsReportSection";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import PeopleIcon from "@mui/icons-material/People";
+import { OrganizerSection } from "@/features/organizer/components/OrganizerSection";
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel({ children, value, index }: TabPanelProps) {
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`report-tabpanel-${index}`}
+            aria-labelledby={`report-tab-${index}`}
+        >
+            {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
+        </div>
+    );
+}
 
 export default function OrganizerReportsPage() {
     const { t } = useTranslation();
+    const [currentTab, setCurrentTab] = useState(0);
+
+    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+        setCurrentTab(newValue);
+    };
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                p: { xs: 2, md: 4 },
-            }}
-        >
-            <Box>
-                <Typography variant="h4" fontWeight="bold" gutterBottom>
-                    {t("reports.title")}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                    {t("reports.description")}
-                </Typography>
-            </Box>
+        <OrganizerSection.Root withPaper={false}>
+            <OrganizerSection.Header
+                title="reports.title"
+                description="reports.description"
+            />
 
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                    <Card elevation={2}>
-                        <CardContent>
-                            <Box display="flex" alignItems="center" gap={2} mb={2}>
-                                <AssessmentIcon color="primary" sx={{ fontSize: 40 }} />
-                                <Box>
-                                    <Typography variant="h6" fontWeight="bold">
-                                        {t("reports.myEvents.title")}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {t("reports.myEvents.description")}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Divider sx={{ mb: 3 }} />
+            <OrganizerSection.Body>
+                <Paper elevation={2} sx={{ borderRadius: 2 }}>
+                    <Tabs
+                        value={currentTab}
+                        onChange={handleTabChange}
+                        variant="fullWidth"
+                        sx={{
+                            borderBottom: 1,
+                            borderColor: "divider",
+                            "& .MuiTab-root": {
+                                py: 2,
+                                fontSize: "0.95rem",
+                                fontWeight: 600,
+                            },
+                        }}
+                    >
+                        <Tab
+                            icon={<AssessmentIcon />}
+                            iconPosition="start"
+                            label={t("reports.tabs.myEvents")}
+                            id="report-tab-0"
+                            aria-controls="report-tabpanel-0"
+                        />
+                        <Tab
+                            icon={<PeopleIcon />}
+                            iconPosition="start"
+                            label={t("reports.tabs.eventRegistrations")}
+                            id="report-tab-1"
+                            aria-controls="report-tabpanel-1"
+                        />
+                    </Tabs>
+
+                    <Box sx={{ p: 3 }}>
+                        <TabPanel value={currentTab} index={0}>
                             <MyEventsReportForm />
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </TabPanel>
 
-                <Grid item xs={12} md={6}>
-                    <Card elevation={2}>
-                        <CardContent>
-                            <Box display="flex" alignItems="center" gap={2} mb={2}>
-                                <PeopleIcon color="primary" sx={{ fontSize: 40 }} />
-                                <Box>
-                                    <Typography variant="h6" fontWeight="bold">
-                                        {t("reports.eventRegistrations.title")}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {t("reports.eventRegistrations.description")}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Divider sx={{ mb: 3 }} />
-                            <EventRegistrationsReportForm />
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Box>
+                        <TabPanel value={currentTab} index={1}>
+                            <EventRegistrationsReportSection />
+                        </TabPanel>
+                    </Box>
+                </Paper>
+            </OrganizerSection.Body>
+        </OrganizerSection.Root>
     );
 }
