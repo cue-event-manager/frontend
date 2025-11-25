@@ -657,7 +657,12 @@
     },
     "home": {
         "title": "Bienvenido a la página principal",
-        "button": "Haz clic aquí"
+        "button": "Haz clic aquí",
+        "upcoming": {
+            "title": "Próximos eventos",
+            "subtitle": "Descubre las actividades que están por comenzar y asegura tu lugar.",
+            "empty": "No hay eventos próximos disponibles en este momento."
+        }
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
