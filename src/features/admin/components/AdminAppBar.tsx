@@ -8,7 +8,7 @@ import {
     alpha,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AvatarUserMenu from "@/components/molecules/AvatarUserMenu";
+import UserNavMenu from "@/components/molecules/UserNavMenu";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { ADMIN_MENU_ITEMS } from "../constants/adminMenuItems.constant";
@@ -89,7 +89,7 @@ export default function AdminAppBar({ drawerWidth, onMenuClick }: AdminAppBarPro
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center"}}>
-                    <AvatarUserMenu />
+                    <UserNavMenu />
                 </Box>
             </Toolbar>
         </AppBar>

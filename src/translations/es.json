@@ -686,7 +686,10 @@
         "badge": "✨ La mejor solución"
     },
     "navbar": {
-        "events": "Eventos"
+        "events": "Eventos",
+        "adminPanel": "Panel administrador",
+        "organizerPanel": "Panel organizador",
+        "organizerEvents": "Mis eventos"
     },
     "publicEvents": {
         "title": "Explora los eventos disponibles",
