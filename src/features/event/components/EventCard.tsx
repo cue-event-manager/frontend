@@ -10,6 +10,7 @@ import {
     Button,
     Skeleton,
     Chip,
+    Tooltip,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
@@ -396,6 +397,27 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
 
 }
 
+function getRegistrationDisabledReason(
+    availability: EventAvailability,
+    t: ReturnType<typeof useTranslation>["t"]
+) {
+    if (availability.hasScheduleConflict) {
+        return t("events.detail.scheduleConflict", {
+            event: availability.conflictingEventName || t("events.card.otherEvent"),
+        });
+    }
+
+    if (!availability.hasCapacity) {
+        return t("events.detail.noCapacity");
+    }
+
+    if (!availability.canRegister) {
+        return t("events.card.registrationUnavailable");
+    }
+
+    return undefined;
+}
+
 function RoleBasedEventActions({ availability, actions, event, loading }: EventCardActionContext) {
     const { user } = useAuth();
     const { t } = useTranslation();
@@ -426,6 +448,11 @@ function RoleBasedEventActions({ availability, actions, event, loading }: EventC
     }
 
     if (role === RoleConstant.ATTENDEE) {
+        const registerDisabled = !availability.canRegister || loading.register;
+        const registerDisabledReason = !availability.canRegister
+            ? getRegistrationDisabledReason(availability, t)
+            : undefined;
+
         return (
             <Stack direction="row" spacing={1} width="100%">
                 <Button
@@ -451,16 +478,20 @@ function RoleBasedEventActions({ availability, actions, event, loading }: EventC
                         {t("events.card.cancelRegistration", "Cancelar inscripción")}
                     </Button>
                 ) : (
-                    <Button
-                        size="small"
-                        variant="contained"
-                        color="success"
-                        onClick={actions.register}
-                        disabled={!availability.canRegister || loading.register}
-                        fullWidth
-                    >
-                        {t("common.actions.register")}
-                    </Button>
+                    <Tooltip title={registerDisabledReason ?? ""} disableHoverListener={!registerDisabledReason}>
+                        <Box component="span" sx={{ width: "100%" }}>
+                            <Button
+                                size="small"
+                                variant="contained"
+                                color="success"
+                                onClick={actions.register}
+                                disabled={registerDisabled}
+                                fullWidth
+                            >
+                                {t("common.actions.register")}
+                            </Button>
+                        </Box>
+                    </Tooltip>
                 )}
             </Stack>
         );

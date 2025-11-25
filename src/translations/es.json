@@ -561,7 +561,8 @@
             "conflict": "Conflicto con {{event}}",
             "otherEvent": "otro evento",
             "recent": "Nuevo",
-            "cancelRegistration": "Cancelar inscripción"
+            "cancelRegistration": "Cancelar inscripción",
+            "registrationUnavailable": "No puedes inscribirte en este momento."
         },
         "filters": {
             "name": "Buscar por nombre del evento",
