@@ -483,6 +483,8 @@
         },
         "messages": {
             "created": "Evento creado exitosamente.",
+            "registered": "Te has inscrito al evento.",
+            "registrationCancelled": "Has cancelado tu inscripción.",
             "uploadSuccess": "Archivo subido correctamente.",
             "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
             "noSpacesForSelectedDate": "No hay espacios disponibles el {{date}} de {{startTime}} a {{endTime}} con capacidad para {{capacity}} personas.",
@@ -547,7 +549,8 @@
             "heroAvailability": "{{available}} / {{capacity}} cupos disponibles",
             "notAvailable": "No disponible",
             "breadcrumbHome": "Inicio",
-            "breadcrumbEvents": "Eventos públicos"
+            "breadcrumbEvents": "Eventos públicos",
+            "cancelRegistration": "Cancelar inscripción"
         },
         "card": {
             "capacitySummary": "{{available}} de {{total}} cupos disponibles",
@@ -557,7 +560,8 @@
             "registered": "Inscrito",
             "conflict": "Conflicto con {{event}}",
             "otherEvent": "otro evento",
-            "recent": "Nuevo"
+            "recent": "Nuevo",
+            "cancelRegistration": "Cancelar inscripción"
         },
         "filters": {
             "name": "Buscar por nombre del evento",
