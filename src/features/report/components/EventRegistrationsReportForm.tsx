@@ -43,7 +43,7 @@ export default function EventRegistrationsReportForm() {
         );
     }
 
-    const events = eventsData?.content ?? [];
+    const events = eventsData?.items.map((e) => e.event) ?? [];
 
     return (
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ width: "100%" }}>

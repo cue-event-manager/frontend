@@ -28,7 +28,7 @@ import { Link, Link as RouterLink } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/authContext";
-import AvatarUserMenu from "../molecules/AvatarUserMenu";
+import UserNavMenu from "../molecules/UserNavMenu";
 import { useLogout } from "@/features/auth/hooks/useLogout";
 
 export default function Navbar() {
@@ -101,7 +101,7 @@ export default function Navbar() {
 
                             {isAuthenticated && user ? (
                                 <Box display="flex" alignItems="center" gap={2}>
-                                    <AvatarUserMenu />
+                                    <UserNavMenu />
                                 </Box>
                             ) : (
                                 <Button

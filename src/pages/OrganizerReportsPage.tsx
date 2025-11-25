@@ -27,7 +27,7 @@ export default function OrganizerReportsPage() {
             </Box>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }} >
                     <Card elevation={2}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2} mb={2}>
@@ -47,7 +47,7 @@ export default function OrganizerReportsPage() {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <Card elevation={2}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2} mb={2}>
