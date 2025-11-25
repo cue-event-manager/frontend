@@ -37,7 +37,7 @@ export function UpcomingEventsCarousel() {
 
     const { data, isLoading, isFetching, error, refetch } = useEvents({
         page: 0,
-        size: 10!
+        size: 10,
     });
 
     const events = useMemo(
@@ -114,44 +114,44 @@ export function UpcomingEventsCarousel() {
                             >
                                 {showSkeletons
                                     ? Array.from({ length: 4 }).map((_, idx) => (
-                                          <Box
-                                              key={idx}
-                                              sx={{
-                                                  flex: "0 0 280px",
-                                                  maxWidth: 300,
-                                                  width:"100%",
-                                                  scrollSnapAlign: "start",
-                                              }}
-                                          >
-                                              <EventCardSkeleton size="small" />
-                                          </Box>
-                                      ))
+                                        <Box
+                                            key={idx}
+                                            sx={{
+                                                flex: "0 0 280px",
+                                                maxWidth: 300,
+                                                width: "100%",
+                                                scrollSnapAlign: "start",
+                                            }}
+                                        >
+                                            <EventCardSkeleton size="small" />
+                                        </Box>
+                                    ))
                                     : events.length > 0
-                                    ? events.map((item) => (
-                                          <Box
-                                              key={item.event.id}
-                                              sx={{
-                                                  flex: "0 0 280px",
-                                                  maxWidth: 300,
-                                                  scrollSnapAlign: "start",
-                                              }}
-                                          >
-                                              <EventCard data={item} size="small" />
-                                          </Box>
-                                      ))
-                                    : (
-                                          <Box
-                                              sx={{
-                                                  width: "100%",
-                                                  textAlign: "center",
-                                                  py: 6,
-                                              }}
-                                          >
-                                              <Typography variant="body1" color="text.secondary">
-                                                  {t("home.upcoming.empty", "No hay eventos próximos disponibles.")}
-                                              </Typography>
-                                          </Box>
-                                      )}
+                                        ? events.map((item) => (
+                                            <Box
+                                                key={item.event.id}
+                                                sx={{
+                                                    flex: "0 0 280px",
+                                                    maxWidth: 300,
+                                                    scrollSnapAlign: "start",
+                                                }}
+                                            >
+                                                <EventCard data={item} size="small" />
+                                            </Box>
+                                        ))
+                                        : (
+                                            <Box
+                                                sx={{
+                                                    width: "100%",
+                                                    textAlign: "center",
+                                                    py: 6,
+                                                }}
+                                            >
+                                                <Typography variant="body1" color="text.secondary">
+                                                    {t("home.upcoming.empty", "No hay eventos próximos disponibles.")}
+                                                </Typography>
+                                            </Box>
+                                        )}
                             </Box>
 
                             {showNavigation && !showSkeletons && (
