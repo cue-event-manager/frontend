@@ -620,6 +620,7 @@
         "codeLength": "Código no válido.",
         "passwordSecure": "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",
         "invalidDate": "La fecha no es válida.",
+        "endDateAfterStart": "La fecha de fin debe ser posterior o igual a la fecha de inicio",
         "timeRange": "La hora de finalización debe ser posterior a la hora de inicio.",
         "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
         "positive": "El valor debe ser positivo.",
@@ -847,6 +848,43 @@
                 "title": "Eliminar evento",
                 "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
             }
+        }
+    },
+    "reports": {
+        "title": "Reportes",
+        "description": "Genera y descarga reportes detallados de tus eventos e inscripciones",
+        "fields": {
+            "format": "Formato del reporte"
+        },
+        "formats": {
+            "EXCEL": "Excel",
+            "PDF": "PDF"
+        },
+        "actions": {
+            "generate": "Generar Reporte"
+        },
+        "myEvents": {
+            "title": "Reporte de Mis Eventos",
+            "description": "Genera un reporte con estadísticas de tus eventos",
+            "fields": {
+                "startDate": "Fecha de inicio",
+                "endDate": "Fecha de fin",
+                "status": "Estado del evento"
+            },
+            "allStatuses": "Todos los estados",
+            "success": "Reporte generado exitosamente. La descarga comenzará en breve.",
+            "error": "Error al generar el reporte. Por favor, intenta de nuevo."
+        },
+        "eventRegistrations": {
+            "title": "Reporte de Inscripciones",
+            "description": "Genera un reporte con las inscripciones de un evento específico",
+            "fields": {
+                "event": "Seleccionar evento"
+            },
+            "selectEvent": "Seleccione un evento",
+            "noEvents": "No tienes eventos creados. Crea un evento primero para generar reportes de inscripciones.",
+            "success": "Reporte de inscripciones generado exitosamente. La descarga comenzará en breve.",
+            "error": "Error al generar el reporte de inscripciones. Por favor, intenta de nuevo."
         }
     }
 }

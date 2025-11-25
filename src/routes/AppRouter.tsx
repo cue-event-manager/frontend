@@ -28,6 +28,7 @@ import AdminEventsPage from "@/pages/AdminEventsPage";
 import OrganizerLayout from "@/components/layouts/OrganizerLayout";
 import OrganizerHomePage from "@/pages/OrganizerHomePage";
 import OrganizerEventsPage from "@/pages/OrganizerEventsPage";
+import OrganizerReportsPage from "@/pages/OrganizerReportsPage";
 import EventsPage from "@/pages/EventsPage";
 import EventDetailPage from "@/pages/EventDetailPage";
 
@@ -76,6 +77,7 @@ export default function AppRouter() {
         <Route element={<OrganizerLayout />}>
           <Route path={ROUTES.ORGANIZER.BASE} element={<OrganizerHomePage />} />
           <Route path={ROUTES.ORGANIZER.EVENTS} element={<OrganizerEventsPage />} />
+          <Route path={ROUTES.ORGANIZER.REPORTS} element={<OrganizerReportsPage />} />
         </Route>
       </Route>
 
