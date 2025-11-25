@@ -12,6 +12,7 @@ import type { TableAction } from "@/shared/types/DataTable";
 import type { UserPaginationQuery } from "@/domain/user/UserPaginationQuery";
 import type { User } from "@/domain/user/User";
 import { useEntityTable } from "../hooks/useEntityTable";
+import { ROLES } from "../constants/userRoles.constant";
 
 export function UsersTable() {
     const { t } = useTranslation();
@@ -53,7 +54,7 @@ export function UsersTable() {
             {
                 key: "role",
                 label: t("users.fields.role"),
-                render: (user: User) => user.role?.name ?? t("users.noRole"),
+                render: (user: User) => ROLES.find(role => user.role.name == role.name)?.label ?? t("users.noRole"),
             },
         ],
         [t]

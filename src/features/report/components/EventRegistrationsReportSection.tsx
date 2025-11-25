@@ -52,7 +52,7 @@ export default function EventRegistrationsReportSection() {
         setPage(newPage - 1);
     };
 
-    const events = eventsData?.content ?? [];
+    const events = eventsData?.items ?? [];
     const totalPages = eventsData?.totalPages ?? 0;
 
     return (
@@ -122,12 +122,12 @@ export default function EventRegistrationsReportSection() {
             ) : (
                 <>
                     <Grid container spacing={3}>
-                        {events.map((event) => (
-                            <Grid item xs={12} sm={6} md={4} key={event.event.id}>
+                        {events.map((item) => (
+                            <Grid item xs={12} sm={6} md={4} key={item.event.id}>
                                 <EventReportCard
-                                    event={event}
+                                    event={item}
                                     onGenerateReport={handleGenerateReport}
-                                    isGenerating={generatingEventId === event.event.id}
+                                    isGenerating={generatingEventId === item.event.id}
                                 />
                             </Grid>
                         ))}

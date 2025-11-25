@@ -10,6 +10,7 @@ import {
     Button,
     Skeleton,
     Chip,
+    Tooltip,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
@@ -27,11 +28,17 @@ import { useModalState } from "@/features/user/hooks/useModalState";
 import UpdateEventFormModal from "./UpdateEventForm/UpdateEventFormModal";
 import { getEventImageUrl } from "@/features/event/constants/media.constant";
 import { ROUTES } from "@/routes/routes";
+import { useRegisterToEvent } from "@/features/eventregistration/hooks/useRegisterToEvent";
+import { useCancelEventRegistration } from "@/features/eventregistration/hooks/useCancelEventRegistration";
 
 interface EventCardActionContext {
     event: Event;
     availability: EventAvailability;
     actions: EventCardActionHandlers;
+    loading: {
+        register: boolean;
+        cancel: boolean;
+    };
 }
 
 interface EventCardActionHandlers {
@@ -39,6 +46,7 @@ interface EventCardActionHandlers {
     edit: () => void;
     delete: () => void;
     register: () => void;
+    cancel: () => void;
 }
 
 type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
@@ -46,20 +54,33 @@ type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
 interface EventCardProps {
     data: EventWithAvailabilityResponseDto;
     renderActions?: EventCardActionRenderer;
+    size?: "default" | "small";
 }
 
 const defaultActionRenderer: EventCardActionRenderer = (context) => (
     <RoleBasedEventActions {...context} />
 );
 
+const CARD_SIZE_STYLES = {
+    default: {
+        width: 340,
+        minHeight: 440,
+        imageHeight: 150,
+    },
+    small: {
+        width: 300,
+        minHeight: 400,
+        imageHeight: 130,
+    },
+} as const;
 
-
-export function EventCard({ data, renderActions = defaultActionRenderer }: EventCardProps) {
+export function EventCard({ data, renderActions = defaultActionRenderer, size = "default" }: EventCardProps) {
     const { event, availability } = data;
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === "dark";
-    const { handlers, dialogs } = useEventActionManager(event);
+    const { handlers, dialogs, loading } = useEventActionManager(event);
     const isRecent = isEventRecent(event.createdAt);
+    const sizeStyles = CARD_SIZE_STYLES[size];
 
     return (
         <>
@@ -82,8 +103,9 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                         transform: "translateY(-3px)",
                     },
                     bgcolor: theme.palette.background.paper,
-                    width: 330,
-                    minHeight: 460,
+                    width: "100%",
+                    maxWidth: { xs: "100%", sm: sizeStyles.width },
+                    minHeight: { xs: sizeStyles.minHeight - 20, sm: sizeStyles.minHeight },
                     height: "100%",
                 }}
             >
@@ -96,15 +118,19 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                         flexGrow: 1,
                     }}
                 >
-                    <EventCardImage event={event} isRecent={isRecent} />
+                    <EventCardImage
+                        event={event}
+                        isRecent={isRecent}
+                        imageHeight={sizeStyles.imageHeight}
+                    />
 
                     <CardContent
                         sx={{
-                            p: 2.4,
-                            pb: 1.6,
+                            p: { xs: 2, sm: 2.4 },
+                            pb: { xs: 1.2, sm: 1.6 },
                             display: "flex",
                             flexDirection: "column",
-                            gap: 1,
+                            gap: { xs: 0.8, sm: 1 },
                             flexGrow: 1,
                             width: "100%",
                         }}
@@ -114,14 +140,15 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                         <EventCardMetaInfo event={event} availability={availability} />
                     </CardContent>
                 </CardActionArea>
-                <EventCardFooter actions={renderActions({ event, availability, actions: handlers })} />
+                <EventCardFooter actions={renderActions({ event, availability, actions: handlers, loading })} />
             </Card>
             {dialogs}
         </>
     );
 }
 
-export function EventCardSkeleton() {
+export function EventCardSkeleton({ size = "default" }: { size?: "default" | "small" }) {
+    const sizeStyles = CARD_SIZE_STYLES[size];
     return (
         <Card
             elevation={0}
@@ -132,12 +159,18 @@ export function EventCardSkeleton() {
                 overflow: "hidden",
                 border: "1px solid",
                 borderColor: "divider",
-                width: 330,
-                minHeight: 440,
+                width: sizeStyles.width,
+                maxWidth: "100%",
+                minHeight: { xs: sizeStyles.minHeight - 40, sm: sizeStyles.minHeight - 20 },
                 height: "100%",
+                mx: "auto",
             }}
         >
-            <Skeleton variant="rectangular" height={180} width="100%" />
+            <Skeleton
+                variant="rectangular"
+                width="100%"
+                sx={{ height: { xs: sizeStyles.imageHeight, sm: sizeStyles.imageHeight + 20 } }}
+            />
             <CardContent sx={{ p: 2.4, pb: 1.6, display: "flex", flexDirection: "column", gap: 1 }}>
                 <Skeleton variant="text" width="70%" height={28} />
                 <Skeleton variant="text" width="45%" />
@@ -157,6 +190,8 @@ export function EventCardSkeleton() {
 function useEventActionManager(event: Event) {
     const updateModal = useModalState<Event>();
     const navigate = useNavigate();
+    const { mutateAsync: registerMutation, isPending: isRegistering } = useRegisterToEvent();
+    const { mutateAsync: cancelMutation, isPending: isCancelling } = useCancelEventRegistration();
 
     const handleEdit = useCallback(() => {
         updateModal.openModal(event);
@@ -170,7 +205,8 @@ function useEventActionManager(event: Event) {
         view: handleView,
         edit: handleEdit,
         delete: () => console.log("Delete", event.id),
-        register: () => console.log("Register", event.id),
+        register: () => registerMutation({ eventId: event.id }),
+        cancel: () => cancelMutation({ id: event.id }),
     };
 
     const dialogs = (
@@ -181,17 +217,22 @@ function useEventActionManager(event: Event) {
         />
     );
 
-    return { handlers, dialogs };
+    return { handlers, dialogs, loading: { register: isRegistering, cancel: isCancelling } };
 }
 
-function EventCardImage({ event, isRecent }: { event: Event; isRecent: boolean }) {
+function EventCardImage({ event, isRecent, imageHeight }: { event: Event; isRecent: boolean; imageHeight: number }) {
     const theme = useTheme();
     const isDark = theme.palette.mode === "dark";
 
     const imageUrl = getEventImageUrl(event.imagePath);
 
     return (
-        <Box sx={{ position: "relative", height: 160 }}>
+        <Box
+            sx={{
+                position: "relative",
+                height: { xs: imageHeight - 10, sm: imageHeight },
+            }}
+        >
             <Box
                 component="img"
                 src={imageUrl}
@@ -287,8 +328,8 @@ function EventCardHeader({ event }: { event: Event }) {
                 variant="h6"
                 fontWeight={700}
                 sx={{
-                    fontSize: "1.1rem",
-                    lineHeight: 1.35,
+                    fontSize: { xs: "1rem", sm: "1.08rem" },
+                    lineHeight: 1.25,
                     wordBreak: "break-word",
                 }}
             >
@@ -307,7 +348,7 @@ function EventCardDescription({ description }: { description?: string }) {
             variant="body2"
             color="text.secondary"
             sx={{
-                fontSize: "0.84rem",
+                fontSize: { xs: "0.86rem", sm: "0.9rem" },
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
                 WebkitLineClamp: 3,
@@ -353,7 +394,7 @@ function EventCardMetaInfo({
 
             <Stack direction="row" spacing={1} alignItems="center">
                 <CalendarToday sx={{ fontSize: 15, color: "text.secondary" }} />
-                <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                <Typography variant="caption" color="text.secondary" fontWeight={600} sx={{ fontSize: "0.78rem" }}>
                     {event.category?.name}
                 </Typography>
             </Stack>
@@ -369,14 +410,15 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
     return (
         <CardActions
             sx={{
-                px: 2.2,
-                pb: 2,
-                pt: 0.5,
-                justifyContent: "flex-end",
-                gap: 1,
+                px: { xs: 2, sm: 2.4 },
+                pb: { xs: 2, sm: 2.4 },
+                pt: { xs: 1, sm: 1.2 },
+                justifyContent: "flex-start",
+                gap: 1.2,
                 mt: "auto",
                 borderTop: "1px solid",
                 borderColor: "divider",
+                bgcolor: (theme) => alpha(theme.palette.primary.main, 0.02),
             }}
         >
             {actions}
@@ -385,53 +427,96 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
 
 }
 
-function RoleBasedEventActions({ availability, actions, event }: EventCardActionContext) {
+function getRegistrationDisabledReason(
+    availability: EventAvailability,
+    t: ReturnType<typeof useTranslation>["t"]
+) {
+    if (availability.hasScheduleConflict) {
+        return t("events.detail.scheduleConflict", {
+            event: availability.conflictingEventName || t("events.card.otherEvent"),
+        });
+    }
+
+    if (!availability.hasCapacity) {
+        return t("events.detail.noCapacity");
+    }
+
+    if (!availability.canRegister) {
+        return t("events.card.registrationUnavailable");
+    }
+
+    return undefined;
+}
+
+function RoleBasedEventActions({ availability, actions, event, loading }: EventCardActionContext) {
     const { user } = useAuth();
     const { t } = useTranslation();
     const role = user?.role.name as RoleConstant | undefined;
     const isOwner = user?.id === event.createdBy;
+    const isRegistered = Boolean(
+        (availability as EventAvailability & { alreadyRegistered?: boolean }).isAlreadyRegistered ??
+        (availability as { alreadyRegistered?: boolean }).alreadyRegistered
+    );
 
     if (role === RoleConstant.ORGANIZER && isOwner) {
         return (
-            <>
-                <Button size="small" color="primary" onClick={actions.edit}>
+            <Stack direction="row" spacing={1} width="100%">
+                <Button size="small" color="primary" variant="contained" onClick={actions.edit} fullWidth>
                     {t("common.actions.edit")}
                 </Button>
-                <Button size="small" color="error" onClick={actions.delete}>
-                    {t("common.actions.delete")}
-                </Button>
-            </>
+            </Stack>
         );
     }
 
     if (role === RoleConstant.ATTENDEE) {
-        return availability.canRegister ? (
-            <Button
-                size="small"
-                variant="contained"
-                color="success"
-                onClick={actions.register}
-            >
-                {t("common.actions.register")}
-            </Button>
-        ) : (
-            <Button size="small" variant="outlined" onClick={actions.view}>
-                {t("common.actions.viewDetails")}
-            </Button>
+        const registerDisabled = !availability.canRegister || loading.register;
+        const registerDisabledReason = !availability.canRegister
+            ? getRegistrationDisabledReason(availability, t)
+            : undefined;
+
+        return (
+            <Stack direction="row" spacing={1} width="100%">
+                {isRegistered ? (
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="secondary"
+                        onClick={actions.cancel}
+                        disabled={loading.cancel}
+                        fullWidth
+                        sx={{ whiteSpace: "nowrap" }}
+                    >
+                        {t("events.card.cancelRegistration", "Cancelar inscripción")}
+                    </Button>
+                ) : (
+                    <Tooltip title={registerDisabledReason ?? ""} disableHoverListener={!registerDisabledReason}>
+                        <Box component="span" sx={{ width: "100%" }}>
+                            <Button
+                                size="small"
+                                variant="contained"
+                                color="success"
+                                onClick={actions.register}
+                                disabled={registerDisabled}
+                                fullWidth
+                            >
+                                {t("common.actions.register")}
+                            </Button>
+                        </Box>
+                    </Tooltip>
+                )}
+            </Stack>
         );
     }
 
     if (role === RoleConstant.ADMIN) {
         return (
-            <Button size="small" variant="outlined" onClick={actions.view}>
-                {t("common.actions.view")}
-            </Button>
+            <Stack direction="row" spacing={1} width="100%">
+                <Button size="small" variant="contained" onClick={actions.edit} fullWidth>
+                    {t("common.actions.edit")}
+                </Button>
+            </Stack>
         );
     }
 
-    return (
-        <Button size="small" variant="outlined" onClick={actions.view}>
-            {t("common.actions.view")}
-        </Button>
-    );
+    return null;
 }

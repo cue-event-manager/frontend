@@ -483,6 +483,8 @@
         },
         "messages": {
             "created": "Evento creado exitosamente.",
+            "registered": "Te has inscrito al evento.",
+            "registrationCancelled": "Has cancelado tu inscripción.",
             "uploadSuccess": "Archivo subido correctamente.",
             "uploadError": "Ocurrió un error al subir el archivo. Inténtalo nuevamente.",
             "noSpacesForSelectedDate": "No hay espacios disponibles el {{date}} de {{startTime}} a {{endTime}} con capacidad para {{capacity}} personas.",
@@ -547,7 +549,8 @@
             "heroAvailability": "{{available}} / {{capacity}} cupos disponibles",
             "notAvailable": "No disponible",
             "breadcrumbHome": "Inicio",
-            "breadcrumbEvents": "Eventos públicos"
+            "breadcrumbEvents": "Eventos públicos",
+            "cancelRegistration": "Cancelar inscripción"
         },
         "card": {
             "capacitySummary": "{{available}} de {{total}} cupos disponibles",
@@ -557,7 +560,9 @@
             "registered": "Inscrito",
             "conflict": "Conflicto con {{event}}",
             "otherEvent": "otro evento",
-            "recent": "Nuevo"
+            "recent": "Nuevo",
+            "cancelRegistration": "Cancelar inscripción",
+            "registrationUnavailable": "No puedes inscribirte en este momento."
         },
         "filters": {
             "name": "Buscar por nombre del evento",
@@ -620,7 +625,8 @@
         "dateRange": "La fecha de finalización debe ser posterior a la fecha de inicio.",
         "positive": "El valor debe ser positivo.",
         "url": "Formato de la URL no válida",
-        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}."
+        "timeOutsideRange": "El horario debe estar entre las {{min}} y las {{max}}.",
+        "futureDate": "La fecha no puede ser en el futuro."
     },
     "errors": {
         "sessionExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.",
@@ -628,7 +634,21 @@
         "forbidden": "No tienes permisos para acceder a este recurso.",
         "serverError": "Ha ocurrido un error interno en el servidor. Intenta nuevamente más tarde.",
         "unexpected": "Ocurrió un error inesperado. Por favor, recarga la página o contacta al soporte si el problema persiste.",
-        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo."
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión a Internet e inténtalo de nuevo.",
+        "notFound": {
+            "title": "Ups, esta página no existe",
+            "subtitle": "No pudimos encontrar la página que buscas. Regresa al inicio o explora los próximos eventos.",
+            "code": "Error 404",
+            "goHome": "Ir al inicio",
+            "exploreEvents": "Explorar eventos",
+            "tips": {
+                "title": "Sugerencias",
+                "checkUrl": "Verifica que la dirección web esté bien escrita.",
+                "backHome": "Regresa al inicio para continuar navegando.",
+                "events": "Explora los próximos eventos disponibles.",
+                "support": "Si necesitas ayuda, contacta al equipo de soporte."
+            }
+        }
     },
     "profile": {
         "title": "Actualizar Perfil",
@@ -652,7 +672,12 @@
     },
     "home": {
         "title": "Bienvenido a la página principal",
-        "button": "Haz clic aquí"
+        "button": "Haz clic aquí",
+        "upcoming": {
+            "title": "Próximos eventos",
+            "subtitle": "Descubre las actividades que están por comenzar y asegura tu lugar.",
+            "empty": "No hay eventos próximos disponibles en este momento."
+        }
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
@@ -661,7 +686,10 @@
         "badge": "✨ La mejor solución"
     },
     "navbar": {
-        "events": "Eventos"
+        "events": "Eventos",
+        "adminPanel": "Panel administrador",
+        "organizerPanel": "Panel organizador",
+        "organizerEvents": "Mis eventos"
     },
     "publicEvents": {
         "title": "Explora los eventos disponibles",

@@ -14,6 +14,10 @@ interface EventDetailParticipationCardProps {
     isOwner: boolean;
     onManage: () => void;
     onLogin: () => void;
+    onRegister?: () => void;
+    onCancel?: () => void;
+    isRegistering?: boolean;
+    isCancelling?: boolean;
 }
 
 export function EventDetailParticipationCard({
@@ -23,6 +27,10 @@ export function EventDetailParticipationCard({
     isOwner,
     onManage,
     onLogin,
+    onRegister,
+    onCancel,
+    isRegistering = false,
+    isCancelling = false,
 }: EventDetailParticipationCardProps) {
     const { t } = useTranslation();
 
@@ -50,14 +58,27 @@ export function EventDetailParticipationCard({
                         {isOwner ? t("events.detail.manageOwn") : t("events.detail.manageEvent")}
                     </Button>
                 ) : isAttendee ? (
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        disabled={!availability.canRegister}
-                        fullWidth
-                    >
-                        {t("common.actions.register")}
-                    </Button>
+                    availability.isAlreadyRegistered ? (
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            fullWidth
+                            onClick={onCancel}
+                            disabled={isCancelling}
+                        >
+                            {t("events.detail.cancelRegistration")}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            disabled={!availability.canRegister || isRegistering}
+                            fullWidth
+                            onClick={onRegister}
+                        >
+                            {t("common.actions.register")}
+                        </Button>
+                    )
                 ) : (
                     <Button variant="outlined" fullWidth onClick={onLogin}>
                         {t("events.detail.loginToRegister")}

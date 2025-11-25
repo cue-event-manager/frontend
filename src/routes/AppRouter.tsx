@@ -31,6 +31,7 @@ import OrganizerEventsPage from "@/pages/OrganizerEventsPage";
 import OrganizerReportsPage from "@/pages/OrganizerReportsPage";
 import EventsPage from "@/pages/EventsPage";
 import EventDetailPage from "@/pages/EventDetailPage";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 export default function AppRouter() {
   return (
@@ -40,6 +41,7 @@ export default function AppRouter() {
         <Route path={ROUTES.EVENTS} element={<EventsPage />} />
         <Route path={ROUTES.EVENT_DETAIL()} element={<EventDetailPage />} />
         <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditionsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
 
         <Route element={<AuthGuard />} >
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
