@@ -2,11 +2,15 @@ import {
     Box,
     Button,
     TextField,
-    MenuItem,
     FormControl,
     InputLabel,
     Select,
+    MenuItem,
     Alert,
+    Stack,
+    Grid,
+    Paper,
+    Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,6 +21,7 @@ import type { GenerateMyEventsReportRequestDto } from "@/domain/report/GenerateM
 import { ReportFormat } from "@/domain/report/enums/ReportFormat";
 import { EventStatus } from "@/domain/event/enums/EventStatus";
 import { Controller } from "react-hook-form";
+import DownloadIcon from "@mui/icons-material/Download";
 
 export default function MyEventsReportForm() {
     const { t } = useTranslation();
@@ -42,100 +47,135 @@ export default function MyEventsReportForm() {
     };
 
     return (
-        <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            sx={{ width: "100%" }}
-        >
-            <TextField
-                fullWidth
-                label={t("reports.myEvents.fields.startDate")}
-                type="date"
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                {...register("startDate")}
-                error={!!errors.startDate}
-                helperText={errors.startDate?.message ?? " "}
-            />
-
-            <TextField
-                fullWidth
-                label={t("reports.myEvents.fields.endDate")}
-                type="date"
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                {...register("endDate")}
-                error={!!errors.endDate}
-                helperText={errors.endDate?.message ?? " "}
-            />
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>{t("reports.myEvents.fields.status")}</InputLabel>
-                <Controller
-                    name="status"
-                    control={control}
-                    render={({ field }) => (
-                        <Select {...field} label={t("reports.myEvents.fields.status")}>
-                            <MenuItem value="">
-                                {t("reports.myEvents.allStatuses")}
-                            </MenuItem>
-                            <MenuItem value={EventStatus.PUBLISHED}>
-                                {t("event.status.PUBLISHED")}
-                            </MenuItem>
-                            <MenuItem value={EventStatus.IN_PROGRESS}>
-                                {t("event.status.IN_PROGRESS")}
-                            </MenuItem>
-                            <MenuItem value={EventStatus.FINISHED}>
-                                {t("event.status.FINISHED")}
-                            </MenuItem>
-                            <MenuItem value={EventStatus.CANCELLED}>
-                                {t("event.status.CANCELLED")}
-                            </MenuItem>
-                        </Select>
-                    )}
-                />
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>{t("reports.fields.format")}</InputLabel>
-                <Controller
-                    name="format"
-                    control={control}
-                    render={({ field }) => (
-                        <Select {...field} label={t("reports.fields.format")}>
-                            <MenuItem value={ReportFormat.EXCEL}>
-                                {t("reports.formats.EXCEL")}
-                            </MenuItem>
-                            <MenuItem value={ReportFormat.PDF}>
-                                {t("reports.formats.PDF")}
-                            </MenuItem>
-                        </Select>
-                    )}
-                />
-            </FormControl>
-
-            {generateReportMutation.isError && (
-                <Alert severity="error" sx={{ mt: 2 }}>
-                    {t("reports.myEvents.error")}
-                </Alert>
-            )}
-
-            {generateReportMutation.isSuccess && (
-                <Alert severity="success" sx={{ mt: 2 }}>
-                    {t("reports.myEvents.success")}
-                </Alert>
-            )}
-
-            <Button
-                type="submit"
-                variant="contained"
-                loading={generateReportMutation.isPending}
-                fullWidth
-                sx={{ mt: 3, py: 1.5, borderRadius: 2 }}
+        <Box>
+            <Box
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
             >
-                {t("reports.actions.generate")}
-            </Button>
+                <Grid container spacing={3}>
+                    {/* Date Range Section */}
+                    <Grid item xs={12}>
+                        <Paper variant="outlined" sx={{ p: 2, bgcolor: "background.default" }}>
+                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom color="primary">
+                                {t("reports.myEvents.sections.dateRange")}
+                            </Typography>
+                            <Grid container spacing={2} mt={0.5}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        fullWidth
+                                        label={t("reports.myEvents.fields.startDate")}
+                                        type="date"
+                                        InputLabelProps={{ shrink: true }}
+                                        {...register("startDate")}
+                                        error={!!errors.startDate}
+                                        helperText={errors.startDate?.message ?? " "}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        fullWidth
+                                        label={t("reports.myEvents.fields.endDate")}
+                                        type="date"
+                                        InputLabelProps={{ shrink: true }}
+                                        {...register("endDate")}
+                                        error={!!errors.endDate}
+                                        helperText={errors.endDate?.message ?? " "}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+
+                    {/* Filters Section */}
+                    <Grid item xs={12}>
+                        <Paper variant="outlined" sx={{ p: 2, bgcolor: "background.default" }}>
+                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom color="primary">
+                                {t("reports.myEvents.sections.filters")}
+                            </Typography>
+                            <Grid container spacing={2} mt={0.5}>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>{t("reports.myEvents.fields.status")}</InputLabel>
+                                        <Controller
+                                            name="status"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select {...field} label={t("reports.myEvents.fields.status")}>
+                                                    <MenuItem value="">
+                                                        {t("reports.myEvents.allStatuses")}
+                                                    </MenuItem>
+                                                    <MenuItem value={EventStatus.PUBLISHED}>
+                                                        {t("event.status.PUBLISHED")}
+                                                    </MenuItem>
+                                                    <MenuItem value={EventStatus.IN_PROGRESS}>
+                                                        {t("event.status.IN_PROGRESS")}
+                                                    </MenuItem>
+                                                    <MenuItem value={EventStatus.FINISHED}>
+                                                        {t("event.status.FINISHED")}
+                                                    </MenuItem>
+                                                    <MenuItem value={EventStatus.CANCELLED}>
+                                                        {t("event.status.CANCELLED")}
+                                                    </MenuItem>
+                                                </Select>
+                                            )}
+                                        />
+                                    </FormControl>
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>{t("reports.fields.format")}</InputLabel>
+                                        <Controller
+                                            name="format"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select {...field} label={t("reports.fields.format")}>
+                                                    <MenuItem value={ReportFormat.EXCEL}>
+                                                        {t("reports.formats.EXCEL")}
+                                                    </MenuItem>
+                                                    <MenuItem value={ReportFormat.PDF}>
+                                                        {t("reports.formats.PDF")}
+                                                    </MenuItem>
+                                                </Select>
+                                            )}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                </Grid>
+
+                {/* Alerts */}
+                <Stack spacing={2} mt={3}>
+                    {generateReportMutation.isError && (
+                        <Alert severity="error" onClose={() => generateReportMutation.reset()}>
+                            {t("reports.myEvents.error")}
+                        </Alert>
+                    )}
+
+                    {generateReportMutation.isSuccess && (
+                        <Alert severity="success" onClose={() => generateReportMutation.reset()}>
+                            {t("reports.myEvents.success")}
+                        </Alert>
+                    )}
+                </Stack>
+
+                {/* Submit Button */}
+                <Box display="flex" justifyContent="flex-end" mt={3}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        loading={generateReportMutation.isPending}
+                        startIcon={<DownloadIcon />}
+                        sx={{ px: 4, py: 1.5, borderRadius: 2 }}
+                    >
+                        {t("reports.actions.generate")}
+                    </Button>
+                </Box>
+            </Box>
         </Box>
     );
 }
