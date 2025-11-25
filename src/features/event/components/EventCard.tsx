@@ -27,11 +27,17 @@ import { useModalState } from "@/features/user/hooks/useModalState";
 import UpdateEventFormModal from "./UpdateEventForm/UpdateEventFormModal";
 import { getEventImageUrl } from "@/features/event/constants/media.constant";
 import { ROUTES } from "@/routes/routes";
+import { useRegisterToEvent } from "@/features/eventregistration/hooks/useRegisterToEvent";
+import { useCancelEventRegistration } from "@/features/eventregistration/hooks/useCancelEventRegistration";
 
 interface EventCardActionContext {
     event: Event;
     availability: EventAvailability;
     actions: EventCardActionHandlers;
+    loading: {
+        register: boolean;
+        cancel: boolean;
+    };
 }
 
 interface EventCardActionHandlers {
@@ -39,6 +45,7 @@ interface EventCardActionHandlers {
     edit: () => void;
     delete: () => void;
     register: () => void;
+    cancel: () => void;
 }
 
 type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
@@ -58,7 +65,7 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
     const { event, availability } = data;
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === "dark";
-    const { handlers, dialogs } = useEventActionManager(event);
+    const { handlers, dialogs, loading } = useEventActionManager(event);
     const isRecent = isEventRecent(event.createdAt);
 
     return (
@@ -114,7 +121,7 @@ export function EventCard({ data, renderActions = defaultActionRenderer }: Event
                         <EventCardMetaInfo event={event} availability={availability} />
                     </CardContent>
                 </CardActionArea>
-                <EventCardFooter actions={renderActions({ event, availability, actions: handlers })} />
+                <EventCardFooter actions={renderActions({ event, availability, actions: handlers, loading })} />
             </Card>
             {dialogs}
         </>
@@ -157,6 +164,8 @@ export function EventCardSkeleton() {
 function useEventActionManager(event: Event) {
     const updateModal = useModalState<Event>();
     const navigate = useNavigate();
+    const { mutateAsync: registerMutation, isPending: isRegistering } = useRegisterToEvent();
+    const { mutateAsync: cancelMutation, isPending: isCancelling } = useCancelEventRegistration();
 
     const handleEdit = useCallback(() => {
         updateModal.openModal(event);
@@ -170,7 +179,8 @@ function useEventActionManager(event: Event) {
         view: handleView,
         edit: handleEdit,
         delete: () => console.log("Delete", event.id),
-        register: () => console.log("Register", event.id),
+        register: () => registerMutation({ eventId: event.id }),
+        cancel: () => cancelMutation({ id: event.id }),
     };
 
     const dialogs = (
@@ -181,7 +191,7 @@ function useEventActionManager(event: Event) {
         />
     );
 
-    return { handlers, dialogs };
+    return { handlers, dialogs, loading: { register: isRegistering, cancel: isCancelling } };
 }
 
 function EventCardImage({ event, isRecent }: { event: Event; isRecent: boolean }) {
@@ -369,14 +379,15 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
     return (
         <CardActions
             sx={{
-                px: 2.2,
-                pb: 2,
-                pt: 0.5,
-                justifyContent: "flex-end",
-                gap: 1,
+                px: 2.4,
+                pb: 2.4,
+                pt: 1.2,
+                justifyContent: "flex-start",
+                gap: 1.2,
                 mt: "auto",
                 borderTop: "1px solid",
                 borderColor: "divider",
+                bgcolor: (theme) => alpha(theme.palette.primary.main, 0.02),
             }}
         >
             {actions}
@@ -385,52 +396,91 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
 
 }
 
-function RoleBasedEventActions({ availability, actions, event }: EventCardActionContext) {
+function RoleBasedEventActions({ availability, actions, event, loading }: EventCardActionContext) {
     const { user } = useAuth();
     const { t } = useTranslation();
     const role = user?.role.name as RoleConstant | undefined;
     const isOwner = user?.id === event.createdBy;
+    const isRegistered = Boolean(
+        (availability as EventAvailability & { alreadyRegistered?: boolean }).isAlreadyRegistered ??
+        (availability as { alreadyRegistered?: boolean }).alreadyRegistered
+    );
 
     if (role === RoleConstant.ORGANIZER && isOwner) {
         return (
-            <>
-                <Button size="small" color="primary" onClick={actions.edit}>
+            <Stack direction="row" spacing={1} width="100%">
+                <Button
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    onClick={actions.view}
+                    fullWidth
+                >
+                    {t("common.actions.view")}
+                </Button>
+                <Button size="small" color="primary" variant="contained" onClick={actions.edit} fullWidth>
                     {t("common.actions.edit")}
                 </Button>
-                <Button size="small" color="error" onClick={actions.delete}>
-                    {t("common.actions.delete")}
-                </Button>
-            </>
+            </Stack>
         );
     }
 
     if (role === RoleConstant.ATTENDEE) {
-        return availability.canRegister ? (
-            <Button
-                size="small"
-                variant="contained"
-                color="success"
-                onClick={actions.register}
-            >
-                {t("common.actions.register")}
-            </Button>
-        ) : (
-            <Button size="small" variant="outlined" onClick={actions.view}>
-                {t("common.actions.viewDetails")}
-            </Button>
+        return (
+            <Stack direction="row" spacing={1} width="100%">
+                <Button
+                    size="small"
+                    variant="outlined"
+                    color="inherit"
+                    onClick={actions.view}
+                    fullWidth
+                >
+                    {t("common.actions.viewDetails")}
+                </Button>
+
+                {isRegistered ? (
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="secondary"
+                        onClick={actions.cancel}
+                        disabled={loading.cancel}
+                        fullWidth
+                        sx={{ whiteSpace: "nowrap" }}
+                    >
+                        {t("events.card.cancelRegistration", "Cancelar inscripción")}
+                    </Button>
+                ) : (
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={actions.register}
+                        disabled={!availability.canRegister || loading.register}
+                        fullWidth
+                    >
+                        {t("common.actions.register")}
+                    </Button>
+                )}
+            </Stack>
         );
     }
 
     if (role === RoleConstant.ADMIN) {
         return (
-            <Button size="small" variant="outlined" onClick={actions.view}>
-                {t("common.actions.view")}
-            </Button>
+            <Stack direction="row" spacing={1} width="100%">
+                <Button size="small" variant="outlined" onClick={actions.view} fullWidth>
+                    {t("common.actions.view")}
+                </Button>
+                <Button size="small" variant="contained" onClick={actions.edit} fullWidth>
+                    {t("common.actions.edit")}
+                </Button>
+            </Stack>
         );
     }
 
     return (
-        <Button size="small" variant="outlined" onClick={actions.view}>
+        <Button size="small" variant="outlined" onClick={actions.view} fullWidth>
             {t("common.actions.view")}
         </Button>
     );
