@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { alpha } from "@mui/material/styles";
+import { HomeSectionHeader } from "./HomeSectionHeader";
 
 export default function AboutSection() {
     const { t } = useTranslation();
@@ -60,56 +61,13 @@ export default function AboutSection() {
                                 },
                             }}
                         >
-                            <Box
-                                sx={{
-                                    width: "60px",
-                                    height: "4px",
-                                    background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                    borderRadius: "2px",
-                                    mb: 3,
-                                    boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.3)}`,
-                                }}
+                            <HomeSectionHeader
+                                title={t("about.title")}
+                                subtitle={t("about.description")}
+                                align="left"
+                                maxWidth="100%"
+                                sx={{ mb: 4 }}
                             />
-
-                            <Typography
-                                variant="h3"
-                                sx={{
-                                    fontWeight: 800,
-                                    mb: 3,
-                                    background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-                                    WebkitBackgroundClip: "text",
-                                    WebkitTextFillColor: "transparent",
-                                    backgroundClip: "text",
-                                    lineHeight: 1.2,
-                                }}
-                            >
-                                {t("about.title")}
-                            </Typography>
-
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    mb: 3,
-                                    color: theme.palette.text.primary,
-                                    fontWeight: 500,
-                                    lineHeight: 1.7,
-                                    position: "relative",
-                                    pl: 3,
-                                    "&::before": {
-                                        content: '""',
-                                        position: "absolute",
-                                        left: 0,
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        width: "3px",
-                                        height: "80%",
-                                        background: `linear-gradient(180deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                        borderRadius: "2px",
-                                    },
-                                }}
-                            >
-                                {t("about.description")}
-                            </Typography>
 
                             <Box
                                 sx={{

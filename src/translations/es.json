@@ -561,7 +561,8 @@
             "conflict": "Conflicto con {{event}}",
             "otherEvent": "otro evento",
             "recent": "Nuevo",
-            "cancelRegistration": "Cancelar inscripción"
+            "cancelRegistration": "Cancelar inscripción",
+            "registrationUnavailable": "No puedes inscribirte en este momento."
         },
         "filters": {
             "name": "Buscar por nombre del evento",
@@ -656,7 +657,12 @@
     },
     "home": {
         "title": "Bienvenido a la página principal",
-        "button": "Haz clic aquí"
+        "button": "Haz clic aquí",
+        "upcoming": {
+            "title": "Próximos eventos",
+            "subtitle": "Descubre las actividades que están por comenzar y asegura tu lugar.",
+            "empty": "No hay eventos próximos disponibles en este momento."
+        }
     },
     "hero": {
         "title": "Impulsa tus eventos con nuestra plataforma",
