@@ -870,6 +870,10 @@
     "reports": {
         "title": "Reportes",
         "description": "Genera y descarga reportes detallados de tus eventos e inscripciones",
+        "tabs": {
+            "myEvents": "Mis Eventos",
+            "eventRegistrations": "Inscripciones por Evento"
+        },
         "fields": {
             "format": "Formato del reporte"
         },
@@ -883,6 +887,10 @@
         "myEvents": {
             "title": "Reporte de Mis Eventos",
             "description": "Genera un reporte con estadísticas de tus eventos",
+            "sections": {
+                "dateRange": "Rango de Fechas",
+                "filters": "Filtros y Formato"
+            },
             "fields": {
                 "startDate": "Fecha de inicio",
                 "endDate": "Fecha de fin",
@@ -893,15 +901,20 @@
             "error": "Error al generar el reporte. Por favor, intenta de nuevo."
         },
         "eventRegistrations": {
-            "title": "Reporte de Inscripciones",
-            "description": "Genera un reporte con las inscripciones de un evento específico",
-            "fields": {
-                "event": "Seleccionar evento"
-            },
-            "selectEvent": "Seleccione un evento",
+            "title": "Reporte de Inscripciones por Evento",
+            "description": "Selecciona un evento para generar el reporte de sus inscripciones",
+            "modalTitle": "Generar Reporte de Inscripciones",
+            "modalDescription": "Selecciona el formato y genera el reporte de inscripciones para:",
+            "searchPlaceholder": "Buscar evento...",
             "noEvents": "No tienes eventos creados. Crea un evento primero para generar reportes de inscripciones.",
-            "success": "Reporte de inscripciones generado exitosamente. La descarga comenzará en breve.",
-            "error": "Error al generar el reporte de inscripciones. Por favor, intenta de nuevo."
+            "noEventsFound": "No se encontraron eventos con ese nombre.",
+            "success": "Reporte generado exitosamente. La descarga comenzará en breve.",
+            "error": "Error al generar el reporte. Por favor, intenta de nuevo."
+        },
+        "eventCard": {
+            "registrations": "inscripciones",
+            "noDescription": "Sin descripción",
+            "generateReport": "Generar Reporte"
         }
     }
 }
