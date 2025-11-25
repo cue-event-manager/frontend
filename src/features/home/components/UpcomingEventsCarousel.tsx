@@ -13,6 +13,7 @@ import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { EventCard, EventCardSkeleton } from "@/features/event/components/EventCard";
 import { useEvents } from "@/features/event/hooks/useEvents";
 import type { EventWithAvailabilityResponseDto } from "@/domain/event/EventWithAvailabilityResponseDto";
+import { HomeSectionHeader } from "./HomeSectionHeader";
 
 const SCROLL_STEP_FACTOR = 0.8;
 
@@ -68,17 +69,16 @@ export function UpcomingEventsCarousel() {
         >
             <Container maxWidth="xl">
                 <Stack spacing={{ xs: 3, md: 4 }}>
-                    <Box textAlign="center">
-                        <Typography variant="h4" fontWeight={800} gutterBottom>
-                            {t("home.upcoming.title", "Próximos eventos")}
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
-                            {t(
-                                "home.upcoming.subtitle",
-                                "Descubre las actividades que están por comenzar y asegura tu lugar."
-                            )}
-                        </Typography>
-                    </Box>
+                    <HomeSectionHeader
+                        title={t("home.upcoming.title", "Próximos eventos")}
+                        subtitle={t(
+                            "home.upcoming.subtitle",
+                            "Descubre las actividades que están por comenzar y asegura tu lugar."
+                        )}
+                        align="center"
+                        maxWidth={720}
+                        sx={{ mb: 2 }}
+                    />
 
                     {hasError ? (
                         <Box textAlign="center">
@@ -164,9 +164,16 @@ export function UpcomingEventsCarousel() {
                                             top: "45%",
                                             left: { xs: 8, md: -20 },
                                             transform: "translateY(-50%)",
-                                            bgcolor: "background.paper",
-                                            boxShadow: 2,
-                                            "&:hover": { bgcolor: "background.paper" },
+                                            bgcolor: alpha(theme.palette.background.paper, 0.9),
+                                            border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
+                                            boxShadow: `0 10px 30px ${alpha(theme.palette.common.black, 0.16)}`,
+                                            color: "primary.main",
+                                            width: 48,
+                                            height: 48,
+                                            "&:hover": {
+                                                bgcolor: alpha(theme.palette.primary.main, 0.12),
+                                                transform: "translateY(-50%) translateX(-1px)",
+                                            },
                                         }}
                                     >
                                         <ArrowBackIosNew fontSize="small" />
@@ -179,9 +186,16 @@ export function UpcomingEventsCarousel() {
                                             top: "45%",
                                             right: { xs: 8, md: -20 },
                                             transform: "translateY(-50%)",
-                                            bgcolor: "background.paper",
-                                            boxShadow: 2,
-                                            "&:hover": { bgcolor: "background.paper" },
+                                            bgcolor: alpha(theme.palette.background.paper, 0.9),
+                                            border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
+                                            boxShadow: `0 10px 30px ${alpha(theme.palette.common.black, 0.16)}`,
+                                            color: "primary.main",
+                                            width: 48,
+                                            height: 48,
+                                            "&:hover": {
+                                                bgcolor: alpha(theme.palette.primary.main, 0.12),
+                                                transform: "translateY(-50%) translateX(1px)",
+                                            },
                                         }}
                                     >
                                         <ArrowForwardIos fontSize="small" />

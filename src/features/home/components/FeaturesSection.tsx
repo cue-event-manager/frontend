@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import EventIcon from "@mui/icons-material/Event";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { HomeSectionHeader } from "./HomeSectionHeader";
 
 const features = [
     {
@@ -78,36 +79,14 @@ export default function FeaturesSection() {
             }}
         >
             <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-                <Box sx={{ textAlign: "center", mb: 8 }}>
-                    <Typography
-                        variant="h3"
-                        sx={{
-                            fontWeight: 800,
-                            mb: 2,
-                            fontSize: { xs: "2rem", md: "2.75rem" },
-                            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-                            backgroundClip: "text",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            letterSpacing: -1,
-                        }}
-                    >
-                        {t("features.title")}
-                    </Typography>
-
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            color: "text.secondary",
-                            maxWidth: 600,
-                            mx: "auto",
-                            fontSize: "1.125rem",
-                        }}
-                    >
-                        {t("features.description") ||
-                            "Herramientas poderosas diseñadas para optimizar tu gestión"}
-                    </Typography>
-                </Box>
+                <HomeSectionHeader
+                    title={t("features.title")}
+                    subtitle={
+                        t("features.description") ||
+                        "Herramientas poderosas diseñadas para optimizar tu gestión"
+                    }
+                    align="center"
+                />
 
                 <Grid container spacing={3}>
                     {features.map((feature, index) => (

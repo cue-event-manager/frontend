@@ -2,6 +2,7 @@ import { Box, Container, Grid, Typography, Paper, useTheme, alpha } from "@mui/m
 import { useTranslation } from "react-i18next";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import { HomeSectionHeader } from "./HomeSectionHeader";
 
 const stats = [
     { value: 100, suffix: "+", labelKey: "stats.eventsLabel" },
@@ -51,60 +52,18 @@ export default function StatsSection() {
             />
 
             <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-                <Box
+                <HomeSectionHeader
+                    title={t("stats.title")}
+                    subtitle={t("stats.subtitle")}
+                    align="center"
                     sx={{
-                        textAlign: "center",
-                        mb: 8,
                         animation: "fadeInUp 0.6s ease-out",
                         "@keyframes fadeInUp": {
-                            from: {
-                                opacity: 0,
-                                transform: "translateY(20px)",
-                            },
-                            to: {
-                                opacity: 1,
-                                transform: "translateY(0)",
-                            },
+                            from: { opacity: 0, transform: "translateY(20px)" },
+                            to: { opacity: 1, transform: "translateY(0)" },
                         },
                     }}
-                >
-                    <Box
-                        sx={{
-                            width: "60px",
-                            height: "4px",
-                            background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                            borderRadius: "2px",
-                            mb: 3,
-                            mx: "auto",
-                            boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.3)}`,
-                        }}
-                    />
-                    <Typography
-                        variant="h3"
-                        sx={{
-                            fontWeight: 800,
-                            mb: 2,
-                            fontSize: { xs: "2rem", md: "2.5rem" },
-                            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                        }}
-                    >
-                        {t("stats.title")}
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            color: "text.secondary",
-                            maxWidth: 600,
-                            mx: "auto",
-                            fontSize: "1.1rem",
-                        }}
-                    >
-                        {t("stats.subtitle")}
-                    </Typography>
-                </Box>
+                />
 
                 <Grid container spacing={4} justifyContent="center">
                     {stats.map((s, i) => (
