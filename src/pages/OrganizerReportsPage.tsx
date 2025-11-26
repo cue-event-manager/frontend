@@ -2,10 +2,10 @@ import { Box, Tab, Tabs, Paper } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import MyEventsReportForm from "@/features/report/components/MyEventsReportForm";
-import EventRegistrationsReportSection from "@/features/report/components/EventRegistrationsReportSection";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import PeopleIcon from "@mui/icons-material/People";
 import { OrganizerSection } from "@/features/organizer/components/OrganizerSection";
+import EventRegistrationsReportSection from "../features/report/components/EventRegistrationsReportSection";
 
 interface TabPanelProps {
     children?: React.ReactNode;

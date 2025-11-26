@@ -123,7 +123,7 @@ export default function EventRegistrationsReportSection() {
                 <>
                     <Grid container spacing={3}>
                         {events.map((item) => (
-                            <Grid item xs={12} sm={6} md={4} key={item.event.id}>
+                            <Grid fontSize={{ xs: 12, sm: 6, md: 4 }} key={item.event.id}>
                                 <EventReportCard
                                     event={item}
                                     onGenerateReport={handleGenerateReport}
@@ -133,7 +133,6 @@ export default function EventRegistrationsReportSection() {
                         ))}
                     </Grid>
 
-                    {/* Pagination */}
                     {totalPages > 1 && (
                         <Box display="flex" justifyContent="center" mt={4}>
                             <Pagination
