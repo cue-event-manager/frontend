@@ -54,14 +54,13 @@ export default function MyEventsReportForm() {
                 noValidate
             >
                 <Grid container spacing={3}>
-                    {/* Date Range Section */}
-                    <Grid item xs={12}>
+                    <Grid size={{ xs: 12, }}>
                         <Paper variant="outlined" sx={{ p: 2, bgcolor: "background.default" }}>
                             <Typography variant="subtitle2" fontWeight="bold" gutterBottom color="primary">
                                 {t("reports.myEvents.sections.dateRange")}
                             </Typography>
                             <Grid container spacing={2} mt={0.5}>
-                                <Grid item xs={12} sm={6}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                     <TextField
                                         fullWidth
                                         label={t("reports.myEvents.fields.startDate")}
@@ -72,7 +71,7 @@ export default function MyEventsReportForm() {
                                         helperText={errors.startDate?.message ?? " "}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                     <TextField
                                         fullWidth
                                         label={t("reports.myEvents.fields.endDate")}
@@ -87,14 +86,13 @@ export default function MyEventsReportForm() {
                         </Paper>
                     </Grid>
 
-                    {/* Filters Section */}
-                    <Grid item xs={12}>
+                    <Grid size={{ xs: 12 }}>
                         <Paper variant="outlined" sx={{ p: 2, bgcolor: "background.default" }}>
                             <Typography variant="subtitle2" fontWeight="bold" gutterBottom color="primary">
                                 {t("reports.myEvents.sections.filters")}
                             </Typography>
                             <Grid container spacing={2} mt={0.5}>
-                                <Grid item xs={12} sm={6}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>{t("reports.myEvents.fields.status")}</InputLabel>
                                         <Controller
@@ -106,16 +104,16 @@ export default function MyEventsReportForm() {
                                                         {t("reports.myEvents.allStatuses")}
                                                     </MenuItem>
                                                     <MenuItem value={EventStatus.PUBLISHED}>
-                                                        {t("event.status.PUBLISHED")}
+                                                        {t("events.status.PUBLISHED")}
                                                     </MenuItem>
                                                     <MenuItem value={EventStatus.IN_PROGRESS}>
-                                                        {t("event.status.IN_PROGRESS")}
+                                                        {t("events.status.IN_PROGRESS")}
                                                     </MenuItem>
                                                     <MenuItem value={EventStatus.FINISHED}>
-                                                        {t("event.status.FINISHED")}
+                                                        {t("events.status.FINISHED")}
                                                     </MenuItem>
                                                     <MenuItem value={EventStatus.CANCELLED}>
-                                                        {t("event.status.CANCELLED")}
+                                                        {t("events.status.CANCELLED")}
                                                     </MenuItem>
                                                 </Select>
                                             )}
@@ -123,7 +121,7 @@ export default function MyEventsReportForm() {
                                     </FormControl>
                                 </Grid>
 
-                                <Grid item xs={12} sm={6}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                     <FormControl fullWidth>
                                         <InputLabel>{t("reports.fields.format")}</InputLabel>
                                         <Controller
