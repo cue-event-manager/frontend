@@ -17,6 +17,7 @@ export const ORGANIZER_MENU_ITEMS: AdminMenuItem[] = [
     children: [
       {
         text: "Mis Eventos",
+        icon: <EventIcon fontSize="small" />,
         path: ROUTES.ORGANIZER.EVENTS,
       },
     ],
