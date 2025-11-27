@@ -63,14 +63,16 @@ const defaultActionRenderer: EventCardActionRenderer = (context) => (
 
 const CARD_SIZE_STYLES = {
     default: {
-        width: 340,
-        minHeight: 440,
-        imageHeight: 150,
-    },
-    small: {
         width: 300,
         minHeight: 400,
         imageHeight: 130,
+        contentMinHeight: 210,
+    },
+    small: {
+        width: 270,
+        minHeight: 320,
+        imageHeight: 115,
+        contentMinHeight: 190,
     },
 } as const;
 
@@ -89,7 +91,6 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    borderRadius: 4,
                     overflow: "hidden",
                     border: "1px solid",
                     borderColor: isDarkMode
@@ -100,7 +101,7 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                         boxShadow: isDarkMode
                             ? "0 18px 35px rgba(0,0,0,0.65)"
                             : "0 4px 22px rgba(0,0,0,0.08)",
-                        transform: "translateY(-3px)",
+                        transform: "translateY(-2px)",
                     },
                     bgcolor: theme.palette.background.paper,
                     width: "100%",
@@ -133,10 +134,10 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                             gap: { xs: 0.8, sm: 1 },
                             flexGrow: 1,
                             width: "100%",
+                            minHeight: { xs: sizeStyles.contentMinHeight - 10, sm: sizeStyles.contentMinHeight },
                         }}
                     >
                         <EventCardHeader event={event} />
-                        <EventCardDescription description={event.description} />
                         <EventCardMetaInfo event={event} availability={availability} />
                     </CardContent>
                 </CardActionArea>
@@ -324,39 +325,26 @@ function EventCardHeader({ event }: { event: Event }) {
 
     return (
         <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={1}>
-            <Typography
-                variant="h6"
-                fontWeight={700}
-                sx={{
-                    fontSize: { xs: "1rem", sm: "1.08rem" },
-                    lineHeight: 1.25,
-                    wordBreak: "break-word",
-                }}
-            >
-                {event.name}
-            </Typography>
+            <Tooltip title={event.name} disableInteractive>
+                <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    sx={{
+                        fontSize: { xs: "0.98rem", sm: "1.05rem" },
+                        lineHeight: 1.2,
+                        wordBreak: "break-word",
+                        display: "-webkit-box",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 2,
+                        overflow: "hidden",
+                        minHeight: "2.4em",
+                        width: "100%",
+                    }}
+                >
+                    {event.name}
+                </Typography>
+            </Tooltip>
         </Box>
-    );
-}
-
-function EventCardDescription({ description }: { description?: string }) {
-    const trimmed = description?.trim() ?? "";
-    if (!trimmed) return null;
-
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-                fontSize: { xs: "0.86rem", sm: "0.9rem" },
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 3,
-                overflow: "hidden",
-            }}
-        >
-            {trimmed}
-        </Typography>
     );
 }
 
@@ -381,7 +369,7 @@ function EventCardMetaInfo({
 
     return (
         <Box display="flex" flexDirection="column" gap={1}>
-            <Typography sx={{ color: "primary.main", fontSize: "0.95rem" }}>
+            <Typography sx={{ color: "primary.main", fontSize: { xs: "0.8rem", sm: "0.8rem" }, fontWeight: 500 }}>
                 {formattedDate}
             </Typography>
 
@@ -411,14 +399,14 @@ function EventCardFooter({ actions }: { actions?: ReactNode }) {
         <CardActions
             sx={{
                 px: { xs: 2, sm: 2.4 },
-                pb: { xs: 2, sm: 2.4 },
-                pt: { xs: 1, sm: 1.2 },
+                py: { xs: 1.5, sm: 2 },
                 justifyContent: "flex-start",
                 gap: 1.2,
                 mt: "auto",
-                borderTop: "1px solid",
-                borderColor: "divider",
-                bgcolor: (theme) => alpha(theme.palette.primary.main, 0.02),
+                position: "relative",
+                bgcolor: (theme) => alpha(theme.palette.background.paper, 0.9),
+                borderTop: (theme) => `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+                backdropFilter: "blur(4px)"
             }}
         >
             {actions}

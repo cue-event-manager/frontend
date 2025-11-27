@@ -74,10 +74,11 @@ export function HeroEventsFilterCTA() {
                     {t("hero.cta", "Encuentra eventos")}
                 </Typography>
                 <Stack
-                    direction={{ xs: "row", md: "row" }}
-                    spacing={1}
+                    direction={{ xs: "column", md: "row" }}
+                    spacing={1.2}
                     useFlexGap
-                    alignItems="stretch"
+                    alignItems={{ xs: "stretch", md: "center" }}
+                    flexWrap={{ xs: "wrap", md: "nowrap" }}
                 >
                     <TextField
                         type="date"
@@ -121,7 +122,13 @@ export function HeroEventsFilterCTA() {
                         variant="contained"
                         size="large"
                         endIcon={<ArrowForwardIcon />}
+                        sx={{
+                            whiteSpace: "nowrap",
+                            minWidth: { xs: "100%", md: 140 },
+                            mt: { xs: 0.5, md: 0 },
+                        }}
                     >
+                        {t("common.search", "Buscar")}
                     </Button>
                 </Stack>
             </Stack>

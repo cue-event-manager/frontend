@@ -99,7 +99,13 @@ export function BaseEntityList<T>({
 
                 {filters && <Box sx={{ mb: 3 }}>{filters}</Box>}
 
-                <Stack spacing={6} direction="row" flexWrap="wrap" useFlexGap>
+                <Stack
+                    spacing={6}
+                    direction="row"
+                    flexWrap="wrap"
+                    useFlexGap
+                    justifyContent={{ xs: "center", md: "flex-start" }}
+                >
                     {Array.from({ length: skeletonCount }).map((_, idx) => (
                         <Box key={idx}>{typeof skeleton === "function" ? skeleton(idx) : skeleton}</Box>
                     ))}
@@ -173,20 +179,10 @@ export function BaseEntityList<T>({
                 flexWrap="wrap"
                 useFlexGap
                 alignItems="stretch"
-                justifyContent="flex-start"
+                justifyContent={{ xs: "center", md: "flex-start" }}
             >
                 {items.map((item, idx) => (
-                    <Box
-                        key={idx}
-                        sx={{
-                            flex: "1 1 320px",
-                            maxWidth: 360,
-                            display: "flex",
-                            justifyContent: "center",
-                        }}
-                    >
-                        {renderItem(item)}
-                    </Box>
+                    renderItem(item)
                 ))}
             </Stack>
 

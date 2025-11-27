@@ -46,12 +46,10 @@ export default function OrganizerEventsPage() {
                         loading={isLoading || isFetching}
                         onReload={refetch}
                         onQueryChange={updateQuery}
-                        skeleton={(idx) => <EventCardSkeleton key={idx} />}
+                        skeleton={(idx) => <EventCardSkeleton size="small" key={idx} />}
                         skeletonCount={6}
                         renderItem={(item) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                                <EventCard data={item} />
-                            </Grid>
+                            <EventCard data={item} size="small" />
                         )}
                     />
                 </OrganizerSection.Body>

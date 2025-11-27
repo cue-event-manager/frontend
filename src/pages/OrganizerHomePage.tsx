@@ -1,5 +1,6 @@
 import OrganizerQuickActions from "@/features/organizer/components/OrganizerQuickActions";
 import OrganizerWelcomeSection from "@/features/organizer/components/OrganizerWelcomeSection";
+import OrganizerWeeklyCalendar from "@/features/organizer/components/OrganizerWeeklyCalendar";
 import { Box } from "@mui/material";
 
 export default function OrganizerHomePage() {
@@ -15,6 +16,9 @@ export default function OrganizerHomePage() {
       <OrganizerWelcomeSection />
 
       <OrganizerQuickActions />
+
+      <OrganizerWeeklyCalendar />
+
 
     </Box>
   );
