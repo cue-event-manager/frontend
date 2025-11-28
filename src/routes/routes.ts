@@ -27,6 +27,7 @@ export const ROUTES = {
     },
     ORGANIZER: {
         BASE: '/organizer',
+        DASHBOARD: '/organizer/dashboard',
         EVENTS: '/organizer/events',
         REPORTS: '/organizer/reports'
     }

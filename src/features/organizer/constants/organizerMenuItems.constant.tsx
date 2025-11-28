@@ -3,6 +3,7 @@ import { ROUTES } from "@/routes/routes";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from '@mui/icons-material/Event';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 
 export const ORGANIZER_MENU_ITEMS: AdminMenuItem[] = [
@@ -10,6 +11,11 @@ export const ORGANIZER_MENU_ITEMS: AdminMenuItem[] = [
     text: "Inicio",
     icon: <DashboardIcon />,
     path: ROUTES.ORGANIZER.BASE,
+  },
+  {
+    text: "Panel",
+    icon: <BarChartIcon />,
+    path: ROUTES.ORGANIZER.DASHBOARD,
   },
   {
     text: "Eventos",
