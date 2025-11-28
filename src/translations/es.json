@@ -695,7 +695,47 @@
         "events": "Eventos",
         "adminPanel": "Panel administrador",
         "organizerPanel": "Panel organizador",
-        "organizerEvents": "Mis eventos"
+        "organizerEvents": "Mis eventos",
+        "myRegistrations": "Mis Inscripciones"
+    },
+    "myRegistrations": {
+        "title": "Mis Inscripciones",
+        "description": "Gestiona tus inscripciones a eventos",
+        "empty": {
+            "title": "No tienes inscripciones",
+            "message": "Aún no te has inscrito a ningún evento. Explora los eventos disponibles y regístrate."
+        },
+        "status": {
+            "REGISTERED": "Inscrito",
+            "CANCELLED": "Cancelado",
+            "CHECKED_IN": "Asistió",
+            "NO_SHOW": "No asistió"
+        },
+        "registeredOn": "Inscrito el",
+        "cancelledOn": "Cancelado el",
+        "attendedOn": "Asistió el",
+        "viewEvent": "Ver evento",
+        "cancelRegistration": "Cancelar inscripción",
+        "calendar": {
+            "title": "Calendario de Inscripciones",
+            "navigation": {
+                "next": "Siguiente",
+                "previous": "Anterior",
+                "today": "Hoy"
+            },
+            "views": {
+                "month": "Mes",
+                "week": "Semana",
+                "day": "Día",
+                "agenda": "Agenda"
+            },
+            "labels": {
+                "date": "Fecha",
+                "time": "Hora",
+                "event": "Evento",
+                "noEventsInRange": "No hay inscripciones en este período"
+            }
+        }
     },
     "publicEvents": {
         "title": "Explora los eventos disponibles",

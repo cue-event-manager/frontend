@@ -187,6 +187,26 @@ export default function Navbar() {
                     {isAuthenticated && user ? (
                         <>
                             <ListItem disablePadding>
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to={ROUTES.MY_REGISTRATIONS}
+                                    onClick={onClose}
+                                    sx={{
+                                        borderRadius: 2,
+                                        px: 2,
+                                        py: 1.5,
+                                        mb: 1,
+                                        "&:hover": { backgroundColor: "action.hover" },
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        <EventAvailableIcon color="primary" />
+                                    </ListItemIcon>
+                                    <ListItemText primary={t("navbar.myRegistrations")} />
+                                </ListItemButton>
+                            </ListItem>
+
+                            <ListItem disablePadding>
                                 <ListItemButton sx={{ borderRadius: 2, px: 2, py: 1.5 }}>
                                     <ListItemIcon>
                                         <AccountCircleIcon color="primary" />

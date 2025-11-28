@@ -135,6 +135,19 @@ export default function UserNavMenu() {
                     {t("common.profile")}
                 </MenuItem>
 
+                <MenuItem
+                    onClick={handleMenuClose}
+                    component={RouterLink}
+                    to={ROUTES.MY_REGISTRATIONS}
+                    disabled={isLoggingOut}
+                    sx={{ py: 1.1 }}
+                >
+                    <ListItemIcon>
+                        <EventAvailableIcon fontSize="small" />
+                    </ListItemIcon>
+                    {t("navbar.myRegistrations")}
+                </MenuItem>
+
                 {quickLinks.length > 0 && (
                     <>
                         <Divider sx={{ my: 0.5 }} />
