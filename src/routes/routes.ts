@@ -9,6 +9,7 @@ export const ROUTES = {
         RESET_PASSWORD: "/auth/reset-password"
     },
     PROFILE: '/profile',
+    MY_REGISTRATIONS: '/my-registrations',
     TERMS_AND_CONDITIONS: "/terms-and-conditions",
     ADMIN: {
         BASE: '/admin',

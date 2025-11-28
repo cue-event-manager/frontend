@@ -33,6 +33,7 @@ import EventsPage from "@/pages/EventsPage";
 import EventDetailPage from "@/pages/EventDetailPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import OrganizerDashboardPage from "@/pages/OrganizerDashboardPage";
+import MyRegistrationsPage from "@/pages/MyRegistrationsPage";
 
 export default function AppRouter() {
   return (
@@ -46,6 +47,7 @@ export default function AppRouter() {
 
         <Route element={<AuthGuard />} >
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route path={ROUTES.MY_REGISTRATIONS} element={<MyRegistrationsPage />} />
         </Route>
 
       </Route>
