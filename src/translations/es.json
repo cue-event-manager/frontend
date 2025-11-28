@@ -893,6 +893,39 @@
                 "title": "Eliminar evento",
                 "message": "¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
             }
+        },
+        "dashboard": {
+            "title": "Panel del Organizador",
+            "subtitle": "Monitorea tus eventos, inscripciones y métricas clave",
+            "dateRange": {
+                "fromDate": "Fecha de inicio",
+                "toDate": "Fecha de fin",
+                "presets": {
+                    "last7Days": "Últimos 7 días",
+                    "last30Days": "Últimos 30 días",
+                    "last90Days": "Últimos 90 días",
+                    "thisMonth": "Este mes"
+                }
+            },
+            "summaryCards": {
+                "totalEvents": "Total de Eventos",
+                "upcomingEvents": "Eventos Próximos",
+                "totalRegistrations": "Total de Inscripciones",
+                "checkedIn": "Asistieron",
+                "cancelled": "Cancelados",
+                "noShow": "No Asistieron",
+                "avgCapacityUsage": "Uso Promedio de Capacidad"
+            },
+            "charts": {
+                "registrationsOverTime": "Inscripciones a lo Largo del Tiempo",
+                "eventsByStatus": "Eventos por Estado",
+                "eventsByModality": "Eventos por Modalidad",
+                "eventsByCategory": "Eventos por Categoría",
+                "events": "eventos",
+                "registrations": "inscripciones"
+            },
+            "loading": "Cargando datos del panel...",
+            "error": "Error al cargar los datos del panel: {{message}}"
         }
     },
     "reports": {
