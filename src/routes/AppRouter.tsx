@@ -32,6 +32,7 @@ import OrganizerReportsPage from "@/pages/OrganizerReportsPage";
 import EventsPage from "@/pages/EventsPage";
 import EventDetailPage from "@/pages/EventDetailPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import OrganizerDashboardPage from "@/pages/OrganizerDashboardPage";
 
 export default function AppRouter() {
   return (
@@ -74,10 +75,11 @@ export default function AppRouter() {
         </Route>
       </Route>
 
-      
+
       <Route element={<RoleGuard allowedRoles={[RoleConstant.ORGANIZER]} />}>
         <Route element={<OrganizerLayout />}>
           <Route path={ROUTES.ORGANIZER.BASE} element={<OrganizerHomePage />} />
+          <Route path={ROUTES.ORGANIZER.DASHBOARD} element={<OrganizerDashboardPage />} />
           <Route path={ROUTES.ORGANIZER.EVENTS} element={<OrganizerEventsPage />} />
           <Route path={ROUTES.ORGANIZER.REPORTS} element={<OrganizerReportsPage />} />
         </Route>
