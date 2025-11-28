@@ -23,9 +23,13 @@ export const cancelRegistrationToEvent = async (request: CancelEventRegistration
     return data;
 };
 
-export const getMyEventRegistrations = async (): Promise<EventRegistration[]> => {
+export const getMyEventRegistrations = async (params?: {
+    fromDate?: string;
+    toDate?: string;
+}): Promise<EventRegistration[]> => {
     const { data } = await axiosInstance.get<EventRegistration[]>(
-        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/my-registrations`
+        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/my-registrations`,
+        { params }
     );
     return data;
 };
