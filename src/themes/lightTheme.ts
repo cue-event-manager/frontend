@@ -98,6 +98,22 @@ const lightTheme = createTheme({
                 variant: "outlined",
             },
         },
+
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    backgroundColor: "#1a1a1a",
+                    color: "#ffffff",
+                    fontSize: "0.875rem",
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                },
+                arrow: {
+                    color: "#1a1a1a",
+                },
+            },
+        },
     },
 });
 

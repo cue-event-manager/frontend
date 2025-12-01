@@ -120,35 +120,64 @@ export default function OrganizerWeeklyCalendar() {
     return (
         <Paper
             sx={{
-                p: 3,
-                height: 600,
+                p: { xs: 2, sm: 2.5, md: 3 },
+                maxWidth: '100%',
+                width: '100%',
+                mx: 'auto',
+                height: { xs: 'auto', sm: 600 },
+                minHeight: { xs: 500, sm: 600 },
                 backgroundColor: theme.palette.mode === 'dark'
                     ? alpha(theme.palette.background.paper, 0.9)
                     : theme.palette.background.paper,
                 border: '1px solid',
                 borderColor: alpha(theme.palette.divider, 0.1),
                 borderRadius: 3,
+                overflow: 'hidden',
+                minWidth: 0,
             }}
         >
-            <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
+            <Typography
+                variant="h5"
+                gutterBottom
+                sx={{
+                    mb: { xs: 2, md: 3 },
+                    fontWeight: 600,
+                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                }}
+            >
                 {t('organizer.calendar.title')}
             </Typography>
 
             {isLoading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', minHeight: 300 }}>
                     <CircularProgress />
                 </Box>
             ) : (
                 <Box
                     sx={{
-                        height: 500,
+                        width: '100%',
+                        maxWidth: '100%',
+                        minWidth: 0,
+                        height: { xs: 450, sm: 500 },
+                        overflowX: 'auto',
+                        overflowY: 'hidden',
+                        overscrollBehaviorX: 'contain',
                         '& .rbc-calendar': {
                             fontFamily: theme.typography.fontFamily,
+                            maxWidth: '100%',
+                            width: '100%',
+                            minWidth: 0,
+                        },
+                        '& .rbc-time-view': {
+                            minWidth: 0,
+                        },
+                        '& .rbc-time-header': {
+                            minWidth: 0,
                         },
                         '& .rbc-header': {
-                            padding: '12px 6px',
+                            padding: { xs: '8px 4px', sm: '12px 6px' },
                             fontWeight: 600,
-                            fontSize: '0.875rem',
+                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
                             color: theme.palette.text.primary,
                             backgroundColor: theme.palette.mode === 'dark'
                                 ? alpha(theme.palette.primary.main, 0.1)
@@ -170,8 +199,8 @@ export default function OrganizerWeeklyCalendar() {
                             color: theme.palette.primary.contrastText,
                             borderRadius: '4px',
                             border: 'none',
-                            padding: '2px 6px',
-                            fontSize: '0.813rem',
+                            padding: { xs: '1px 4px', sm: '2px 6px' },
+                            fontSize: { xs: '0.7rem', sm: '0.813rem' },
                             fontWeight: 500,
                             '&:hover': {
                                 backgroundColor: theme.palette.primary.dark,
@@ -181,11 +210,30 @@ export default function OrganizerWeeklyCalendar() {
                             backgroundColor: theme.palette.primary.dark,
                         },
                         '& .rbc-toolbar': {
-                            marginBottom: '16px',
+                            marginBottom: { xs: '12px', sm: '16px' },
+                            flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                            gap: { xs: 1, sm: 0 },
+                            '& .rbc-btn-group': {
+                                display: 'flex',
+                                flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                                justifyContent: { xs: 'center', sm: 'flex-start' },
+                                width: { xs: '100%', sm: 'auto' },
+                                gap: { xs: 0.5, sm: 0 },
+                            },
+                            '& .rbc-toolbar-label': {
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                flex: { xs: '1 1 100%', sm: '1 1 auto' },
+                                textAlign: { xs: 'center', sm: 'center' },
+                                order: { xs: -1, sm: 0 },
+                                marginBottom: { xs: 1, sm: 0 },
+                                minWidth: 0,
+                            },
                             '& button': {
                                 color: theme.palette.text.primary,
                                 borderColor: theme.palette.divider,
                                 backgroundColor: theme.palette.background.paper,
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                padding: { xs: '4px 8px', sm: '6px 12px' },
                                 '&:hover': {
                                     backgroundColor: theme.palette.action.hover,
                                 },
@@ -208,6 +256,16 @@ export default function OrganizerWeeklyCalendar() {
                         },
                         '& .rbc-time-content': {
                             borderColor: theme.palette.divider,
+                            minWidth: 0,
+                            overflowX: 'auto',
+                            '& > .rbc-time-gutter': {
+                                flex: '0 0 auto',
+                                width: { xs: 48, sm: 64 },
+                            },
+                            '& > .rbc-day-slot': {
+                                flex: '1 1 0',
+                                minWidth: 0,
+                            },
                         },
                         '& .rbc-current-time-indicator': {
                             backgroundColor: theme.palette.error.main,
@@ -216,6 +274,17 @@ export default function OrganizerWeeklyCalendar() {
                             '& .rbc-agenda-date-cell, & .rbc-agenda-time-cell, & .rbc-agenda-event-cell': {
                                 color: theme.palette.text.primary,
                                 borderColor: theme.palette.divider,
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                padding: { xs: '8px 4px', sm: '10px 8px' },
+                            },
+                        },
+                        '& .rbc-time-header-content': {
+                            borderColor: theme.palette.divider,
+                            minWidth: 0,
+                        },
+                        '& .rbc-time-column': {
+                            '& .rbc-timeslot-group': {
+                                minHeight: { xs: 40, sm: 60 },
                             },
                         },
                     }}
