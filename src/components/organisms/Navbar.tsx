@@ -125,7 +125,6 @@ export default function Navbar() {
                             <IconButton
                                 onClick={() => setOpen(true)}
                                 sx={{
-                                    bgcolor: scrolled ? alpha(theme.palette.action.hover, 0.6) : alpha(theme.palette.common.white, 0.14),
                                     color: textColor,
                                     "&:hover": { bgcolor: scrolled ? alpha(theme.palette.action.hover, 0.8) : alpha(theme.palette.common.white, 0.24) },
                                     transition: "background-color 0.2s ease",

@@ -21,8 +21,8 @@ export const darkTheme = createTheme({
         info: { main: "#29b6f6", contrastText: "#000000" },
 
         background: {
-            default: "#0d1117",  
-            paper: "#11161c",    
+            default: "#0d1117",
+            paper: "#11161c",
         },
         text: {
             primary: "#e6edf3",
@@ -126,6 +126,23 @@ export const darkTheme = createTheme({
             defaultProps: {
                 size: "small",
                 variant: "outlined",
+            },
+        },
+
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    backgroundColor: "#1f2937",
+                    color: "#f9fafb",
+                    fontSize: "0.875rem",
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    boxShadow: `0 4px 12px ${alpha("#000000", 0.4)}`,
+                    border: `1px solid ${alpha("#ffffff", 0.1)}`,
+                },
+                arrow: {
+                    color: "#1f2937",
+                },
             },
         },
     },

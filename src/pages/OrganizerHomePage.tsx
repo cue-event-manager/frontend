@@ -9,8 +9,8 @@ export default function OrganizerHomePage() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 4,
-        p: { xs: 2, md: 4 },
+        gap: { xs: 3, sm: 3.5, md: 4 },
+        width: "100%",
       }}
     >
       <OrganizerWelcomeSection />
@@ -18,7 +18,6 @@ export default function OrganizerHomePage() {
       <OrganizerQuickActions />
 
       <OrganizerWeeklyCalendar />
-
 
     </Box>
   );

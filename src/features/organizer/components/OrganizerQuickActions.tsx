@@ -50,17 +50,25 @@ export default function OrganizerQuickActions() {
 
     return (
         <Box>
-            <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
+            <Typography
+                variant="h6"
+                fontWeight={700}
+                sx={{
+                    mb: { xs: 2, md: 3 },
+                    fontSize: { xs: '1.1rem', sm: '1.25rem' }
+                }}
+            >
                 Accesos rápidos
             </Typography>
 
-            <Grid container spacing={3}>
+            <Grid container spacing={{ xs: 2, sm: 3 }}>
                 {quickActions.map((action) => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={action.title}>
                         <Card
                             elevation={2}
                             sx={{
                                 borderRadius: 3,
+                                height: '100%',
                                 transition: "transform 0.2s, box-shadow 0.2s",
                                 "&:hover": {
                                     transform: "translateY(-4px)",
@@ -68,23 +76,41 @@ export default function OrganizerQuickActions() {
                                 },
                             }}
                         >
-                            <CardActionArea onClick={() => handleActionClick(action)}>
+                            <CardActionArea
+                                onClick={() => handleActionClick(action)}
+                                sx={{ height: '100%' }}
+                            >
                                 <CardContent
                                     sx={{
                                         display: "flex",
                                         flexDirection: "column",
                                         alignItems: "flex-start",
-                                        gap: 1.5,
-                                        p: 3,
+                                        gap: { xs: 1, sm: 1.5 },
+                                        p: { xs: 2, sm: 2.5, md: 3 },
+                                        height: '100%',
                                     }}
                                 >
-                                    {action.icon}
-                                    <Typography variant="subtitle1" fontWeight={700}>
+                                    <Box sx={{
+                                        '& svg': {
+                                            fontSize: { xs: '2rem', sm: '2.5rem' }
+                                        }
+                                    }}>
+                                        {action.icon}
+                                    </Box>
+                                    <Typography
+                                        variant="subtitle1"
+                                        fontWeight={700}
+                                        sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
+                                    >
                                         {action.title}
                                     </Typography>
                                     <Typography
                                         variant="body2"
-                                        sx={{ color: "text.secondary", lineHeight: 1.4 }}
+                                        sx={{
+                                            color: "text.secondary",
+                                            lineHeight: 1.4,
+                                            fontSize: { xs: '0.875rem', sm: '0.875rem' }
+                                        }}
                                     >
                                         {action.description}
                                     </Typography>

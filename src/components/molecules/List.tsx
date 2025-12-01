@@ -174,7 +174,7 @@ export function BaseEntityList<T>({
             {filters && <Box sx={{ mb: 3 }}>{filters}</Box>}
 
             <Stack
-                spacing={4}
+                spacing={2}
                 direction="row"
                 flexWrap="wrap"
                 useFlexGap

@@ -2,7 +2,7 @@ import { Calendar, dateFnsLocalizer, Views, type View } from 'react-big-calendar
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Box, CircularProgress, useTheme, alpha } from '@mui/material';
+import { Box, CircularProgress, useTheme, alpha, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const locales = {
@@ -47,6 +47,53 @@ interface EventCalendarProps {
         event?: string;
         noEventsInRange?: string;
     };
+}
+
+function Event({ event }: { event: CalendarEvent }) {
+    const { t } = useTranslation();
+
+    const eventData = event.resource?.event;
+
+    return (
+        <Tooltip
+            title={
+                <Box sx={{ p: 1 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, color: 'inherit' }}>
+                        {event.title}
+                    </Typography>
+                    <Typography variant="caption" display="block" sx={{ mb: 0.5, color: 'inherit' }}>
+                        <strong>{t('common.time', 'Hora')}:</strong>{' '}
+                        {format(event.start, 'HH:mm')} - {format(event.end, 'HH:mm')}
+                    </Typography>
+                    {eventData?.location && (
+                        <Typography variant="caption" display="block" sx={{ mb: 0.5, color: 'inherit' }}>
+                            <strong>{t('common.location', 'Ubicación')}:</strong> {eventData.location}
+                        </Typography>
+                    )}
+                    {eventData?.modality && (
+                        <Typography variant="caption" display="block" sx={{ mb: 0.5, color: 'inherit' }}>
+                            <strong>{t('common.modality', 'Modalidad')}:</strong> {eventData.modality.name}
+                        </Typography>
+                    )}
+                </Box>
+            }
+            arrow
+            placement="top"
+            enterDelay={300}
+            leaveDelay={200}
+        >
+            <Box
+                sx={{
+                    height: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                }}
+            >
+                {event.title}
+            </Box>
+        </Tooltip>
+    );
 }
 
 export default function EventCalendar({
@@ -204,6 +251,9 @@ export default function EventCalendar({
                 min={new Date(1970, 0, 1, 7, 0, 0)}
                 max={new Date(1970, 0, 1, 22, 0, 0)}
                 messages={{ ...defaultMessages, ...messages }}
+                components={{
+                    event: Event,
+                }}
             />
         </Box>
     );
