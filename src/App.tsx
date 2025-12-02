@@ -12,7 +12,11 @@ function AppContent() {
     return <SplashScreen />;
   }
 
-  return <AppRouter />;
+  return (
+    <>
+      <AppRouter />
+    </>
+  );
 }
 
 export default function App() {

@@ -52,6 +52,30 @@
         "errorGeneric": "No fue posible cargar los datos.",
         "noResults": "No hay resultados para mostrar."
     },
+    "chat": {
+        "header": {
+            "title": "Asistente Virtual",
+            "subtitle": "Estoy aquí para ayudarte"
+        },
+        "empty": {
+            "greeting": "¡Hola! Soy tu asistente virtual.",
+            "prompt": "¿En qué puedo ayudarte hoy?"
+        },
+        "input": {
+            "placeholder": "Escribe tu mensaje..."
+        },
+        "actions": {
+            "send": "Enviar mensaje",
+            "close": "Cerrar chat",
+            "clearHistory": "Limpiar historial"
+        },
+        "accessibility": {
+            "open": "Abrir chat"
+        },
+        "messages": {
+            "error": "Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo."
+        }
+    },
     "auth": {
         "login": {
             "title": "Iniciar sesión",
@@ -562,7 +586,12 @@
             "otherEvent": "otro evento",
             "recent": "Nuevo",
             "cancelRegistration": "Cancelar inscripción",
-            "registrationUnavailable": "No puedes inscribirte en este momento."
+            "registrationUnavailable": "No puedes inscribirte en este momento.",
+            "registeredUsers": "Registrados: {{count}}",
+            "viewRegistrations": "Ver inscritos",
+            "registeredUsersTitle": "Inscritos en {{event}}",
+            "registeredUsersEmpty": "Aún no hay inscritos para este evento.",
+            "registeredUsersError": "No pudimos cargar los inscritos."
         },
         "filters": {
             "name": "Buscar por nombre del evento",

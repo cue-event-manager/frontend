@@ -4,6 +4,7 @@ import Footer from "../organisms/Footer";
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import useNavbarHeight from "@/shared/hooks/useNavbarHeight";
+import ChatBot from "@/features/chat/components/ChatBot";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -36,6 +37,8 @@ export default function MainLayout() {
                     <Outlet />
                 </Box>
             </Fade>
+            
+            <ChatBot />
 
             <Footer />
         </Box>
