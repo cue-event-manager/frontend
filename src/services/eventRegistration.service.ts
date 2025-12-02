@@ -5,6 +5,7 @@ import type { RegisterEventRequestDto } from "@/domain/eventregistration/ Regist
 import type { EventRegistration } from "@/domain/eventregistration/EventRegistration";
 import type { CancelEventRegistrationRequestDto } from "@/domain/eventregistration/CancelEventRegistrationRequestDto";
 import type { MessageResponseDto } from "@/domain/common/MessageResponseDto";
+import type { GetEventUsersRegisteredResponseDto } from "@/domain/eventregistration/GetEventUsersRegisteredResponseDto";
 
 const EVENT_REGISTRATION_ENDPOINT_PREFIX = `${EVENT_SERVICE}/api/event-registrations`;
 
@@ -37,6 +38,13 @@ export const getMyEventRegistrations = async (params?: {
 export const checkEventAvailability = async (eventId: number): Promise<EventAvailabilityResponseDto> => {
     const { data } = await axiosInstance.get<EventAvailabilityResponseDto>(
         `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/check-availability/${eventId}`
+    );
+    return data;
+};
+
+export const getRegisteredUsersByEvent = async (eventId: number): Promise<GetEventUsersRegisteredResponseDto[]> => {
+    const { data } = await axiosInstance.get<GetEventUsersRegisteredResponseDto[]>(
+        `${EVENT_REGISTRATION_ENDPOINT_PREFIX}/${eventId}/users/registered`
     );
     return data;
 };

@@ -15,7 +15,7 @@ import {
 import { alpha } from "@mui/material/styles";
 import { CalendarToday, VideoCall, People } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import type { Event } from "@/domain/event/Event";
@@ -30,6 +30,8 @@ import { getEventImageUrl } from "@/features/event/constants/media.constant";
 import { ROUTES } from "@/routes/routes";
 import { useRegisterToEvent } from "@/features/eventregistration/hooks/useRegisterToEvent";
 import { useCancelEventRegistration } from "@/features/eventregistration/hooks/useCancelEventRegistration";
+import { useRegisteredUsers } from "@/features/eventregistration/hooks/useRegisteredUsers";
+import { RegisteredUsersModal } from "@/features/eventregistration/components/RegisteredUsersModal";
 
 interface EventCardActionContext {
     event: Event;
@@ -39,6 +41,12 @@ interface EventCardActionContext {
         register: boolean;
         cancel: boolean;
     };
+    registeredUsersInfo?: {
+        count: number;
+        isLoading: boolean;
+        canView: boolean;
+        openModal: () => void;
+    };
 }
 
 interface EventCardActionHandlers {
@@ -47,6 +55,7 @@ interface EventCardActionHandlers {
     delete: () => void;
     register: () => void;
     cancel: () => void;
+    viewRegisteredUsers?: () => void;
 }
 
 type EventCardActionRenderer = (context: EventCardActionContext) => ReactNode;
@@ -80,9 +89,21 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
     const { event, availability } = data;
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === "dark";
+    const [isRegisteredUsersModalOpen, setRegisteredUsersModalOpen] = useState(false);
     const { handlers, dialogs, loading } = useEventActionManager(event);
+    const { user } = useAuth();
+    const role = user?.role.name as RoleConstant | undefined;
+    const isOwner = user?.id === event.createdBy;
+    const canViewRegistrations = role === RoleConstant.ADMIN || (role === RoleConstant.ORGANIZER && isOwner);
+    const { data: registeredUsers, isLoading: isLoadingRegisteredUsers } = useRegisteredUsers(
+        event.id,
+        canViewRegistrations
+    );
     const isRecent = isEventRecent(event.createdAt);
     const sizeStyles = CARD_SIZE_STYLES[size];
+
+    const openRegisteredUsersModal = () => setRegisteredUsersModalOpen(true);
+    const closeRegisteredUsersModal = () => setRegisteredUsersModalOpen(false);
 
     return (
         <>
@@ -138,12 +159,41 @@ export function EventCard({ data, renderActions = defaultActionRenderer, size = 
                         }}
                     >
                         <EventCardHeader event={event} />
-                        <EventCardMetaInfo event={event} availability={availability} />
+                        <EventCardMetaInfo
+                            event={event}
+                            availability={availability}
+                            showRegisteredUsers={canViewRegistrations}
+                            registeredUsersCount={registeredUsers?.length ?? 0}
+                            isLoadingRegisteredUsers={isLoadingRegisteredUsers}
+                        />
                     </CardContent>
                 </CardActionArea>
-                <EventCardFooter actions={renderActions({ event, availability, actions: handlers, loading })} />
+                <EventCardFooter
+                    actions={renderActions({
+                        event,
+                        availability,
+                        actions: { ...handlers, viewRegisteredUsers: openRegisteredUsersModal },
+                        loading,
+                        registeredUsersInfo: canViewRegistrations
+                            ? {
+                                count: registeredUsers?.length ?? 0,
+                                isLoading: isLoadingRegisteredUsers,
+                                canView: canViewRegistrations,
+                                openModal: openRegisteredUsersModal,
+                            }
+                            : undefined,
+                    })}
+                />
             </Card>
             {dialogs}
+            {canViewRegistrations && (
+                <RegisteredUsersModal
+                    eventId={event.id}
+                    eventName={event.name}
+                    open={isRegisteredUsersModalOpen}
+                    onClose={closeRegisteredUsersModal}
+                />
+            )}
         </>
     );
 }
@@ -352,9 +402,15 @@ function EventCardHeader({ event }: { event: Event }) {
 function EventCardMetaInfo({
     event,
     availability,
+    showRegisteredUsers,
+    registeredUsersCount,
+    isLoadingRegisteredUsers,
 }: {
     event: Event;
     availability: EventAvailability;
+    showRegisteredUsers?: boolean;
+    registeredUsersCount?: number;
+    isLoadingRegisteredUsers?: boolean;
 }) {
     const { t } = useTranslation();
     const formattedDate = formatEventDate(event.date, event.startTime);
@@ -386,6 +442,17 @@ function EventCardMetaInfo({
                     {event.category?.name}
                 </Typography>
             </Stack>
+
+            {showRegisteredUsers && (
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <People sx={{ fontSize: 15, color: "text.secondary" }} />
+                    <Typography variant="caption" color="text.secondary">
+                        {isLoadingRegisteredUsers
+                            ? t("common.status.loading")
+                            : t("events.card.registeredUsers", { count: registeredUsersCount ?? 0 })}
+                    </Typography>
+                </Stack>
+            )}
         </Box>
     );
 }
@@ -446,14 +513,19 @@ function RoleBasedEventActions({ availability, actions, event, loading }: EventC
         (availability as { alreadyRegistered?: boolean }).alreadyRegistered
     );
 
+    const renderAdminOrganizerActions = () => (
+        <Stack direction="row" spacing={1} width="100%">
+            <Button size="small" variant="outlined" onClick={actions.viewRegisteredUsers} fullWidth>
+                {t("events.card.viewRegistrations", "Ver inscritos")}
+            </Button>
+            <Button size="small" color="primary" variant="contained" onClick={actions.edit} fullWidth>
+                {t("common.actions.edit")}
+            </Button>
+        </Stack>
+    );
+
     if (role === RoleConstant.ORGANIZER && isOwner) {
-        return (
-            <Stack direction="row" spacing={1} width="100%">
-                <Button size="small" color="primary" variant="contained" onClick={actions.edit} fullWidth>
-                    {t("common.actions.edit")}
-                </Button>
-            </Stack>
-        );
+        return renderAdminOrganizerActions();
     }
 
     if (role === RoleConstant.ATTENDEE) {
@@ -497,13 +569,7 @@ function RoleBasedEventActions({ availability, actions, event, loading }: EventC
     }
 
     if (role === RoleConstant.ADMIN) {
-        return (
-            <Stack direction="row" spacing={1} width="100%">
-                <Button size="small" variant="contained" onClick={actions.edit} fullWidth>
-                    {t("common.actions.edit")}
-                </Button>
-            </Stack>
-        );
+        return renderAdminOrganizerActions();
     }
 
     return null;
